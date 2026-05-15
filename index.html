@@ -1,1266 +1,1778 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mara Hair Studio — Where Style Comes Alive</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <style>
-        :root {
-            --black:      #080808;
-            --dark:       #0e0e12;
-            --gold:       #c9a96e;
-            --gold-light: #e8d5a3;
-            --rose:       #b76e79;
-            --cream:      #f5f0e8;
-            --purple:     #1e1030;
-        }
-
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: auto; }
-
-        body {
-            background: var(--black);
-            color: var(--cream);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* grain overlay */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            opacity: 0.032;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: overlay;
-        }
-
-        /* ── CANVAS ── */
-        #bgCanvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* ── GRADIENT LAYER ── */
-        #gradientBg {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(30,16,48,.55) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(183,110,121,.14) 0%, transparent 50%),
-                radial-gradient(ellipse at 60% 80%, rgba(201,169,110,.09) 0%, transparent 50%);
-            transition: background 0.4s ease;
-        }
-
-        /* ── PROGRESS BAR ── */
-        #progressBar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            width: 100%;
-            background: linear-gradient(90deg, var(--rose), var(--gold), var(--gold-light));
-            transform-origin: left;
-            transform: scaleX(0);
-            z-index: 9998;
-        }
-
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 500;
-            padding: 28px 6vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(8,8,8,.7) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.45rem;
-            font-weight: 400;
-            letter-spacing: .18em;
-            color: var(--cream);
-            text-transform: uppercase;
-            position: relative;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-            position: relative;
-        }
-
-        .nav-links a {
-            color: rgba(245,240,232,.5);
-            text-decoration: none;
-            font-size: .72rem;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            transition: color .3s;
-        }
-
-        .nav-links a:hover { color: var(--gold); }
-
-        .nav-book {
-            position: relative;
-            background: transparent;
-            border: 1px solid rgba(201,169,110,.45);
-            color: var(--gold);
-            padding: 10px 24px;
-            font-size: .72rem;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all .35s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .nav-book:hover {
-            background: var(--gold);
-            color: var(--black);
-        }
-
-        /* ── MAIN ── */
-        main { position: relative; z-index: 10; }
-
-        /* ── HERO ── */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 0 7vw;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-eyebrow {
-            font-size: .68rem;
-            letter-spacing: .28em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 28px;
-            opacity: 0;
-            transform: translateY(18px);
-        }
-
-        .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(4.5rem, 11vw, 10rem);
-            font-weight: 300;
-            line-height: .9;
-            letter-spacing: -.02em;
-            margin-bottom: 38px;
-        }
-
-        .hero-title .line {
-            display: block;
-            overflow: hidden;
-            line-height: 1.05;
-        }
-
-        .hero-title .word {
-            display: inline-block;
-            transform: translateY(110%);
-        }
-
-        .hero-title em {
-            font-style: italic;
-            color: var(--gold);
-        }
-
-        .hero-sub {
-            font-size: .98rem;
-            font-weight: 300;
-            color: rgba(245,240,232,.5);
-            max-width: 400px;
-            line-height: 1.8;
-            opacity: 0;
-            transform: translateY(18px);
-            margin-bottom: 52px;
-        }
-
-        .hero-cta {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-            opacity: 0;
-            transform: translateY(18px);
-        }
-
-        .btn-primary {
-            background: var(--gold);
-            color: var(--black);
-            border: none;
-            padding: 16px 44px;
-            font-size: .78rem;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all .4s;
-        }
-
-        .btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: none;
-            color: rgba(245,240,232,.45);
-            font-size: .78rem;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Inter', sans-serif;
-            transition: color .3s;
-        }
-
-        .btn-ghost::after {
-            content: '→';
-            display: inline-block;
-            transition: transform .3s;
-        }
-
-        .btn-ghost:hover { color: var(--cream); }
-        .btn-ghost:hover::after { transform: translateX(5px); }
-
-        /* hero stats */
-        .hero-stats {
-            position: absolute;
-            bottom: 52px;
-            right: 7vw;
-            display: flex;
-            gap: 56px;
-        }
-
-        .stat {
-            text-align: right;
-            opacity: 0;
-            transform: translateY(18px);
-        }
-
-        .stat-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.2rem;
-            font-weight: 300;
-            color: var(--gold);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: .63rem;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-            color: rgba(245,240,232,.35);
-            margin-top: 5px;
-        }
-
-        /* scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 56px;
-            left: 7vw;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            opacity: 0;
-        }
-
-        .scroll-line {
-            width: 64px;
-            height: 1px;
-            background: rgba(201,169,110,.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scroll-line::after {
-            content: '';
-            position: absolute;
-            left: -100%;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gold);
-            animation: sl 2s ease-in-out infinite;
-        }
-
-        @keyframes sl {
-            0%   { left: -100%; }
-            50%  { left: 0%; }
-            100% { left: 100%; }
-        }
-
-        .scroll-text {
-            font-size: .63rem;
-            letter-spacing: .22em;
-            text-transform: uppercase;
-            color: rgba(245,240,232,.35);
-        }
-
-        /* floating orbs on hero */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .orb-1 {
-            width: 650px; height: 650px;
-            background: rgba(183,110,121,.07);
-            top: -180px; right: -80px;
-        }
-
-        .orb-2 {
-            width: 420px; height: 420px;
-            background: rgba(201,169,110,.06);
-            bottom: 80px; left: -80px;
-        }
-
-        /* ── MARQUEE ── */
-        .marquee-wrap {
-            padding: 44px 0;
-            border-top:    1px solid rgba(201,169,110,.1);
-            border-bottom: 1px solid rgba(201,169,110,.1);
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .marquee-track {
-            display: inline-flex;
-            gap: 0;
-            animation: marquee 22s linear infinite;
-        }
-
-        .marquee-track:hover { animation-play-state: paused; }
-
-        .m-item {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            font-style: italic;
-            color: rgba(245,240,232,.28);
-            letter-spacing: .06em;
-            padding: 0 56px;
-            display: flex;
-            align-items: center;
-            gap: 56px;
-        }
-
-        .m-dot {
-            width: 4px; height: 4px;
-            border-radius: 50%;
-            background: var(--gold);
-            opacity: .4;
-            flex-shrink: 0;
-        }
-
-        @keyframes marquee {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* ── ABOUT ── */
-        .about {
-            padding: 160px 7vw;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            align-items: center;
-        }
-
-        .section-eyebrow {
-            font-size: .65rem;
-            letter-spacing: .26em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 22px;
-        }
-
-        .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.4rem, 5vw, 4.2rem);
-            font-weight: 300;
-            line-height: 1.1;
-            margin-bottom: 28px;
-        }
-
-        .section-title em { color: var(--gold); font-style: italic; }
-
-        .body-text {
-            font-size: .92rem;
-            line-height: 1.9;
-            color: rgba(245,240,232,.5);
-        }
-
-        .award-card {
-            background: rgba(201,169,110,.05);
-            border: 1px solid rgba(201,169,110,.14);
-            padding: 52px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        .award-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 44px; height: 2px;
-            background: linear-gradient(90deg, var(--rose), var(--gold));
-        }
-
-        .award-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(201,169,110,.03) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .award-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 5.5rem;
-            font-weight: 300;
-            color: var(--gold);
-            line-height: 1;
-            margin-bottom: 12px;
-        }
-
-        .award-label {
-            font-size: .75rem;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            color: rgba(245,240,232,.45);
-            line-height: 1.7;
-        }
-
-        .award-watermark {
-            position: absolute;
-            bottom: -20px; right: 36px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 8rem;
-            font-weight: 300;
-            color: rgba(201,169,110,.06);
-            line-height: 1;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        /* ── DIVIDER ── */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201,169,110,.18), transparent);
-            margin: 0 7vw;
-        }
-
-        /* ── SERVICES ── */
-        .services {
-            padding: 160px 0;
-        }
-
-        .services-header {
-            padding: 0 7vw;
-            margin-bottom: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .services-outer {
-            overflow: hidden;
-            padding: 0 7vw;
-            cursor: grab;
-            user-select: none;
-        }
-
-        .services-outer:active { cursor: grabbing; }
-
-        .services-track {
-            display: flex;
-            gap: 20px;
-            will-change: transform;
-        }
-
-        .s-card {
-            flex: 0 0 300px;
-            border: 1px solid rgba(201,169,110,.1);
-            padding: 44px 32px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(28px);
-            transition: border-color .4s;
-        }
-
-        .s-card:hover { border-color: rgba(201,169,110,.35); }
-
-        .s-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--rose), var(--gold));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform .5s ease;
-        }
-
-        .s-card:hover::after { transform: scaleX(1); }
-
-        .s-card-num {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
-            font-weight: 300;
-            color: rgba(201,169,110,.12);
-            line-height: 1;
-            margin-bottom: 20px;
-        }
-
-        .s-card-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
-            font-weight: 400;
-            color: var(--cream);
-            margin-bottom: 12px;
-        }
-
-        .s-card-desc {
-            font-size: .82rem;
-            line-height: 1.75;
-            color: rgba(245,240,232,.4);
-            margin-bottom: 28px;
-        }
-
-        .s-card-price {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.15rem;
-            color: var(--gold);
-        }
-
-        /* ── ARTISTS ── */
-        .artists {
-            padding: 160px 7vw;
-        }
-
-        .artists-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            margin-top: 72px;
-        }
-
-        .a-card {
-            position: relative;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            background: rgba(201,169,110,.04);
-            opacity: 0;
-            clip-path: inset(0 0 100% 0);
-        }
-
-        .a-card-inner {
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 26px 22px;
-            position: relative;
-        }
-
-        .a-initial {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -62%);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 5.5rem;
-            font-weight: 300;
-            color: rgba(201,169,110,.18);
-            line-height: 1;
-            pointer-events: none;
-        }
-
-        .a-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 40%, rgba(8,8,8,.9) 100%);
-        }
-
-        .a-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            color: var(--cream);
-            margin-bottom: 4px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .a-role {
-            font-size: .62rem;
-            letter-spacing: .15em;
-            text-transform: uppercase;
-            color: var(--gold);
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ── CTA ── */
-        .cta-section {
-            padding: 200px 7vw;
-            text-align: center;
-            position: relative;
-        }
-
-        .cta-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3.2rem, 9vw, 7.5rem);
-            font-weight: 300;
-            line-height: .95;
-            margin-bottom: 48px;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        .cta-title em { color: var(--gold); font-style: italic; }
-
-        .cta-body {
-            font-size: .95rem;
-            color: rgba(245,240,232,.45);
-            max-width: 440px;
-            margin: 0 auto 56px;
-            line-height: 1.8;
-            opacity: 0;
-        }
-
-        .cta-btns {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-        }
-
-        .btn-xl {
-            padding: 18px 52px;
-            font-size: .8rem;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all .4s;
-        }
-
-        .btn-xl-fill {
-            background: var(--gold);
-            color: var(--black);
-            border: none;
-        }
-
-        .btn-xl-fill:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        .btn-xl-outline {
-            background: transparent;
-            color: var(--cream);
-            border: 1px solid rgba(245,240,232,.18);
-        }
-
-        .btn-xl-outline:hover {
-            border-color: var(--cream);
-            transform: translateY(-2px);
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            padding: 80px 7vw 48px;
-            border-top: 1px solid rgba(201,169,110,.1);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 60px;
-        }
-
-        .footer-brand {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.9rem;
-            font-weight: 300;
-            letter-spacing: .1em;
-            margin-bottom: 18px;
-        }
-
-        .footer-tagline {
-            font-size: .82rem;
-            color: rgba(245,240,232,.3);
-            line-height: 1.75;
-            max-width: 280px;
-        }
-
-        .footer-col-title {
-            font-size: .62rem;
-            letter-spacing: .22em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 22px;
-        }
-
-        .footer-links { list-style: none; }
-
-        .footer-links li { margin-bottom: 10px; }
-
-        .footer-links a {
-            color: rgba(245,240,232,.38);
-            text-decoration: none;
-            font-size: .82rem;
-            transition: color .3s;
-        }
-
-        .footer-links a:hover { color: var(--cream); }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 28px;
-            border-top: 1px solid rgba(201,169,110,.07);
-            font-size: .72rem;
-            color: rgba(245,240,232,.22);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
-            .about { grid-template-columns: 1fr; gap: 60px; }
-            .artists-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hero-stats { display: none; }
-            .s-card { flex: 0 0 260px; }
-        }
-
-        @media (max-width: 540px) {
-            .footer-grid { grid-template-columns: 1fr; }
-            .cta-btns { flex-direction: column; align-items: center; }
-            .artists-grid { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mara Hair and Mode Studio — Where Style Comes Alive</title>
+  <meta name="description" content="5× Best Salon — Northern Virginia Magazine. Award-winning lifestyle hair studio in Fairfax, VA. Book today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:     #0d0b09;
+      --bg2:    #151210;
+      --gold:   #c9a06a;
+      --gold2:  #dfbf8a;
+      --rose:   #b56e79;
+      --cream:  #f0ebe0;
+      --dim:    rgba(240,235,224,.46);
+      --dim2:   rgba(240,235,224,.28);
+      --rule:   rgba(201,160,106,.12);
+      --rule2:  rgba(201,160,106,.22);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Newsreader', Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    /* grain */
+    body::after {
+      content:'';
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:.028; pointer-events:none; z-index:9999; mix-blend-mode:overlay;
+    }
+
+    /* ── CANVAS ─────────────────────────────────────────── */
+    #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* ── PROGRESS ───────────────────────────────────────── */
+    #bar {
+      position:fixed; top:0; left:0;
+      height:1px; width:100%;
+      background:linear-gradient(90deg,var(--rose),var(--gold));
+      transform-origin:left; transform:scaleX(0);
+      z-index:9998;
+    }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position:fixed; top:0; left:0; right:0;
+      z-index:500;
+      padding:26px 5vw;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    nav::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(180deg,rgba(13,11,9,.82) 0%,transparent 100%);
+      pointer-events:none;
+    }
+    .logo {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.3rem; font-weight:400;
+      letter-spacing:.22em; text-transform:uppercase;
+      color:var(--cream); position:relative; z-index:1;
+      text-decoration:none;
+    }
+    .nav-center {
+      display:flex; gap:28px; list-style:none;
+      position:relative; z-index:1;
+    }
+    .nav-center a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.84rem; letter-spacing:.1em;
+      color:rgba(240,235,224,.44); text-decoration:none;
+      transition:color .3s;
+    }
+    .nav-center a:hover { color:var(--gold); }
+    .nav-right {
+      display:flex; align-items:center; gap:16px;
+      position:relative; z-index:1;
+    }
+    .nav-shop {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.8rem; letter-spacing:.14em;
+      color:rgba(240,235,224,.4); background:none; border:none;
+      cursor:pointer; transition:color .3s; text-decoration:none;
+    }
+    .nav-shop:hover { color:var(--cream); }
+    .nav-book {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.8rem; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--gold); background:transparent;
+      border:1px solid rgba(201,160,106,.38);
+      padding:9px 22px; cursor:pointer; transition:all .35s;
+    }
+    .nav-book:hover { background:var(--gold); color:var(--bg); }
+
+    /* mobile nav toggle */
+    .hamburger {
+      display:none; background:none; border:none;
+      cursor:pointer; padding:4px; z-index:1;
+      flex-direction:column; gap:5px;
+    }
+    .hamburger span {
+      display:block; width:22px; height:1px;
+      background:var(--cream); transition:all .3s;
+    }
+    .mobile-menu {
+      display:none;
+      position:fixed; inset:0; z-index:400;
+      background:rgba(13,11,9,.97);
+      flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:32px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2rem; font-weight:300;
+      color:var(--cream); text-decoration:none;
+      letter-spacing:.08em;
+    }
+    .mobile-menu a:hover { color:var(--gold); }
+    .mobile-close {
+      position:absolute; top:28px; right:5vw;
+      font-size:1.5rem; color:var(--dim);
+      background:none; border:none; cursor:pointer;
+    }
+
+    /* ── MAIN ───────────────────────────────────────────── */
+    main { position:relative; z-index:10; }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      height:100vh; display:flex; align-items:center;
+      padding:0 7vw; position:relative;
+    }
+    .hero-vline {
+      position:absolute; left:5.5vw; top:16%; bottom:16%;
+      width:1px;
+      background:linear-gradient(180deg,transparent,rgba(201,160,106,.55),transparent);
+      transform:scaleY(0); transform-origin:top;
+    }
+    .hero-content { padding-left:24px; }
+    .hero-meta {
+      display:flex; align-items:center; gap:18px;
+      margin-bottom:34px; opacity:0; transform:translateY(14px);
+    }
+    .hero-meta-dash { width:28px; height:1px; background:var(--gold); flex-shrink:0; }
+    .hero-meta-txt {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.74rem; letter-spacing:.26em; text-transform:uppercase;
+      color:var(--gold);
+    }
+    .hero-h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(4.5rem,11vw,10.5rem);
+      font-weight:300; line-height:.88; letter-spacing:-.025em;
+      margin-bottom:44px;
+    }
+    .hero-h1 .line { display:block; overflow:hidden; line-height:.98; }
+    .hero-h1 .word { display:inline-block; transform:translateY(115%); }
+    .hero-h1 em { font-style:italic; color:var(--gold); }
+    .hero-bottom {
+      display:flex; align-items:flex-end;
+      justify-content:space-between; gap:40px;
+      flex-wrap:wrap;
+    }
+    .hero-desc {
+      font-size:.98rem; font-weight:300; font-style:italic;
+      color:var(--dim); max-width:360px; line-height:1.85;
+      opacity:0; transform:translateY(14px);
+    }
+    .hero-actions {
+      display:flex; flex-direction:column;
+      align-items:flex-end; gap:18px;
+      opacity:0; transform:translateY(14px); flex-shrink:0;
+    }
+    .btn-fill {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.9rem; letter-spacing:.16em; text-transform:uppercase;
+      background:var(--gold); color:var(--bg); border:none;
+      padding:15px 40px; cursor:pointer; transition:all .4s;
+    }
+    .btn-fill:hover { background:var(--gold2); transform:translateY(-2px); }
+    .btn-ghost-sm {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+      background:transparent; color:var(--dim); border:none;
+      cursor:pointer; display:flex; align-items:center; gap:10px;
+      transition:color .3s;
+    }
+    .btn-ghost-sm::after { content:'→'; transition:transform .3s; }
+    .btn-ghost-sm:hover { color:var(--cream); }
+    .btn-ghost-sm:hover::after { transform:translateX(5px); }
+    .scroll-cue {
+      position:absolute; bottom:44px; left:calc(5.5vw + 28px);
+      display:flex; align-items:center; gap:16px; opacity:0;
+    }
+    .scroll-cue-line {
+      width:56px; height:1px; background:rgba(201,160,106,.2);
+      position:relative; overflow:hidden;
+    }
+    .scroll-cue-line::after {
+      content:''; position:absolute; left:-100%; top:0;
+      width:100%; height:100%; background:var(--gold);
+      animation:scl 2.2s ease-in-out infinite;
+    }
+    @keyframes scl { 0%{left:-100%} 50%{left:0} 100%{left:100%} }
+    .scroll-cue-lbl {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.66rem; letter-spacing:.24em; text-transform:uppercase;
+      color:rgba(240,235,224,.28);
+    }
+
+    /* ── AWARDS STRIP ───────────────────────────────────── */
+    .awards-strip {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    }
+    .aw-item {
+      padding:40px 5vw;
+      display:flex; align-items:center; gap:24px;
+      opacity:0; transform:translateY(20px);
+    }
+    .aw-item:not(:last-child) { border-right:1px solid var(--rule); }
+    .aw-n {
+      font-family:'Cormorant Garamond',serif;
+      font-size:3.2rem; font-weight:300;
+      color:var(--gold); line-height:1; min-width:70px;
+    }
+    .aw-info { display:flex; flex-direction:column; gap:3px; }
+    .aw-label {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.95rem; color:var(--cream);
+    }
+    .aw-sub {
+      font-size:.76rem; color:var(--dim); font-style:italic;
+    }
+
+    /* ── MARQUEE ────────────────────────────────────────── */
+    .marquee {
+      padding:30px 0; overflow:hidden;
+      border-bottom:1px solid var(--rule);
+    }
+    .mq-inner {
+      display:inline-flex;
+      animation:mq 26s linear infinite;
+      white-space:nowrap;
+    }
+    @keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .mq-item {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.96rem; font-style:italic;
+      color:rgba(240,235,224,.2); letter-spacing:.06em;
+      padding:0 52px;
+      display:inline-flex; align-items:center; gap:52px;
+    }
+    .mq-dot {
+      width:3px; height:3px; border-radius:50%;
+      background:rgba(201,160,106,.38); flex-shrink:0;
+    }
+
+    /* ── SHARED ─────────────────────────────────────────── */
+    .eyebrow {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.72rem; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:22px;
+      display:flex; align-items:center; gap:14px;
+    }
+    .eyebrow::before {
+      content:''; display:block; width:24px; height:1px;
+      background:var(--gold); flex-shrink:0;
+    }
+    .display {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2.4rem,5vw,4.8rem);
+      font-weight:300; line-height:1.05; letter-spacing:-.02em;
+    }
+    .display em { font-style:italic; color:var(--gold); }
+    .sec-rule {
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(201,160,106,.18),transparent);
+      margin:0 5vw;
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────── */
+    .about { padding:130px 5vw; }
+    .about-grid {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:10vw; align-items:start; margin-bottom:80px;
+    }
+    .about-right { padding-top:72px; }
+    .about-body {
+      font-size:.96rem; line-height:1.95;
+      color:var(--dim); font-weight:300; margin-bottom:36px;
+    }
+    .pull-quote {
+      border-left:2px solid var(--gold);
+      padding:6px 0 6px 26px; margin-bottom:36px;
+    }
+    .pull-quote p {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.55rem; font-style:italic; font-weight:300;
+      color:var(--cream); line-height:1.45;
+    }
+    .about-detail {
+      font-size:.82rem; color:var(--dim2); font-style:italic;
+      line-height:1.75;
+    }
+    .about-floors {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:2px; margin-top:0;
+    }
+    .floor-card {
+      background:rgba(201,160,106,.04);
+      border:1px solid var(--rule);
+      padding:40px 32px;
+      position:relative;
+    }
+    .floor-card::before {
+      content:''; position:absolute; top:0; left:0;
+      width:36px; height:2px;
+      background:linear-gradient(90deg,var(--rose),var(--gold));
+    }
+    .floor-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.6rem; font-weight:300;
+      color:var(--cream); margin-bottom:10px;
+    }
+    .floor-desc {
+      font-size:.82rem; color:var(--dim); line-height:1.75;
+    }
+
+    /* ── SERVICES ───────────────────────────────────────── */
+    .services-sec { padding:0 0 130px; }
+    .svc-head {
+      padding:0 5vw 52px;
+      display:flex; justify-content:space-between; align-items:flex-end;
+      border-bottom:1px solid var(--rule);
+    }
+    .svc-note {
+      font-size:.78rem; color:var(--dim2); font-style:italic;
+      max-width:280px; text-align:right; line-height:1.7;
+    }
+    .acc-item { border-bottom:1px solid var(--rule); }
+    .acc-btn {
+      width:100%;
+      display:grid; grid-template-columns:52px 1fr auto 36px;
+      align-items:center; gap:0 32px;
+      padding:24px 5vw;
+      background:none; border:none; cursor:pointer; text-align:left;
+      position:relative; overflow:hidden;
+    }
+    .acc-btn::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(201,160,106,.025);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .4s;
+    }
+    .acc-btn:hover::before, .acc-btn.open::before { transform:scaleX(1); }
+    .acc-num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.72rem; color:rgba(201,160,106,.35); letter-spacing:.1em;
+    }
+    .acc-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.85rem; font-weight:400;
+      color:rgba(240,235,224,.8); line-height:1;
+      transition:color .3s;
+    }
+    .acc-btn:hover .acc-title, .acc-btn.open .acc-title { color:var(--cream); }
+    .acc-from {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.9rem; color:var(--gold);
+      text-align:right; white-space:nowrap;
+    }
+    .acc-arrow {
+      font-size:.85rem; color:rgba(201,160,106,.35);
+      transition:transform .35s,color .3s; text-align:right;
+    }
+    .acc-btn.open .acc-arrow { transform:rotate(45deg); color:var(--gold); }
+    .acc-panel { max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.4,0,.2,1); }
+    .acc-inner { padding:12px 5vw 40px calc(5vw + 52px + 32px); }
+    .acc-refresh {
+      font-size:.76rem; color:var(--dim2); font-style:italic;
+      margin-bottom:20px;
+    }
+    .tbl-wrap { overflow-x:auto; }
+    .ptbl {
+      width:100%; border-collapse:collapse;
+      min-width:460px;
+    }
+    .ptbl th {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--gold); font-weight:400;
+      padding:10px 14px 10px 0;
+      border-bottom:1px solid var(--rule2);
+      text-align:left;
+    }
+    .ptbl th:first-child { min-width:200px; }
+    .ptbl td {
+      padding:11px 14px 11px 0;
+      border-bottom:1px solid var(--rule);
+      font-size:.84rem; vertical-align:middle;
+    }
+    .ptbl td:first-child {
+      font-family:'Newsreader',serif;
+      color:rgba(240,235,224,.72); line-height:1.4;
+    }
+    .ptbl td:not(:first-child) {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.94rem; color:var(--cream);
+      white-space:nowrap;
+    }
+    .ptbl tr:last-child td { border-bottom:none; }
+    .ptbl td[colspan] { color:var(--gold); }
+    .badge-call {
+      font-size:.65rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--rose); border:1px solid rgba(181,110,121,.3);
+      padding:2px 8px; display:inline-block;
+    }
+    .badge-consult {
+      font-size:.65rem; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(201,160,106,.6); border:1px solid var(--rule2);
+      padding:2px 8px; display:inline-block;
+    }
+
+    /* ── ARTISTS ────────────────────────────────────────── */
+    .artists-sec { padding:130px 5vw; }
+    .artists-head {
+      display:flex; justify-content:space-between;
+      align-items:flex-end; margin-bottom:64px;
+    }
+    .role-group { margin-bottom:60px; }
+    .role-label {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.68rem; letter-spacing:.28em; text-transform:uppercase;
+      color:rgba(201,160,106,.45);
+      padding-bottom:16px;
+      border-bottom:1px solid var(--rule);
+      margin-bottom:2px;
+    }
+    .artists-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:2px;
+    }
+    .artists-grid-3 { grid-template-columns:repeat(3,1fr); }
+    .artists-grid-2 { grid-template-columns:repeat(2,1fr); }
+    .artist-card {
+      background:rgba(201,160,106,.04);
+      border:1px solid var(--rule);
+      padding:36px 28px;
+      position:relative; overflow:hidden;
+      opacity:0; transform:translateY(24px);
+      transition:border-color .4s;
+      cursor:default;
+    }
+    .artist-card:hover { border-color:rgba(201,160,106,.28); }
+    .artist-card::after {
+      content:''; position:absolute; bottom:0; left:0; right:0;
+      height:2px;
+      background:linear-gradient(90deg,var(--rose),var(--gold));
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .5s;
+    }
+    .artist-card:hover::after { transform:scaleX(1); }
+    .ac-initial {
+      font-family:'Cormorant Garamond',serif;
+      font-size:4.5rem; font-weight:300;
+      color:rgba(201,160,106,.1); line-height:1;
+      margin-bottom:20px; display:block;
+    }
+    .ac-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.3rem; font-weight:400;
+      color:var(--cream); margin-bottom:4px;
+    }
+    .ac-role {
+      font-size:.64rem; letter-spacing:.16em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:12px;
+      font-family:'Newsreader',serif;
+    }
+    .ac-spec {
+      font-size:.8rem; color:var(--dim); line-height:1.65;
+      font-style:italic;
+    }
+    .ac-ig {
+      display:inline-block; margin-top:14px;
+      font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(201,160,106,.4); text-decoration:none;
+      font-family:'Cormorant Garamond',serif;
+      transition:color .3s;
+    }
+    .ac-ig:hover { color:var(--gold); }
+
+    /* ── POLICIES ───────────────────────────────────────── */
+    .policies-sec { padding:0 0 130px; }
+    .pol-head {
+      padding:0 5vw 52px;
+      border-bottom:1px solid var(--rule);
+    }
+    .pol-inner { padding:20px 5vw 32px calc(5vw + 52px + 32px); }
+    .pol-list { list-style:none; }
+    .pol-list li {
+      font-size:.88rem; line-height:1.85; color:var(--dim);
+      padding:9px 0 9px 18px;
+      border-bottom:1px solid rgba(201,160,106,.05);
+      position:relative;
+    }
+    .pol-list li:last-child { border-bottom:none; }
+    .pol-list li::before {
+      content:'—'; position:absolute; left:0;
+      color:rgba(201,160,106,.28);
+    }
+    .pol-list li strong { color:rgba(240,235,224,.75); font-style:normal; font-weight:400; }
+    .consult-link {
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top:24px; padding:12px 24px;
+      border:1px solid var(--rule2);
+      font-family:'Cormorant Garamond',serif;
+      font-size:.82rem; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--gold); text-decoration:none;
+      transition:all .35s;
+    }
+    .consult-link:hover { background:rgba(201,160,106,.06); }
+
+    /* ── HOURS & CONTACT ────────────────────────────────── */
+    .hc-sec { padding:130px 5vw; }
+    .hc-grid {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:10vw; align-items:start;
+    }
+    .contact-item {
+      display:flex; align-items:baseline; gap:16px;
+      padding:18px 0;
+      border-bottom:1px solid var(--rule);
+    }
+    .contact-item:first-child { border-top:1px solid var(--rule); }
+    .contact-lbl {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+      color:rgba(201,160,106,.5); min-width:60px;
+    }
+    .contact-val {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.1rem; color:var(--cream); text-decoration:none;
+      transition:color .3s;
+    }
+    a.contact-val:hover { color:var(--gold); }
+    .hours-table { width:100%; border-collapse:collapse; }
+    .hours-table tr { border-bottom:1px solid var(--rule); }
+    .hours-table tr:first-child { border-top:1px solid var(--rule); }
+    .hours-table td {
+      padding:16px 0; font-size:.9rem; color:var(--cream);
+      font-family:'Newsreader',serif;
+    }
+    .hours-table td:last-child { color:var(--dim); text-align:right; }
+    .closed { color:rgba(181,110,121,.7) !important; }
+    .parking-note {
+      margin-top:28px; padding:20px 24px;
+      background:rgba(201,160,106,.04); border:1px solid var(--rule);
+    }
+    .parking-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:8px;
+    }
+    .parking-body { font-size:.82rem; color:var(--dim); line-height:1.7; }
+
+    /* ── EVENTS ─────────────────────────────────────────── */
+    .events-sec { padding:130px 5vw; }
+    .events-empty {
+      text-align:center; padding:80px 0;
+      border:1px solid var(--rule);
+      position:relative;
+    }
+    .events-empty-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.6rem,3vw,2.6rem); font-weight:300;
+      color:rgba(240,235,224,.35); margin-bottom:12px;
+    }
+    .events-empty-sub {
+      font-size:.84rem; color:rgba(240,235,224,.22); font-style:italic;
+    }
+    .events-social {
+      margin-top:36px; display:flex; gap:16px; justify-content:center;
+    }
+    .events-social a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.76rem; letter-spacing:.18em; text-transform:uppercase;
+      color:rgba(201,160,106,.5); text-decoration:none;
+      border:1px solid var(--rule); padding:10px 20px;
+      transition:all .3s;
+    }
+    .events-social a:hover { color:var(--gold); border-color:var(--rule2); }
+
+    /* ── CTA ────────────────────────────────────────────── */
+    .cta-sec {
+      padding:160px 5vw; text-align:center;
+      border-top:1px solid var(--rule);
+    }
+    .cta-eyebrow { margin-bottom:28px; justify-content:center; opacity:0; }
+    .cta-h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3.2rem,8.5vw,7.5rem);
+      font-weight:300; line-height:.9; letter-spacing:-.02em;
+      margin-bottom:44px; opacity:0; transform:translateY(36px);
+    }
+    .cta-h2 em { font-style:italic; color:var(--gold); }
+    .cta-sub {
+      font-size:.96rem; color:var(--dim);
+      max-width:400px; margin:0 auto 48px;
+      line-height:1.85; font-style:italic; opacity:0;
+    }
+    .cta-btns {
+      display:flex; gap:16px; justify-content:center;
+      flex-wrap:wrap; opacity:0;
+    }
+    .btn-xl {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.9rem; letter-spacing:.16em; text-transform:uppercase;
+      padding:17px 48px; cursor:pointer; transition:all .4s;
+    }
+    .btn-xl-fill { background:var(--gold); color:var(--bg); border:none; }
+    .btn-xl-fill:hover { background:var(--gold2); transform:translateY(-2px); }
+    .btn-xl-out {
+      background:transparent; color:rgba(240,235,224,.55);
+      border:1px solid rgba(240,235,224,.15);
+    }
+    .btn-xl-out:hover { border-color:var(--cream); color:var(--cream); transform:translateY(-2px); }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      padding:68px 5vw 40px;
+      border-top:1px solid var(--rule);
+    }
+    .footer-grid {
+      display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr;
+      gap:56px; margin-bottom:52px;
+    }
+    .f-brand {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.85rem; font-weight:300; letter-spacing:.1em;
+      margin-bottom:14px;
+    }
+    .f-tag {
+      font-size:.82rem; color:var(--dim2); line-height:1.75;
+      font-style:italic; max-width:260px; margin-bottom:20px;
+    }
+    .f-social { display:flex; gap:16px; flex-wrap:wrap; }
+    .f-social a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+      color:rgba(201,160,106,.4); text-decoration:none;
+      transition:color .3s;
+    }
+    .f-social a:hover { color:var(--gold); }
+    .f-col-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.68rem; letter-spacing:.26em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:20px;
+    }
+    .f-links { list-style:none; }
+    .f-links li { margin-bottom:9px; }
+    .f-links a {
+      font-size:.84rem; color:rgba(240,235,224,.35);
+      text-decoration:none; font-family:'Newsreader',serif;
+      transition:color .3s;
+    }
+    .f-links a:hover { color:var(--cream); }
+    .footer-bottom {
+      display:flex; justify-content:space-between; align-items:center;
+      padding-top:24px; border-top:1px solid rgba(201,160,106,.07);
+      font-size:.7rem; color:rgba(240,235,224,.18);
+      font-family:'Newsreader',serif;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width:1100px) {
+      .awards-strip { grid-template-columns:repeat(2,1fr); }
+      .aw-item:nth-child(2) { border-right:none; }
+      .aw-item:nth-child(3) { border-top:1px solid var(--rule); border-right:1px solid var(--rule); }
+      .aw-item:nth-child(4) { border-top:1px solid var(--rule); }
+    }
+    @media (max-width:900px) {
+      .nav-center { display:none; }
+      .nav-shop { display:none; }
+      .hamburger { display:flex; }
+      .about-grid { grid-template-columns:1fr; gap:52px; }
+      .about-right { padding-top:0; }
+      .hc-grid { grid-template-columns:1fr; gap:60px; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:40px; }
+      .artists-grid { grid-template-columns:repeat(2,1fr) !important; }
+      .about-floors { grid-template-columns:1fr; }
+      .acc-btn { grid-template-columns:40px 1fr auto 32px; gap:0 20px; }
+      .acc-inner { padding:12px 5vw 36px calc(5vw + 40px + 20px); }
+      .pol-inner { padding:20px 5vw 32px calc(5vw + 40px + 20px); }
+    }
+    @media (max-width:600px) {
+      .awards-strip { grid-template-columns:1fr; }
+      .aw-item { border-right:none !important; border-top:none !important; border-bottom:1px solid var(--rule); }
+      .footer-grid { grid-template-columns:1fr; }
+      .hero-actions { align-items:flex-start; }
+      .hero-bottom { flex-direction:column; }
+      .cta-btns { flex-direction:column; align-items:center; }
+      .acc-from { display:none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Background layers -->
 <canvas id="bgCanvas"></canvas>
-<div id="gradientBg"></div>
-<div id="progressBar"></div>
+<div id="bar"></div>
 
 <!-- NAV -->
 <nav>
-    <div class="nav-logo">Mara</div>
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#artists">Artists</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#shop">Shop</a></li>
-    </ul>
-    <button class="nav-book">Book Now</button>
+  <a href="#hero" class="logo">Mara</a>
+  <ul class="nav-center">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#artists">Artists</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#policies">Policies</a></li>
+    <li><a href="#hours">Hours</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://maramodestudio.com" target="_blank" class="nav-shop">Shop Boutique ↗</a>
+    <button class="nav-book" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book Now</button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about"     onclick="closeMobile()">About</a>
+  <a href="#services"  onclick="closeMobile()">Services</a>
+  <a href="#artists"   onclick="closeMobile()">Artists</a>
+  <a href="#events"    onclick="closeMobile()">Events</a>
+  <a href="#policies"  onclick="closeMobile()">Policies</a>
+  <a href="#hours"     onclick="closeMobile()">Hours &amp; Location</a>
+  <a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a>
+  <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank">Book Now</a>
+</div>
 
 <main>
 
-<!-- ════════════════════════════════════
+<!-- ══════════════════════════════════
      HERO
-════════════════════════════════════ -->
+══════════════════════════════════ -->
 <section class="hero" id="hero">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-
-    <p class="hero-eyebrow">Fairfax, Virginia · Est. 2015</p>
-
-    <h1 class="hero-title">
-        <span class="line"><span class="word">Where</span></span>
-        <span class="line"><span class="word">Style</span></span>
-        <span class="line"><span class="word"><em>Comes</em>&nbsp;</span><span class="word">Alive</span></span>
+  <div class="hero-vline" id="heroVline"></div>
+  <div class="hero-content">
+    <div class="hero-meta">
+      <div class="hero-meta-dash"></div>
+      <span class="hero-meta-txt">Fairfax, Virginia · Est. 2015</span>
+    </div>
+    <h1 class="hero-h1">
+      <span class="line"><span class="word">Where</span></span>
+      <span class="line"><span class="word">Style</span></span>
+      <span class="line"><span class="word"><em>Comes</em>&thinsp;</span><span class="word">Alive</span></span>
     </h1>
-
-    <p class="hero-sub">Award-winning hair studio bringing artistry, intention, and culture to every chair.</p>
-
-    <div class="hero-cta">
-        <button class="btn-primary">Book Your Visit</button>
-        <button class="btn-ghost">Meet the Artists</button>
+    <div class="hero-bottom">
+      <p class="hero-desc">Award-winning lifestyle hair studio bringing artistry, intention, and warmth to every chair in Fairfax, VA.</p>
+      <div class="hero-actions">
+        <button class="btn-fill" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book Your Visit</button>
+        <button class="btn-ghost-sm" onclick="document.getElementById('artists').scrollIntoView({behavior:'smooth'})">Meet the Artists</button>
+      </div>
     </div>
-
-    <div class="scroll-indicator">
-        <div class="scroll-line"></div>
-        <span class="scroll-text">Scroll</span>
-    </div>
-
-    <div class="hero-stats">
-        <div class="stat">
-            <div class="stat-number" data-target="3">0</div>
-            <div class="stat-label">Best of Nova Awards</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number" data-target="15">0</div>
-            <div class="stat-label">Talented Artists</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number" data-target="10">0</div>
-            <div class="stat-label">Years of Excellence</div>
-        </div>
-    </div>
+  </div>
+  <div class="scroll-cue">
+    <div class="scroll-cue-line"></div>
+    <span class="scroll-cue-lbl">Scroll</span>
+  </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-    <div class="marquee-track" id="marqueeTrack">
-        <span class="m-item">Cut <span class="m-dot"></span></span>
-        <span class="m-item">Color <span class="m-dot"></span></span>
-        <span class="m-item">Foiling <span class="m-dot"></span></span>
-        <span class="m-item">Styling <span class="m-dot"></span></span>
-        <span class="m-item">Treatments <span class="m-dot"></span></span>
-        <span class="m-item">Makeup <span class="m-dot"></span></span>
-        <span class="m-item">Portraiture <span class="m-dot"></span></span>
-        <span class="m-item">Boutique <span class="m-dot"></span></span>
-        <span class="m-item">Cut <span class="m-dot"></span></span>
-        <span class="m-item">Color <span class="m-dot"></span></span>
-        <span class="m-item">Foiling <span class="m-dot"></span></span>
-        <span class="m-item">Styling <span class="m-dot"></span></span>
-        <span class="m-item">Treatments <span class="m-dot"></span></span>
-        <span class="m-item">Makeup <span class="m-dot"></span></span>
-        <span class="m-item">Portraiture <span class="m-dot"></span></span>
-        <span class="m-item">Boutique <span class="m-dot"></span></span>
+<!-- ══════════════════════════════════
+     AWARDS STRIP
+══════════════════════════════════ -->
+<div class="awards-strip" id="awardsStrip">
+  <div class="aw-item">
+    <div class="aw-n">5×</div>
+    <div class="aw-info">
+      <span class="aw-label">Best Salon Award</span>
+      <span class="aw-sub">Northern Virginia Magazine</span>
     </div>
+  </div>
+  <div class="aw-item">
+    <div class="aw-n">15</div>
+    <div class="aw-info">
+      <span class="aw-label">Talented Artists</span>
+      <span class="aw-sub">On the studio floor</span>
+    </div>
+  </div>
+  <div class="aw-item">
+    <div class="aw-n">10+</div>
+    <div class="aw-info">
+      <span class="aw-label">Years in Business</span>
+      <span class="aw-sub">Greater DC Area</span>
+    </div>
+  </div>
+  <div class="aw-item">
+    <div class="aw-n">2</div>
+    <div class="aw-info">
+      <span class="aw-label">Studio Floors</span>
+      <span class="aw-sub">The Living Room &amp; The Loft</span>
+    </div>
+  </div>
 </div>
 
-<!-- ════════════════════════════════════
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="mq-inner">
+    <span class="mq-item">Cut &amp; Style<span class="mq-dot"></span></span>
+    <span class="mq-item">Color<span class="mq-dot"></span></span>
+    <span class="mq-item">Foiling<span class="mq-dot"></span></span>
+    <span class="mq-item">Balayage<span class="mq-dot"></span></span>
+    <span class="mq-item">Treatments<span class="mq-dot"></span></span>
+    <span class="mq-item">Makeup<span class="mq-dot"></span></span>
+    <span class="mq-item">Portraiture<span class="mq-dot"></span></span>
+    <span class="mq-item">Shop Boutique<span class="mq-dot"></span></span>
+    <span class="mq-item">Gift Cards<span class="mq-dot"></span></span>
+    <span class="mq-item">Cut &amp; Style<span class="mq-dot"></span></span>
+    <span class="mq-item">Color<span class="mq-dot"></span></span>
+    <span class="mq-item">Foiling<span class="mq-dot"></span></span>
+    <span class="mq-item">Balayage<span class="mq-dot"></span></span>
+    <span class="mq-item">Treatments<span class="mq-dot"></span></span>
+    <span class="mq-item">Makeup<span class="mq-dot"></span></span>
+    <span class="mq-item">Portraiture<span class="mq-dot"></span></span>
+    <span class="mq-item">Shop Boutique<span class="mq-dot"></span></span>
+    <span class="mq-item">Gift Cards<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
      ABOUT
-════════════════════════════════════ -->
+══════════════════════════════════ -->
 <section class="about" id="about">
+  <div class="about-grid">
     <div>
-        <p class="section-eyebrow">Our Story</p>
-        <h2 class="section-title">A Studio Built<br>on <em>Artistry</em><br>and Soul</h2>
-        <p class="body-text">
-            Founded in 2015 by Jana Klavina, Mara Hair and Mode Studio is one of the first lifestyle boutiques in the greater DC area. Three-time Best of Nova award winner — we believe great hair is the boldest form of self-expression.
-        </p>
+      <p class="eyebrow">Our Story</p>
+      <h2 class="display">A Studio Built on<br><em>Artistry</em> and Soul</h2>
     </div>
-    <div>
-        <div class="award-card">
-            <div class="award-number">3×</div>
-            <div class="award-label">Best of Nova<br>Award Winner</div>
-            <div class="award-watermark">2015</div>
-        </div>
+    <div class="about-right">
+      <p class="about-body">
+        Founded in 2015 by Jana Klavina, Mara Hair and Mode Studio was one of the first lifestyle boutiques in the greater DC area. What began as a singular vision for a different kind of salon experience has grown into an award-winning studio home to 15 artists who share one belief:
+      </p>
+      <div class="pull-quote">
+        <p>"Great hair isn't just beauty — it's the boldest form of self-expression."</p>
+      </div>
+      <p class="about-detail">
+        Trained at Bumble and Bumble in NYC, Jana built this studio on the values of minimal, intentional change that creates profound confidence. Five-time recipient of Best Salon — Northern Virginia Magazine (2018, 2019, 2020, 2021, 2025).
+      </p>
+      <a href="#services" class="consult-link" style="margin-top:28px;display:inline-flex;">Book a Consultation — $15 applied toward services →</a>
     </div>
+  </div>
+  <div class="about-floors">
+    <div class="floor-card">
+      <div class="floor-name">The Living Room</div>
+      <p class="floor-desc">The heart of the studio — where hair is transformed and conversations flow freely. Warm, intentional, and alive.</p>
+    </div>
+    <div class="floor-card">
+      <div class="floor-name">The Loft</div>
+      <p class="floor-desc">An elevated space for makeup artistry, portraiture, and boutique styling. Where the full Mara experience comes together.</p>
+    </div>
+  </div>
 </section>
 
-<div class="divider"></div>
+<div class="sec-rule"></div>
 
-<!-- ════════════════════════════════════
+<!-- ══════════════════════════════════
      SERVICES
-════════════════════════════════════ -->
-<section class="services" id="services">
-    <div class="services-header">
-        <div>
-            <p class="section-eyebrow">What We Do</p>
-            <h2 class="section-title">Our Services</h2>
-        </div>
-        <button class="btn-ghost">View All</button>
-    </div>
-    <div class="services-outer" id="servicesOuter">
-        <div class="services-track" id="servicesTrack">
-            <div class="s-card"><div class="s-card-num">01</div><h3 class="s-card-name">Cut & Style</h3><p class="s-card-desc">Precision cuts tailored to your face shape, lifestyle, and personality.</p><span class="s-card-price">From $65</span></div>
-            <div class="s-card"><div class="s-card-num">02</div><h3 class="s-card-name">Color</h3><p class="s-card-desc">From rich all-over color to lived-in balayage — artfully crafted hues.</p><span class="s-card-price">From $95</span></div>
-            <div class="s-card"><div class="s-card-num">03</div><h3 class="s-card-name">Foiling</h3><p class="s-card-desc">Multi-dimensional highlights and lowlights for incredible depth.</p><span class="s-card-price">From $145</span></div>
-            <div class="s-card"><div class="s-card-num">04</div><h3 class="s-card-name">Treatments</h3><p class="s-card-desc">Restorative treatments to bring your hair back to its healthiest state.</p><span class="s-card-price">From $45</span></div>
-            <div class="s-card"><div class="s-card-num">05</div><h3 class="s-card-name">Makeup</h3><p class="s-card-desc">Professional artistry for any occasion — event or everyday luxury.</p><span class="s-card-price">From $85</span></div>
-            <div class="s-card"><div class="s-card-num">06</div><h3 class="s-card-name">Portraiture</h3><p class="s-card-desc">Complete style and capture experience — hair, makeup, and portrait.</p><span class="s-card-price">From $200</span></div>
-        </div>
-    </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════════
-     ARTISTS
-════════════════════════════════════ -->
-<section class="artists" id="artists">
+══════════════════════════════════ -->
+<section class="services-sec" id="services">
+  <div class="svc-head">
     <div>
-        <p class="section-eyebrow">The Team</p>
-        <h2 class="section-title">Meet Our<br><em>Artists</em></h2>
+      <p class="eyebrow">What We Do</p>
+      <h2 class="display">Our Services</h2>
     </div>
-    <div class="artists-grid">
-        <div class="a-card"><div class="a-card-inner"><div class="a-overlay"></div><div class="a-initial">J</div><div class="a-name">Jana Klavina</div><div class="a-role">Owner & Master Stylist</div></div></div>
-        <div class="a-card"><div class="a-card-inner"><div class="a-overlay"></div><div class="a-initial">A</div><div class="a-name">Aleksandra</div><div class="a-role">Master Stylist</div></div></div>
-        <div class="a-card"><div class="a-card-inner"><div class="a-overlay"></div><div class="a-initial">S</div><div class="a-name">Sofia</div><div class="a-role">Senior Stylist</div></div></div>
-        <div class="a-card"><div class="a-card-inner"><div class="a-overlay"></div><div class="a-initial">M</div><div class="a-name">Mia</div><div class="a-role">Stylist</div></div></div>
+    <p class="svc-note">Prices vary by stylist level. All color services include a complimentary consultation.</p>
+  </div>
+
+  <!-- CUTS -->
+  <div class="acc-item">
+    <button class="acc-btn open" data-acc="cuts">
+      <span class="acc-num">01</span>
+      <span class="acc-title">Cut &amp; Style</span>
+      <span class="acc-from">From $55</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="cuts" style="max-height:9999px;">
+      <div class="acc-inner">
+        <p class="acc-refresh">Recommended refresh: every 4–6 weeks</p>
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+            <tbody>
+              <tr><td>Women's Cut</td><td>$130</td><td>$115</td><td>$90</td><td>$75</td></tr>
+              <tr><td>Men's Cut</td><td>$80</td><td>$70</td><td>$60</td><td>$55</td></tr>
+              <tr><td>Kids' Cut (12 &amp; under)</td><td>—</td><td>$60</td><td>$55</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- FOILING -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="foiling">
+      <span class="acc-num">02</span>
+      <span class="acc-title">Foiling</span>
+      <span class="acc-from">From $155+</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="foiling">
+      <div class="acc-inner">
+        <p class="acc-refresh">Includes glossing. Recommended refresh: every 6–8 weeks</p>
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+            <tbody>
+              <tr><td>Partial Highlight / Babylight</td><td>$240+</td><td>$220+</td><td>$180+</td><td>$155+</td></tr>
+              <tr><td>Full Highlight / Babylight</td><td>$330+</td><td>$310+</td><td>$255+</td><td>$210+</td></tr>
+              <tr><td>Color Melting Gloss / Root Shadow (add-on)</td><td colspan="4">$65</td></tr>
+              <tr><td>Bond Building Wellaplex Treatment (add-on)</td><td colspan="4">$40</td></tr>
+              <tr><td>Bond Building K18 Treatment (add-on)</td><td colspan="4">$50</td></tr>
+              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLOR -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="color">
+      <span class="acc-num">03</span>
+      <span class="acc-title">Color</span>
+      <span class="acc-from">From $95+</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="color">
+      <div class="acc-inner">
+        <p class="acc-refresh">Recommended refresh: every 4–6 weeks</p>
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+            <tbody>
+              <tr><td>Single Process Roots Only</td><td>$155+</td><td>$145+</td><td>$125+</td><td>$95+</td></tr>
+              <tr><td>Single Process All Over</td><td>$215+</td><td>$205+</td><td>$165+</td><td>$135+</td></tr>
+              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIALTY -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="specialty">
+      <span class="acc-num">04</span>
+      <span class="acc-title">Specialty &amp; Balayage</span>
+      <span class="acc-from">From $295+</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="specialty">
+      <div class="acc-inner">
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+            <tbody>
+              <tr><td>Partial Balayage</td><td>$380+</td><td>$370+</td><td>$330+</td><td>$295+</td></tr>
+              <tr><td>Full Balayage</td><td>$440+</td><td>$430+</td><td>$380+</td><td>$350+</td></tr>
+              <tr><td>Platinum Root Touch-up</td><td colspan="4">$280+</td></tr>
+              <tr><td>All Over Platinum</td><td colspan="4">$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+              <tr><td>Color Correction</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
+              <tr><td>Fashion Color</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
+              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STYLING -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="styling">
+      <span class="acc-num">05</span>
+      <span class="acc-title">Styling</span>
+      <span class="acc-from">From $85+</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="styling">
+      <div class="acc-inner">
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Price</th></tr></thead>
+            <tbody>
+              <tr><td>Signature Blowout</td><td>$85+</td></tr>
+              <tr><td>Special Occasion Styling</td><td>$150+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+              <tr><td>Bridal &amp; Wedding</td><td><span class="badge-call">Call</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TREATMENTS -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="treatments">
+      <span class="acc-num">06</span>
+      <span class="acc-title">Treatments</span>
+      <span class="acc-from">From $40</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="treatments">
+      <div class="acc-inner">
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Price</th></tr></thead>
+            <tbody>
+              <tr><td>Deep Conditioning</td><td>$40+</td></tr>
+              <tr><td>Bond Building Wellaplex Treatment</td><td>$40</td></tr>
+              <tr><td>Bond Building K18 Treatment</td><td>$50</td></tr>
+              <tr><td>Gloss</td><td>$75</td></tr>
+              <tr><td>Color Melting Gloss</td><td>$85</td></tr>
+              <tr><td>Keratin Treatment</td><td>$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAKEUP -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="makeup">
+      <span class="acc-num">07</span>
+      <span class="acc-title">Makeup</span>
+      <span class="acc-from">From $145</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="makeup">
+      <div class="acc-inner">
+        <p class="acc-refresh">By appointment · Kiley Smith, 18+ years experience including film, TV &amp; Emmy Awards</p>
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Price</th></tr></thead>
+            <tbody>
+              <tr><td>Natural Radiant Makeup</td><td>$165</td></tr>
+              <tr><td>Bridal Makeup</td><td>$300</td></tr>
+              <tr><td>Bridal Trial</td><td>$185</td></tr>
+              <tr><td>Wedding Attendants</td><td>$145</td></tr>
+              <tr><td>Makeup Lessons</td><td>$165+</td></tr>
+              <tr><td>Lashes Add-On</td><td>$20</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTRAITURE -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="portraiture">
+      <span class="acc-num">08</span>
+      <span class="acc-title">Portraiture</span>
+      <span class="acc-from">From $195</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="portraiture">
+      <div class="acc-inner">
+        <p class="acc-refresh">By appointment · Photography by Setareh (Star) Sabti, 10+ years experience</p>
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Session</th><th>Price</th></tr></thead>
+            <tbody>
+              <tr><td>30-Minute Session (2 edited images)</td><td>$195</td></tr>
+              <tr><td>1-Hour Session (5 edited images)</td><td>$295</td></tr>
+              <tr><td>Advanced Editing</td><td>$100 / hr</td></tr>
+              <tr><td>Extra Photos</td><td>$40 / photo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAKEOVER -->
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="makeover">
+      <span class="acc-num">09</span>
+      <span class="acc-title">Makeover &amp; Styling</span>
+      <span class="acc-from">From $100 / hr</span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="makeover">
+      <div class="acc-inner">
+        <div class="tbl-wrap">
+          <table class="ptbl">
+            <thead><tr><th>Service</th><th>Price</th></tr></thead>
+            <tbody>
+              <tr><td>Outfit Styling</td><td>$100 / hr</td></tr>
+              <tr><td>Full Makeover Package (Hair + Makeup + Photoshoot)</td><td><span class="badge-call">Call</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
-<!-- ════════════════════════════════════
-     CTA
-════════════════════════════════════ -->
-<section class="cta-section">
-    <h2 class="cta-title">Ready to<br><em>Transform?</em></h2>
-    <p class="cta-body">Step into a space where every visit is an experience. Our artists are ready to bring your vision to life.</p>
-    <div class="cta-btns">
-        <button class="btn-xl btn-xl-fill">Book Your Appointment</button>
-        <button class="btn-xl btn-xl-outline">703.591.9099</button>
+<div class="sec-rule"></div>
+
+<!-- ══════════════════════════════════
+     ARTISTS
+══════════════════════════════════ -->
+<section class="artists-sec" id="artists">
+  <div class="artists-head">
+    <div>
+      <p class="eyebrow">The Team</p>
+      <h2 class="display">Meet Our <em>Artists</em></h2>
     </div>
+    <a href="https://www.instagram.com/marahairstudio" target="_blank" class="btn-ghost-sm" style="text-decoration:none;">@marahairstudio</a>
+  </div>
+
+  <!-- Owner -->
+  <div class="role-group">
+    <div class="role-label">Owner</div>
+    <div class="artists-grid" style="grid-template-columns:1fr 3fr;">
+      <div class="artist-card">
+        <span class="ac-initial">J</span>
+        <div class="ac-name">Jana Klavina</div>
+        <div class="ac-role">Owner</div>
+        <div class="ac-spec">Trained at Bumble &amp; Bumble NYC. Specializes in short technical cuts and dimensional color. Founder of Mara's vision.</div>
+        <a href="https://www.instagram.com/janaklavina" target="_blank" class="ac-ig">@janaklavina ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Stylists -->
+  <div class="role-group">
+    <div class="role-label">Master Stylists</div>
+    <div class="artists-grid artists-grid-3">
+      <div class="artist-card">
+        <span class="ac-initial">R</span>
+        <div class="ac-name">Rebecca Bruce</div>
+        <div class="ac-role">Master Stylist</div>
+        <div class="ac-spec">20+ years experience. Balayage certified (2022). Bumble &amp; Bumble Network Educator since 2017. Winner — Best Color Makeover, Northern Virginia Magazine.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">M</span>
+        <div class="ac-name">Maria Jo Fitzpatrick</div>
+        <div class="ac-role">Master Stylist</div>
+        <div class="ac-spec">12+ years experience. Aveda Institute &amp; Paul Mitchell trained. Known for her warm, personalized approach and consultative style.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">A</span>
+        <div class="ac-name">Austin Milyo</div>
+        <div class="ac-role">Master Stylist</div>
+        <div class="ac-spec">Toni &amp; Guy trained (2016). Spent time in Beverly Hills studios. Expert in balayaged looks and blow-outs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stylists -->
+  <div class="role-group">
+    <div class="role-label">Stylists</div>
+    <div class="artists-grid">
+      <div class="artist-card">
+        <span class="ac-initial">Y</span>
+        <div class="ac-name">Yamil Coyoy</div>
+        <div class="ac-role">Stylist</div>
+        <div class="ac-spec">American Beauty Academy grad (2013). Specializes in dimensional balayages and highlights.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">P</span>
+        <div class="ac-name">Paige Leone</div>
+        <div class="ac-role">Stylist</div>
+        <div class="ac-spec">Cosmetology degree (2022). University of Georgia masters graduate. Known for pixie cuts and balayage.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">J</span>
+        <div class="ac-name">Jules Hale-Welt</div>
+        <div class="ac-role">Stylist</div>
+        <div class="ac-spec">Paul Mitchell The School grad (2019). Specializes in curly cuts, natural hand styling, and vivid color.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Junior Stylists -->
+  <div class="role-group">
+    <div class="role-label">Junior Stylists</div>
+    <div class="artists-grid">
+      <div class="artist-card">
+        <span class="ac-initial">D</span>
+        <div class="ac-name">Dominique Cicinato</div>
+        <div class="ac-role">Junior Stylist</div>
+        <div class="ac-spec">Class of 2023. Specializes in lived-in, seamless color and balayage.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">J</span>
+        <div class="ac-name">Jocelyn Garcia</div>
+        <div class="ac-role">Junior Stylist</div>
+        <div class="ac-spec">Seven years at Mara — from receptionist to stylist. Highlights and layered cuts are her calling.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">S</span>
+        <div class="ac-name">Sydney Thornley</div>
+        <div class="ac-role">Junior Stylist</div>
+        <div class="ac-spec">Paul Mitchell grad (2022). Bold and vivid colors — reds, pinks, purples, and black.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">S</span>
+        <div class="ac-name">Schuyler McCleary</div>
+        <div class="ac-role">Junior Stylist</div>
+        <div class="ac-spec">Highlights, balayage, curls, and barber cuts. Passionate about curly and wavy hair.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">T</span>
+        <div class="ac-name">Tiffany Barrera</div>
+        <div class="ac-role">Junior Stylist</div>
+        <div class="ac-spec">Aveda Institute grad (2024). Bright blondes and dimensional looks.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Specialists -->
+  <div class="role-group">
+    <div class="role-label">Specialists</div>
+    <div class="artists-grid artists-grid-3">
+      <div class="artist-card">
+        <span class="ac-initial">K</span>
+        <div class="ac-name">Kiley Smith</div>
+        <div class="ac-role">Makeup Artist</div>
+        <div class="ac-spec">18+ years. Trained in beauty, bridal, stage, film &amp; TV. Featured in Washington Family Magazine and Emmy Awards coverage.</div>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">S</span>
+        <div class="ac-name">Setareh (Star) Sabti</div>
+        <div class="ac-role">Photographer &amp; Social Media</div>
+        <div class="ac-spec">First hired employee (2015). 10+ years photography. Social Media Manager and Communications Director.</div>
+        <a href="https://www.instagram.com/marahairstudio" target="_blank" class="ac-ig">@marahairstudio ↗</a>
+      </div>
+      <div class="artist-card">
+        <span class="ac-initial">V</span>
+        <div class="ac-name">Vicky Castro</div>
+        <div class="ac-role">Studio Assistant</div>
+        <div class="ac-spec">Six years at Mara. The heart of the studio floor — keeping everything running warmly and efficiently.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="sec-rule"></div>
+
+<!-- ══════════════════════════════════
+     POLICIES
+══════════════════════════════════ -->
+<section class="policies-sec" id="policies">
+  <div class="pol-head">
+    <p class="eyebrow">House Rules</p>
+    <h2 class="display">Studio <em>Policies</em></h2>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-booking">
+      <span class="acc-num">01</span>
+      <span class="acc-title">Booking &amp; Confirmation</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-booking">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li>A <strong>valid credit card is required</strong> at the time of booking.</li>
+          <li>Book online or by phone at <strong>703.591.9099</strong>.</li>
+          <li>All appointments must be confirmed <strong>48 hours in advance</strong> — unconfirmed appointments may be cancelled.</li>
+          <li>Incorrect service bookings result in a <strong>50% cancellation fee</strong>.</li>
+          <li>Consultations are available for <strong>$15</strong>, which is applied toward your service.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-cancel">
+      <span class="acc-num">02</span>
+      <span class="acc-title">Cancellation Policy</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-cancel">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li><strong>48 hours' notice</strong> is required for cancellations or rescheduling.</li>
+          <li>Late cancellations or no-shows incur a <strong>50% charge of the total services</strong> booked.</li>
+          <li>Monday appointments must be cancelled <strong>by Saturday</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-late">
+      <span class="acc-num">03</span>
+      <span class="acc-title">Late Arrivals</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-late">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li>If running late, contact the studio at <strong>571.992.0407</strong>.</li>
+          <li>Your stylist may need to adjust or reschedule services depending on availability.</li>
+          <li>Cancellations due to lateness are subject to a <strong>50% charge</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-studio">
+      <span class="acc-num">04</span>
+      <span class="acc-title">In-Studio Guidelines</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-studio">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li>Face masks are <strong>optional</strong>; available upon request.</li>
+          <li>No outside food in the studio; beverages are welcome.</li>
+          <li>Please arrive alone unless you are an adult accompanying a minor.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-gratuity">
+      <span class="acc-num">05</span>
+      <span class="acc-title">Gratuity</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-gratuity">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li><strong>Cash is preferred</strong> for gratuity; Venmo is also accepted.</li>
+          <li>Gratuity <strong>cannot be added</strong> to credit card payments.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" data-acc="pol-redo">
+      <span class="acc-num">06</span>
+      <span class="acc-title">Redo &amp; Product Policy</span>
+      <span class="acc-from"></span>
+      <span class="acc-arrow">+</span>
+    </button>
+    <div class="acc-panel" id="pol-redo">
+      <div class="pol-inner">
+        <ul class="pol-list">
+          <li>If you're unsatisfied, you have <strong>two weeks</strong> to request an adjustment with your original stylist.</li>
+          <li>After two weeks or with a different stylist, the service is considered new.</li>
+          <li><strong>Bumble &amp; Bumble products</strong> may be exchanged within 60 days if unopened or lightly used.</li>
+          <li>Returns are not currently offered.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="sec-rule"></div>
+
+<!-- ══════════════════════════════════
+     HOURS & CONTACT
+══════════════════════════════════ -->
+<section class="hc-sec" id="hours">
+  <div style="margin-bottom:52px;">
+    <p class="eyebrow">Find Us</p>
+    <h2 class="display">Hours &amp; <em>Location</em></h2>
+  </div>
+  <div class="hc-grid">
+    <div>
+      <div class="contact-item">
+        <span class="contact-lbl">Phone</span>
+        <a href="tel:7035919099" class="contact-val">703.591.9099</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-lbl">Text</span>
+        <a href="sms:5719920407" class="contact-val">571.992.0407</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-lbl">Email</span>
+        <a href="mailto:info@marahairstudio.com" class="contact-val">info@marahairstudio.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-lbl">Address</span>
+        <a href="https://maps.google.com/?q=4011+Chain+Bridge+Rd+Fairfax+VA+22030" target="_blank" class="contact-val">4011 Chain Bridge Rd,<br>Fairfax, VA 22030</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-lbl">Shop</span>
+        <a href="https://maramodestudio.com" target="_blank" class="contact-val">maramodestudio.com ↗</a>
+      </div>
+      <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-fill" style="text-decoration:none; display:inline-block;">Book Now</a>
+        <a href="#" class="consult-link">Gift Cards →</a>
+      </div>
+    </div>
+    <div>
+      <table class="hours-table">
+        <tr><td>Monday</td><td>10:00 am – 6:00 pm</td></tr>
+        <tr><td>Tuesday</td><td>10:00 am – 8:00 pm</td></tr>
+        <tr><td>Wednesday</td><td>10:00 am – 8:00 pm</td></tr>
+        <tr><td>Thursday</td><td>10:00 am – 8:00 pm</td></tr>
+        <tr><td>Friday</td><td>9:00 am – 5:00 pm</td></tr>
+        <tr><td>Saturday</td><td>9:00 am – 5:00 pm</td></tr>
+        <tr><td>Sunday</td><td class="closed">Closed</td></tr>
+      </table>
+      <div class="parking-note">
+        <div class="parking-title">Parking</div>
+        <p class="parking-body">Free public lot behind Truist Bank on Sager Avenue. Limited designated spots at the building rear (shared with neighboring restaurant).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-rule"></div>
+
+<!-- ══════════════════════════════════
+     EVENTS
+══════════════════════════════════ -->
+<section class="events-sec" id="events">
+  <div style="margin-bottom:52px;">
+    <p class="eyebrow">What's On</p>
+    <h2 class="display">Events &amp; <em>News</em></h2>
+  </div>
+  <div class="events-empty">
+    <div class="events-empty-title">No upcoming events right now</div>
+    <p class="events-empty-sub">Follow us on social media to be the first to know.</p>
+    <div class="events-social">
+      <a href="https://www.instagram.com/marahairstudio" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/marahairstudio" target="_blank">Facebook</a>
+      <a href="https://www.pinterest.com/marahairstudio" target="_blank">Pinterest</a>
+      <a href="https://www.yelp.com/biz/mara-hair-and-mode-studio-fairfax" target="_blank">Yelp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CTA
+══════════════════════════════════ -->
+<section class="cta-sec">
+  <p class="eyebrow cta-eyebrow">Let's Make You Love Your Hair</p>
+  <h2 class="cta-h2">Ready to<br><em>Transform?</em></h2>
+  <p class="cta-sub">Step into a space where every visit is an experience. Our 15 artists are ready to bring your vision to life.</p>
+  <div class="cta-btns">
+    <button class="btn-xl btn-xl-fill" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book an Appointment</button>
+    <a href="tel:7035919099" class="btn-xl btn-xl-out" style="text-decoration:none; display:inline-flex; align-items:center;">703.591.9099</a>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-    <div class="footer-grid">
-        <div>
-            <div class="footer-brand">Mara Hair Studio</div>
-            <p class="footer-tagline">Where Style Comes Alive. Fairfax, Virginia's premier lifestyle hair studio since 2015.</p>
-        </div>
-        <div>
-            <p class="footer-col-title">Services</p>
-            <ul class="footer-links">
-                <li><a href="#">Cut & Style</a></li>
-                <li><a href="#">Color</a></li>
-                <li><a href="#">Treatments</a></li>
-                <li><a href="#">Makeup</a></li>
-            </ul>
-        </div>
-        <div>
-            <p class="footer-col-title">Studio</p>
-            <ul class="footer-links">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Our Artists</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Gift Cards</a></li>
-            </ul>
-        </div>
-        <div>
-            <p class="footer-col-title">Visit</p>
-            <ul class="footer-links">
-                <li><a href="#">4011 Chain Bridge Rd</a></li>
-                <li><a href="#">Fairfax, VA</a></li>
-                <li><a href="#">Mon 10am–6pm</a></li>
-                <li><a href="#">Tue–Thu 10am–8pm</a></li>
-                <li><a href="#">Fri–Sat 9am–5pm</a></li>
-            </ul>
-        </div>
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">Mara Hair &amp; Mode Studio</div>
+      <p class="f-tag">Where Style Comes Alive. Fairfax, Virginia's premier lifestyle hair studio since 2015.</p>
+      <div class="f-social">
+        <a href="https://www.instagram.com/marahairstudio" target="_blank">Instagram</a>
+        <a href="https://www.instagram.com/janaklavina" target="_blank">@janaklavina</a>
+        <a href="https://www.facebook.com/marahairstudio" target="_blank">Facebook</a>
+        <a href="https://www.pinterest.com/marahairstudio" target="_blank">Pinterest</a>
+        <a href="https://www.yelp.com/biz/mara-hair-and-mode-studio-fairfax" target="_blank">Yelp</a>
+      </div>
     </div>
-    <div class="footer-bottom">
-        <span>© 2026 Mara Hair and Mode Studio. All rights reserved.</span>
-        <span>Fairfax, VA</span>
+    <div>
+      <p class="f-col-title">Services</p>
+      <ul class="f-links">
+        <li><a href="#services">Cut &amp; Style</a></li>
+        <li><a href="#services">Color &amp; Foiling</a></li>
+        <li><a href="#services">Balayage</a></li>
+        <li><a href="#services">Treatments</a></li>
+        <li><a href="#services">Makeup</a></li>
+        <li><a href="#services">Portraiture</a></li>
+      </ul>
     </div>
+    <div>
+      <p class="f-col-title">Studio</p>
+      <ul class="f-links">
+        <li><a href="#about">About Jana</a></li>
+        <li><a href="#artists">Our Artists</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a></li>
+        <li><a href="#">Gift Cards</a></li>
+        <li><a href="#policies">House Rules</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="f-col-title">Visit</p>
+      <ul class="f-links">
+        <li><a href="https://maps.google.com/?q=4011+Chain+Bridge+Rd+Fairfax+VA+22030" target="_blank">4011 Chain Bridge Rd</a></li>
+        <li><a href="https://maps.google.com/?q=4011+Chain+Bridge+Rd+Fairfax+VA+22030" target="_blank">Fairfax, VA 22030</a></li>
+        <li><a href="tel:7035919099">703.591.9099</a></li>
+        <li><a href="sms:5719920407">571.992.0407 (text)</a></li>
+        <li><a href="mailto:info@marahairstudio.com">info@marahairstudio.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Mara Hair and Mode Studio. All rights reserved.</span>
+    <span>Fairfax, Virginia</span>
+  </div>
 </footer>
 
 </main>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-//  CANVAS — floating sparkle + ambient orb particle system
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  CANVAS — hair strand animation
+// ═══════════════════════════════════════════════
 const canvas = document.getElementById('bgCanvas');
 const ctx    = canvas.getContext('2d');
-let W, H, particles = [], orbs = [];
+let W, H, strands=[], dots=[];
 
-function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+function resize() { W=canvas.width=innerWidth; H=canvas.height=innerHeight; }
+
+class Strand {
+  constructor(scatter){ this.reset(scatter); }
+  reset(scatter){
+    this.x0 = Math.random()*W;
+    this.y0 = scatter ? Math.random()*H*1.3 : H+20+Math.random()*40;
+    const b = (Math.random()-.5)*W*.38;
+    this.cx1=this.x0+b*.35+(Math.random()-.5)*80;
+    this.cy1=this.y0-H*.38;
+    this.cx2=this.x0+b*.7+(Math.random()-.5)*60;
+    this.cy2=this.y0-H*.72;
+    this.x1 =this.x0+b+(Math.random()-.5)*100;
+    this.y1 =this.y0-H-30;
+    this.t  =scatter?Math.random():0;
+    this.spd=Math.random()*.0007+.00018;
+    this.a  =Math.random()*.11+.02;
+    this.w  =Math.random()*1.1+.15;
+    this.sw =Math.random()*.022+.004;
+    this.swO=Math.random()*Math.PI*2;
+    this.tk =Math.random()*200;
+    const p=[[201,160,106],[212,168,83],[183,110,121],[232,213,163],[175,125,65]];
+    this.rgb=p[Math.floor(Math.random()*p.length)];
+  }
+  update(){ this.t+=this.spd; this.tk++; if(this.t>=1)this.reset(false); }
+  draw(){
+    const sw=Math.sin(this.tk*this.sw+this.swO)*28;
+    let a=this.a;
+    if(this.t<.12)a*=this.t/.12;
+    if(this.t>.82)a*=(1-this.t)/.18;
+    if(a<=0)return;
+    const seg=.22,t0=Math.max(0,this.t-seg*.5),t1=Math.min(1,this.t+seg*.5);
+    const pt=t=>{const m=1-t;return{x:m*m*m*this.x0+3*m*m*t*(this.cx1+sw)+3*m*t*t*(this.cx2-sw*.5)+t*t*t*this.x1,y:m*m*m*this.y0+3*m*m*t*this.cy1+3*m*t*t*this.cy2+t*t*t*this.y1};};
+    const p0=pt(t0),p1=pt(t1);
+    const [r,g,b]=this.rgb;
+    const g2=ctx.createLinearGradient(p0.x,p0.y,p1.x,p1.y);
+    g2.addColorStop(0,`rgba(${r},${g},${b},0)`);
+    g2.addColorStop(.3,`rgba(${r},${g},${b},${a})`);
+    g2.addColorStop(.7,`rgba(${r},${g},${b},${a*.55})`);
+    g2.addColorStop(1,`rgba(${r},${g},${b},0)`);
+    ctx.beginPath();
+    const steps=12;
+    for(let i=0;i<=steps;i++){const p=pt(t0+(t1-t0)*(i/steps));i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);}
+    ctx.strokeStyle=g2; ctx.lineWidth=this.w; ctx.lineCap='round'; ctx.stroke();
+  }
 }
 
-// ── Sparkle particle ──
-class Spark {
-    constructor(scatter) {
-        this.scatter = scatter;
-        this.init();
-    }
-
-    init() {
-        this.x   = Math.random() * W;
-        this.y   = this.scatter ? Math.random() * H : H + 20 + Math.random() * 60;
-        this.sz  = Math.random() * 2.2 + 0.3;
-        this.vx  = (Math.random() - 0.5) * 0.35;
-        this.vy  = -(Math.random() * 0.7 + 0.18);
-        this.alpha = Math.random() * 0.55 + 0.12;
-        this.life  = this.scatter ? Math.floor(Math.random() * 400) : 0;
-        this.maxLife = Math.random() * 350 + 180;
-        this.twkSpd  = Math.random() * 0.035 + 0.012;
-        this.twkOff  = Math.random() * Math.PI * 2;
-        this.rot = Math.random() * Math.PI * 2;
-        this.rotSpd = (Math.random() - 0.5) * 0.018;
-        const pal = [[201,169,110],[232,213,163],[183,110,121],[245,240,232],[210,160,90]];
-        this.rgb = pal[Math.floor(Math.random() * pal.length)];
-    }
-
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.rot += this.rotSpd;
-        this.life++;
-
-        const t = Math.sin(this.life * this.twkSpd + this.twkOff) * 0.28 + 0.72;
-        let fade = this.alpha * t;
-        const p = this.life / this.maxLife;
-        if (p < 0.1)      fade *= p / 0.1;
-        else if (p > 0.75) fade *= (1 - p) / 0.25;
-        this.currentAlpha = Math.max(0, fade);
-
-        if (this.life >= this.maxLife || this.y < -30) this.init();
-    }
-
-    draw() {
-        const [r, g, b] = this.rgb;
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rot);
-        ctx.globalAlpha = this.currentAlpha;
-
-        if (this.sz > 1.4) {
-            // 4-pointed star
-            const s = this.sz;
-            ctx.beginPath();
-            ctx.moveTo(0, -s * 2.2); ctx.lineTo(s * .38, -s * .38);
-            ctx.lineTo(s * 2.2, 0);  ctx.lineTo(s * .38,  s * .38);
-            ctx.lineTo(0,  s * 2.2); ctx.lineTo(-s * .38, s * .38);
-            ctx.lineTo(-s * 2.2, 0); ctx.lineTo(-s * .38, -s * .38);
-            ctx.closePath();
-            ctx.fillStyle = `rgb(${r},${g},${b})`;
-            ctx.fill();
-
-            // glow
-            const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, s * 4);
-            grd.addColorStop(0, `rgba(${r},${g},${b},.35)`);
-            grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
-            ctx.beginPath();
-            ctx.arc(0, 0, s * 4, 0, Math.PI * 2);
-            ctx.fillStyle = grd;
-            ctx.fill();
-        } else {
-            ctx.beginPath();
-            ctx.arc(0, 0, this.sz, 0, Math.PI * 2);
-            ctx.fillStyle = `rgb(${r},${g},${b})`;
-            ctx.fill();
-        }
-
-        ctx.restore();
-    }
+class Dot {
+  constructor(s){ this.reset(s); }
+  reset(s){
+    this.x=Math.random()*W; this.y=s?Math.random()*H:H+Math.random()*30;
+    this.vy=-(Math.random()*.38+.08); this.vx=(Math.random()-.5)*.22;
+    this.r=Math.random()*1.3+.25;
+    this.a=Math.random()*.38+.07;
+    this.life=s?Math.floor(Math.random()*400):0;
+    this.maxLife=Math.random()*350+180;
+    this.tw=Math.random()*.04+.01; this.twO=Math.random()*Math.PI*2;
+    const p=[[201,160,106],[232,213,163],[183,110,121]];
+    this.rgb=p[Math.floor(Math.random()*p.length)];
+  }
+  update(){ this.x+=this.vx; this.y+=this.vy; this.life++; if(this.life>=this.maxLife||this.y<-10)this.reset(false); }
+  draw(){
+    const tw=Math.sin(this.life*this.tw+this.twO)*.28+.72;
+    let a=this.a*tw;
+    const p=this.life/this.maxLife;
+    if(p<.1)a*=p/.1; if(p>.8)a*=(1-p)/.2;
+    if(a<=0)return;
+    const[r,g,b]=this.rgb;
+    ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fill();
+  }
 }
 
-// ── Ambient drifting orb ──
-class Orb {
-    constructor() {
-        this.x  = Math.random() * W;
-        this.y  = Math.random() * H;
-        this.tx = Math.random() * W;
-        this.ty = Math.random() * H;
-        this.r  = Math.random() * 220 + 100;
-        this.spd = Math.random() * 0.0022 + 0.0008;
-        this.alpha = Math.random() * 0.045 + 0.012;
-        const cols = ['201,169,110','183,110,121','30,16,48','130,80,100'];
-        this.rgb = cols[Math.floor(Math.random() * cols.length)];
-    }
-
-    update() {
-        this.x += (this.tx - this.x) * this.spd;
-        this.y += (this.ty - this.y) * this.spd;
-        if (Math.hypot(this.tx - this.x, this.ty - this.y) < 8) {
-            this.tx = Math.random() * W;
-            this.ty = Math.random() * H;
-        }
-    }
-
-    draw() {
-        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
-        g.addColorStop(0, `rgba(${this.rgb},${this.alpha})`);
-        g.addColorStop(1, `rgba(${this.rgb},0)`);
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fillStyle = g;
-        ctx.fill();
-    }
-}
-
-function initAll() {
-    particles = [];
-    for (let i = 0; i < 140; i++) particles.push(new Spark(true));
-    orbs = [];
-    for (let i = 0; i < 6; i++) orbs.push(new Orb());
-}
-
-function tick() {
-    ctx.clearRect(0, 0, W, H);
-    orbs.forEach(o => { o.update(); o.draw(); });
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(tick);
-}
-
-window.addEventListener('resize', () => { resize(); initAll(); });
+function initAll(){ strands=[]; for(let i=0;i<55;i++)strands.push(new Strand(true)); dots=[]; for(let i=0;i<65;i++)dots.push(new Dot(true)); }
+function tick(){ ctx.clearRect(0,0,W,H); strands.forEach(s=>{s.update();s.draw();}); dots.forEach(d=>{d.update();d.draw();}); requestAnimationFrame(tick); }
+window.addEventListener('resize',()=>{resize();initAll();});
 resize(); initAll(); tick();
 
-// ═══════════════════════════════════════════════════════════
-//  SCROLL PROGRESS
-// ═══════════════════════════════════════════════════════════
-const bar = document.getElementById('progressBar');
-window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = `scaleX(${window.scrollY / max})`;
-}, { passive: true });
+// ═══════════════════════════════════════════════
+//  PROGRESS BAR
+// ═══════════════════════════════════════════════
+const bar=document.getElementById('bar');
+window.addEventListener('scroll',()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  bar.style.transform=`scaleX(${window.scrollY/max})`;
+},{passive:true});
 
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  ACCORDION
+// ═══════════════════════════════════════════════
+document.querySelectorAll('.acc-btn').forEach(btn=>{
+  const id=btn.dataset.acc;
+  const panel=document.getElementById(id);
+  if(!panel)return;
+  // init open state
+  if(btn.classList.contains('open')) panel.style.maxHeight=panel.scrollHeight+'px';
+  btn.addEventListener('click',()=>{
+    const isOpen=btn.classList.contains('open');
+    // close all in same list type
+    const allBtns=document.querySelectorAll('.acc-btn');
+    allBtns.forEach(b=>{
+      if(b===btn)return;
+      const pid=b.dataset.acc;
+      const pp=document.getElementById(pid);
+      if(!pp)return;
+      b.classList.remove('open');
+      pp.style.maxHeight=null;
+    });
+    if(!isOpen){
+      btn.classList.add('open');
+      panel.style.maxHeight=panel.scrollHeight+'px';
+    } else {
+      btn.classList.remove('open');
+      panel.style.maxHeight=null;
+    }
+  });
+});
+
+// ═══════════════════════════════════════════════
+//  MOBILE NAV
+// ═══════════════════════════════════════════════
+const menu=document.getElementById('mobileMenu');
+document.getElementById('hamburgerBtn').addEventListener('click',()=>menu.classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>menu.classList.remove('open'));
+function closeMobile(){ menu.classList.remove('open'); }
+
+// ═══════════════════════════════════════════════
 //  GSAP SCROLL ANIMATIONS
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero entrance sequence
-const heroTL = gsap.timeline({ defaults: { ease: 'power3.out' } });
-heroTL
-    .to('.hero-eyebrow',        { opacity: 1, y: 0, duration: 1,   delay: 0.6 })
-    .to('.hero-title .word',    { y: 0,       duration: 1.3, stagger: 0.13, ease: 'power4.out' }, '-=0.55')
-    .to('.hero-sub',            { opacity: 1, y: 0, duration: 1   }, '-=0.5')
-    .to('.hero-cta',            { opacity: 1, y: 0, duration: 0.85 }, '-=0.55')
-    .to('.scroll-indicator',    { opacity: 1,       duration: 0.8  }, '-=0.4')
-    .to('.stat',                { opacity: 1, y: 0, duration: 0.75, stagger: 0.14 }, '-=0.5');
+// Hero
+const htl=gsap.timeline({defaults:{ease:'power3.out'}});
+htl.to('#heroVline',    {scaleY:1,duration:1.4,ease:'power2.inOut',delay:.4})
+   .to('.hero-meta',    {opacity:1,y:0,duration:.9},'-=.75')
+   .to('.hero-h1 .word',{y:0,duration:1.3,stagger:.1,ease:'power4.out'},'-=.55')
+   .to('.hero-desc',    {opacity:1,y:0,duration:1},'-=.6')
+   .to('.hero-actions', {opacity:1,y:0,duration:.8},'-=.5')
+   .to('.scroll-cue',   {opacity:1,duration:.7},'-=.3');
 
-// Counters
-document.querySelectorAll('.stat-number').forEach(el => {
-    const target = +el.dataset.target;
-    ScrollTrigger.create({
-        trigger: el, start: 'top 82%', once: true,
-        onEnter: () => {
-            gsap.to({ n: 0 }, {
-                n: target, duration: 2.2, ease: 'power2.out',
-                onUpdate() { el.textContent = Math.round(this.targets()[0].n); }
-            });
-        }
-    });
+// Awards
+gsap.to('.aw-item',{
+  scrollTrigger:{trigger:'#awardsStrip',start:'top 82%'},
+  opacity:1,y:0,duration:.85,stagger:.12,ease:'power3.out'
 });
 
-// About
-gsap.from('.about .section-eyebrow', { scrollTrigger: { trigger: '.about', start: 'top 76%' }, opacity: 0, x: -20, duration: 0.8 });
-gsap.from('.about .section-title',   { scrollTrigger: { trigger: '.about', start: 'top 74%' }, opacity: 0, y: 40,  duration: 1,   delay: 0.2 });
-gsap.from('.about .body-text',        { scrollTrigger: { trigger: '.about', start: 'top 70%' }, opacity: 0, y: 28,  duration: 1,   delay: 0.4 });
-gsap.to('.award-card',                { scrollTrigger: { trigger: '.award-card', start: 'top 78%' }, opacity: 1, y: 0, duration: 1.3, ease: 'power3.out' });
-
-// Dividers wipe in
-gsap.utils.toArray('.divider').forEach(el => {
-    gsap.from(el, {
-        scrollTrigger: { trigger: el, start: 'top 92%' },
-        scaleX: 0, transformOrigin: 'left', duration: 1.6, ease: 'power3.out'
-    });
+// Stat counters
+document.querySelectorAll('.aw-n').forEach(el=>{
+  const raw=el.textContent;
+  const target=parseFloat(raw.replace(/[^0-9.]/g,''));
+  const suffix=raw.replace(/[0-9.]/g,'').trim();
+  if(!target)return;
+  ScrollTrigger.create({
+    trigger:el,start:'top 86%',once:true,
+    onEnter:()=>{
+      gsap.to({n:0},{n:target,duration:2.2,ease:'power2.out',
+        onUpdate(){el.textContent=Math.round(this.targets()[0].n)+suffix;}
+      });
+    }
+  });
 });
 
-// Services cards
-gsap.to('.s-card', {
-    scrollTrigger: { trigger: '.services', start: 'top 72%' },
-    opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out'
+// Section reveals
+['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec','.events-sec'].forEach(sel=>{
+  gsap.from(sel+' .eyebrow',{
+    scrollTrigger:{trigger:sel,start:'top 78%'},
+    opacity:0,x:-16,duration:.9
+  });
+  gsap.from(sel+' .display',{
+    scrollTrigger:{trigger:sel,start:'top 76%'},
+    opacity:0,y:32,duration:1.1,delay:.15
+  });
 });
 
-// Artists clip-path reveal
-gsap.to('.a-card', {
-    scrollTrigger: { trigger: '.artists', start: 'top 72%' },
-    clipPath: 'inset(0 0 0% 0)',
-    opacity: 1,
-    duration: 1.3, stagger: 0.14, ease: 'power4.inOut'
+// About specific
+gsap.from('.about-body', {scrollTrigger:{trigger:'.about-grid',start:'top 72%'},opacity:0,y:22,duration:1,delay:.3});
+gsap.from('.pull-quote',  {scrollTrigger:{trigger:'.pull-quote',start:'top 80%'},opacity:0,x:-18,duration:1});
+gsap.from('.about-detail',{scrollTrigger:{trigger:'.about-detail',start:'top 82%'},opacity:0,duration:1,delay:.2});
+gsap.from('.floor-card',  {scrollTrigger:{trigger:'.about-floors',start:'top 80%'},opacity:0,y:24,duration:.9,stagger:.15});
+
+// Services accordion rows
+gsap.from('.acc-btn',{
+  scrollTrigger:{trigger:'.services-sec',start:'top 72%'},
+  opacity:0,x:-18,duration:.7,stagger:.07,ease:'power3.out'
+});
+
+// Artist cards
+document.querySelectorAll('.role-group').forEach(g=>{
+  gsap.to(g.querySelectorAll('.artist-card'),{
+    scrollTrigger:{trigger:g,start:'top 78%'},
+    opacity:1,y:0,duration:.8,stagger:.1,ease:'power3.out'
+  });
+});
+
+// Policies rows
+gsap.from('.policies-sec .acc-btn',{
+  scrollTrigger:{trigger:'.policies-sec',start:'top 75%'},
+  opacity:0,x:-16,duration:.65,stagger:.07
+});
+
+// Hours grid
+gsap.from('.hc-grid > *',{
+  scrollTrigger:{trigger:'.hc-grid',start:'top 76%'},
+  opacity:0,y:28,duration:1,stagger:.2
 });
 
 // CTA
-gsap.to('.cta-title', {
-    scrollTrigger: { trigger: '.cta-section', start: 'top 72%' },
-    opacity: 1, y: 0, duration: 1.2, ease: 'power3.out'
-});
-gsap.to('.cta-body', {
-    scrollTrigger: { trigger: '.cta-section', start: 'top 68%' },
-    opacity: 1, duration: 1, delay: 0.3
-});
-gsap.to('.cta-btns', {
-    scrollTrigger: { trigger: '.cta-section', start: 'top 64%' },
-    opacity: 1, duration: 0.8, delay: 0.5
-});
+gsap.to('.cta-eyebrow',{scrollTrigger:{trigger:'.cta-sec',start:'top 78%'},opacity:1,duration:.9});
+gsap.to('.cta-h2',     {scrollTrigger:{trigger:'.cta-sec',start:'top 75%'},opacity:1,y:0,duration:1.2,ease:'power3.out',delay:.1});
+gsap.to('.cta-sub',    {scrollTrigger:{trigger:'.cta-sec',start:'top 70%'},opacity:1,duration:1,delay:.35});
+gsap.to('.cta-btns',   {scrollTrigger:{trigger:'.cta-sec',start:'top 66%'},opacity:1,duration:.8,delay:.5});
 
-// Hero orb parallax
-gsap.to('.orb-1', {
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.8 },
-    y: -140, x: 70
-});
-gsap.to('.orb-2', {
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2.4 },
-    y: -90, x: -50
-});
-
-// Dynamic background gradient on scroll
-ScrollTrigger.create({
-    trigger: 'main',
-    start: 'top top',
-    end: 'bottom bottom',
-    onUpdate({ progress: p }) {
-        document.getElementById('gradientBg').style.background = `
-            radial-gradient(ellipse at ${20 + p * 38}% 50%,  rgba(30,16,48,${.55 - p * .28}) 0%, transparent 60%),
-            radial-gradient(ellipse at ${78 - p * 18}% ${22 + p * 36}%, rgba(183,110,121,${.14 + p * .07}) 0%, transparent 52%),
-            radial-gradient(ellipse at 62% 78%, rgba(201,169,110,${.09 + p * .09}) 0%, transparent 50%)
-        `;
-    }
+// Sec rules wipe
+gsap.utils.toArray('.sec-rule').forEach(el=>{
+  gsap.from(el,{
+    scrollTrigger:{trigger:el,start:'top 92%'},
+    scaleX:0,transformOrigin:'left',duration:1.6,ease:'power3.out'
+  });
 });
 
 // Footer
-gsap.from('footer', {
-    scrollTrigger: { trigger: 'footer', start: 'top 92%' },
-    opacity: 0, y: 36, duration: 1
+gsap.from('footer',{
+  scrollTrigger:{trigger:'footer',start:'top 92%'},
+  opacity:0,y:28,duration:1
 });
-
-// ═══════════════════════════════════════════════════════════
-//  DRAG-TO-SCROLL services
-// ═══════════════════════════════════════════════════════════
-const outer = document.getElementById('servicesOuter');
-const track = document.getElementById('servicesTrack');
-let isDragging = false, startX = 0, scrollLeft = 0;
-
-outer.addEventListener('mousedown', e => {
-    isDragging = true;
-    startX = e.pageX - outer.offsetLeft;
-    scrollLeft = outer.scrollLeft;
-    outer.style.cursor = 'grabbing';
-});
-document.addEventListener('mouseup', () => {
-    isDragging = false;
-    outer.style.cursor = 'grab';
-});
-outer.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - outer.offsetLeft;
-    outer.scrollLeft = scrollLeft - (x - startX) * 1.5;
-});
-outer.style.overflowX = 'scroll';
-outer.style.scrollbarWidth = 'none';
-outer.style.msOverflowStyle = 'none';
 </script>
 </body>
 </html>
