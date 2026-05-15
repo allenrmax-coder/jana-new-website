@@ -173,20 +173,14 @@
       transform:translateY(110%);
     }
     .hero-script {
-      display:block; overflow:hidden; line-height:1.05;
-      padding-left:0.15em; margin-left:-0.15em;
+      display:block; line-height:1.05;
     }
     .hero-script-inner {
       font-family:'Yesteryear',script;
       font-size:clamp(4rem,10vw,8.5rem);
       font-weight:400; color:var(--white);
-      display:block; transform:translateY(110%);
+      display:block; opacity:0; transform:translateY(16px);
       text-transform:lowercase;
-    }
-    .hero-sub {
-      font-size:.85rem; font-weight:300; letter-spacing:.06em;
-      color:var(--dim); max-width:400px; line-height:1.85;
-      margin-bottom:44px; opacity:0; transform:translateY(14px);
     }
     .hero-btns {
       display:flex; gap:14px; align-items:center; flex-wrap:wrap;
@@ -233,33 +227,6 @@
     .hero-scroll-txt {
       font-size:.6rem; font-weight:600; letter-spacing:.22em;
       text-transform:uppercase; color:rgba(255,255,255,.28);
-    }
-
-    /* ── AWARDS STRIP ────────────────────────────────── */
-    .awards-strip {
-      display:grid; grid-template-columns:repeat(4,1fr);
-      background:var(--coal);
-      border-top:2px solid var(--gold-dk);
-    }
-    .aw-item {
-      padding:36px 4vw;
-      display:flex; align-items:center; gap:20px;
-      opacity:0; transform:translateY(18px);
-    }
-    .aw-item:not(:last-child) { border-right:1px solid rgba(255,255,255,.06); }
-    .aw-n {
-      font-family:'Cormorant Garamond',serif;
-      font-size:2.8rem; font-weight:300;
-      color:var(--gold); line-height:1; min-width:60px;
-    }
-    .aw-info { display:flex; flex-direction:column; gap:3px; }
-    .aw-label {
-      font-size:.72rem; font-weight:600; letter-spacing:.08em;
-      color:var(--white);
-    }
-    .aw-sub {
-      font-size:.65rem; font-weight:300;
-      color:rgba(255,255,255,.45); letter-spacing:.04em;
     }
 
     /* ── MARQUEE ─────────────────────────────────────── */
@@ -568,33 +535,6 @@
       color:rgba(255,255,255,.45); line-height:1.7;
     }
 
-    /* ── EVENTS ──────────────────────────────────────── */
-    .events-sec { padding:120px 5vw; }
-    .events-empty {
-      text-align:center; padding:72px 0;
-      background:var(--coal);
-      border-top:2px solid var(--gold-dk);
-    }
-    .events-empty-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(1.6rem,3vw,2.6rem); font-weight:300;
-      font-style:italic; color:rgba(255,255,255,.35); margin-bottom:10px;
-    }
-    .events-empty-sub {
-      font-size:.78rem; font-weight:300;
-      color:rgba(255,255,255,.2);
-    }
-    .events-social {
-      margin-top:32px; display:flex; gap:12px; justify-content:center;
-    }
-    .events-social a {
-      font-size:.65rem; font-weight:600; letter-spacing:.18em;
-      text-transform:uppercase; color:rgba(229,200,110,.45);
-      text-decoration:none; border:1px solid var(--rule);
-      padding:10px 18px; transition:all .3s;
-    }
-    .events-social a:hover { color:var(--gold); border-color:var(--rule2); }
-
     /* ── CTA ─────────────────────────────────────────── */
     .cta-sec {
       padding:160px 5vw; text-align:center;
@@ -718,13 +658,12 @@
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#artists">Artists</a></li>
-    <li><a href="#events">Events</a></li>
     <li><a href="#policies">Policies</a></li>
     <li><a href="#hours">Hours</a></li>
   </ul>
   <div class="nav-right">
     <a href="https://maramodestudio.com" target="_blank" class="nav-shop">Shop Boutique ↗</a>
-    <button class="nav-book" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book Now</button>
+    <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="nav-book">Book Now</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -736,7 +675,6 @@
   <a href="#about"    onclick="closeMobile()">About</a>
   <a href="#services" onclick="closeMobile()">Services</a>
   <a href="#artists"  onclick="closeMobile()">Artists</a>
-  <a href="#events"   onclick="closeMobile()">Events</a>
   <a href="#policies" onclick="closeMobile()">Policies</a>
   <a href="#hours"    onclick="closeMobile()">Hours &amp; Location</a>
   <a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a>
@@ -778,7 +716,6 @@
       <span class="hero-where"><span class="hero-where-inner">Where Style</span></span>
       <span class="hero-script"><span class="hero-script-inner">comes alive</span></span>
     </h1>
-    <p class="hero-sub">Award-winning lifestyle hair studio. 5× Best Salon — Northern Virginia Magazine.</p>
     <div class="hero-btns">
       <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-gold">Book Your Visit</a>
       <a href="#artists" class="btn-outline">Meet the Artists</a>
@@ -789,38 +726,6 @@
     <span class="hero-scroll-txt">Scroll</span>
   </div>
 </section>
-
-<!-- AWARDS STRIP -->
-<div class="awards-strip" id="awardsStrip">
-  <div class="aw-item">
-    <div class="aw-n">5×</div>
-    <div class="aw-info">
-      <span class="aw-label">Best Salon</span>
-      <span class="aw-sub">Northern Virginia Magazine</span>
-    </div>
-  </div>
-  <div class="aw-item">
-    <div class="aw-n">15</div>
-    <div class="aw-info">
-      <span class="aw-label">Artists on Staff</span>
-      <span class="aw-sub">On the studio floor</span>
-    </div>
-  </div>
-  <div class="aw-item">
-    <div class="aw-n">10+</div>
-    <div class="aw-info">
-      <span class="aw-label">Years of Excellence</span>
-      <span class="aw-sub">Greater DC Area</span>
-    </div>
-  </div>
-  <div class="aw-item">
-    <div class="aw-n">2</div>
-    <div class="aw-info">
-      <span class="aw-label">Studio Floors</span>
-      <span class="aw-sub">The Living Room &amp; The Loft</span>
-    </div>
-  </div>
-</div>
 
 <!-- MARQUEE -->
 <div class="marquee">
@@ -1410,24 +1315,6 @@
 
 <div class="sec-rule"></div>
 
-<!-- ═══════════════ EVENTS ═══════════════ -->
-<section class="events-sec" id="events">
-  <div style="margin-bottom:48px;">
-    <p class="eyebrow">What's On</p>
-    <h2 class="display">Events &amp; <em>News</em></h2>
-  </div>
-  <div class="events-empty">
-    <div class="events-empty-title">No upcoming events right now</div>
-    <p class="events-empty-sub">Follow us on social media to be the first to know.</p>
-    <div class="events-social">
-      <a href="https://www.instagram.com/marahairstudio" target="_blank">Instagram</a>
-      <a href="https://www.facebook.com/marahairstudio" target="_blank">Facebook</a>
-      <a href="https://www.pinterest.com/marahairstudio" target="_blank">Pinterest</a>
-      <a href="https://www.yelp.com/biz/mara-hair-and-mode-studio-fairfax" target="_blank">Yelp</a>
-    </div>
-  </div>
-</section>
-
 <!-- ═══════════════ CTA ═══════════════ -->
 <section class="cta-sec">
   <p class="eyebrow cta-eyebrow">Let's Make You Love Your Hair</p>
@@ -1647,32 +1534,13 @@ const htl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 htl.to('.hero-logo',         { opacity:1, y:0, duration:1.0, delay:.3 })
    .to('.hero-preamble',     { opacity:1, y:0, duration:.9 }, '-=.4')
    .to('.hero-where-inner',  { y:0, duration:1.1, ease:'power4.out' }, '-=.5')
-   .to('.hero-script-inner', { y:0, duration:1.3, ease:'power4.out' }, '-=.7')
+   .to('.hero-script-inner', { opacity:1, y:0, duration:1.3, ease:'power4.out' }, '-=.7')
    .to('.hero-sub',          { opacity:1, y:0, duration:.9 }, '-=.5')
    .to('.hero-btns',         { opacity:1, y:0, duration:.8 }, '-=.4')
    .to('.hero-scroll',       { opacity:1, duration:.7 }, '-=.3');
 
-// Awards strip
-gsap.to('.aw-item', {
-  scrollTrigger: { trigger:'#awardsStrip', start:'top 82%' },
-  opacity:1, y:0, duration:.8, stagger:.12, ease:'power3.out'
-});
-
-// Award number counters
-document.querySelectorAll('.aw-n').forEach(el => {
-  const raw = el.textContent;
-  const num = parseFloat(raw.replace(/[^0-9.]/g,''));
-  const sfx = raw.replace(/[0-9.]/g,'').trim();
-  if(!num) return;
-  ScrollTrigger.create({ trigger:el, start:'top 86%', once:true,
-    onEnter(){ gsap.to({n:0},{ n:num, duration:2, ease:'power2.out',
-      onUpdate(){ el.textContent = Math.round(this.targets()[0].n) + sfx; }
-    }); }
-  });
-});
-
 // Generic section reveal helper
-['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec','.events-sec'].forEach(s => {
+['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec'].forEach(s => {
   gsap.from(s+' .eyebrow', { scrollTrigger:{trigger:s, start:'top 78%'}, opacity:0, x:-16, duration:.9 });
   gsap.from(s+' .display', { scrollTrigger:{trigger:s, start:'top 76%'}, opacity:0, y:28, duration:1.1, delay:.15 });
 });
