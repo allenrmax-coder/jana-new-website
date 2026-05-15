@@ -4,130 +4,132 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mara Hair and Mode Studio — Where Style Comes Alive</title>
-  <meta name="description" content="5× Best Salon — Northern Virginia Magazine. Award-winning lifestyle hair studio in Fairfax, VA. Book today.">
+  <meta name="description" content="5× Best Salon — Northern Virginia Magazine. Award-winning lifestyle hair studio in Fairfax, VA.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Yesteryear&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
-    /* ── TOKENS ─────────────────────────────────────────── */
+    /* ── BRAND TOKENS ─────────────────────────────────── */
     :root {
-      --bg:     #0d0b09;
-      --bg2:    #151210;
-      --gold:   #c9a06a;
-      --gold2:  #dfbf8a;
-      --rose:   #b56e79;
-      --cream:  #f0ebe0;
-      --dim:    rgba(240,235,224,.46);
-      --dim2:   rgba(240,235,224,.28);
-      --rule:   rgba(201,160,106,.12);
-      --rule2:  rgba(201,160,106,.22);
+      --midnight: #202832;
+      --coal:     #343b42;
+      --slate:    #3f4850;
+      --muted:    #4a555f;
+      --grey:     #798896;
+      --lgrey:    #aeb1b3;
+      --gold:     #e5c86e;
+      --gold-dk:  #c9a124;
+      --gold-md:  #d3ba6a;
+      --gold-lt:  #edd899;
+      --white:    #ffffff;
+      --text:     rgba(255,255,255,.9);
+      --dim:      rgba(255,255,255,.52);
+      --dim2:     rgba(255,255,255,.3);
+      --rule:     rgba(229,200,110,.14);
+      --rule2:    rgba(229,200,110,.28);
     }
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior:smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--cream);
-      font-family: 'Newsreader', Georgia, serif;
+      background-color: var(--midnight);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
       overflow-x: hidden;
     }
 
-    /* grain */
-    body::after {
+    /* Brand geometric pattern overlay */
+    body::before {
       content:'';
       position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity:.028; pointer-events:none; z-index:9999; mix-blend-mode:overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23e5c86e' stroke-width='0.4'%3E%3Cpolygon points='50,8 58,42 92,50 58,58 50,92 42,58 8,50 42,42'/%3E%3Cline x1='50' y1='20' x2='50' y2='80'/%3E%3Cline x1='20' y1='50' x2='80' y2='50'/%3E%3Ccircle cx='50' cy='50' r='6' fill='none'/%3E%3Cpolygon points='8,8 12,6 10,12 14,8 8,14 6,10' opacity='.5'/%3E%3Cpolygon points='92,8 96,6 94,12 98,8 92,14 90,10' opacity='.5'/%3E%3Cpolygon points='8,92 12,90 10,96 14,92 8,98 6,94' opacity='.5'/%3E%3Cpolygon points='92,92 96,90 94,96 98,92 92,98 90,94' opacity='.5'/%3E%3C/svg%3E");
+      background-size: 80px 80px;
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* ── CANVAS ─────────────────────────────────────────── */
-    #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+    /* ── CANVAS ──────────────────────────────────────── */
+    #bgCanvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
 
-    /* ── PROGRESS ───────────────────────────────────────── */
+    /* ── PROGRESS ────────────────────────────────────── */
     #bar {
       position:fixed; top:0; left:0;
-      height:1px; width:100%;
-      background:linear-gradient(90deg,var(--rose),var(--gold));
+      height:2px; width:100%;
+      background:linear-gradient(90deg, var(--gold-dk), var(--gold), var(--gold-lt));
       transform-origin:left; transform:scaleX(0);
       z-index:9998;
     }
 
-    /* ── NAV ────────────────────────────────────────────── */
+    /* ── NAV ─────────────────────────────────────────── */
     nav {
       position:fixed; top:0; left:0; right:0;
       z-index:500;
-      padding:26px 5vw;
+      padding:20px 5vw;
       display:flex; justify-content:space-between; align-items:center;
     }
     nav::before {
       content:''; position:absolute; inset:0;
-      background:linear-gradient(180deg,rgba(13,11,9,.82) 0%,transparent 100%);
+      background:linear-gradient(180deg, rgba(32,40,50,.95) 0%, rgba(32,40,50,.6) 80%, transparent 100%);
       pointer-events:none;
     }
     .logo {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.3rem; font-weight:400;
-      letter-spacing:.22em; text-transform:uppercase;
-      color:var(--cream); position:relative; z-index:1;
-      text-decoration:none;
+      font-family:'Yesteryear', script;
+      font-size:2rem; font-weight:400;
+      color:var(--gold); position:relative; z-index:1;
+      text-decoration:none; letter-spacing:.05em;
     }
     .nav-center {
       display:flex; gap:28px; list-style:none;
       position:relative; z-index:1;
     }
     .nav-center a {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.84rem; letter-spacing:.1em;
-      color:rgba(240,235,224,.44); text-decoration:none;
+      font-size:.68rem; font-weight:500;
+      letter-spacing:.15em; text-transform:uppercase;
+      color:rgba(255,255,255,.5); text-decoration:none;
       transition:color .3s;
     }
     .nav-center a:hover { color:var(--gold); }
     .nav-right {
-      display:flex; align-items:center; gap:16px;
+      display:flex; align-items:center; gap:14px;
       position:relative; z-index:1;
     }
     .nav-shop {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.8rem; letter-spacing:.14em;
-      color:rgba(240,235,224,.4); background:none; border:none;
-      cursor:pointer; transition:color .3s; text-decoration:none;
+      font-size:.65rem; font-weight:500; letter-spacing:.14em;
+      text-transform:uppercase; color:rgba(255,255,255,.4);
+      background:none; border:none; cursor:pointer;
+      transition:color .3s; text-decoration:none;
     }
-    .nav-shop:hover { color:var(--cream); }
+    .nav-shop:hover { color:var(--gold); }
     .nav-book {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.8rem; letter-spacing:.18em; text-transform:uppercase;
-      color:var(--gold); background:transparent;
-      border:1px solid rgba(201,160,106,.38);
-      padding:9px 22px; cursor:pointer; transition:all .35s;
+      font-size:.68rem; font-weight:600; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--coal);
+      background:var(--gold); border:none;
+      padding:10px 24px; cursor:pointer; transition:all .35s;
     }
-    .nav-book:hover { background:var(--gold); color:var(--bg); }
-
-    /* mobile nav toggle */
+    .nav-book:hover { background:var(--gold-lt); }
     .hamburger {
       display:none; background:none; border:none;
       cursor:pointer; padding:4px; z-index:1;
       flex-direction:column; gap:5px;
     }
     .hamburger span {
-      display:block; width:22px; height:1px;
-      background:var(--cream); transition:all .3s;
+      display:block; width:22px; height:1.5px;
+      background:var(--text); transition:all .3s;
     }
     .mobile-menu {
-      display:none;
-      position:fixed; inset:0; z-index:400;
-      background:rgba(13,11,9,.97);
-      flex-direction:column;
-      align-items:center; justify-content:center;
-      gap:32px;
+      display:none; position:fixed; inset:0; z-index:400;
+      background:rgba(32,40,50,.98);
+      flex-direction:column; align-items:center; justify-content:center; gap:28px;
     }
     .mobile-menu.open { display:flex; }
     .mobile-menu a {
-      font-family:'Cormorant Garamond',serif;
-      font-size:2rem; font-weight:300;
-      color:var(--cream); text-decoration:none;
-      letter-spacing:.08em;
+      font-family:'Montserrat',sans-serif;
+      font-size:1.4rem; font-weight:300; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--text); text-decoration:none;
+      transition:color .3s;
     }
     .mobile-menu a:hover { color:var(--gold); }
     .mobile-close {
@@ -136,121 +138,129 @@
       background:none; border:none; cursor:pointer;
     }
 
-    /* ── MAIN ───────────────────────────────────────────── */
+    /* ── MAIN ────────────────────────────────────────── */
     main { position:relative; z-index:10; }
 
-    /* ── HERO ───────────────────────────────────────────── */
+    /* ── HERO ────────────────────────────────────────── */
     .hero {
-      height:100vh; display:flex; align-items:center;
-      padding:0 7vw; position:relative;
+      height:95vh; min-height:36em; max-height:52em;
+      position:relative; display:flex; align-items:center;
+      padding:0 7vw;
+      background:url('https://marahairstudio.com/build/images/photos/woman-sunset.jpg') no-repeat center center;
+      background-size:cover;
     }
-    .hero-vline {
-      position:absolute; left:5.5vw; top:16%; bottom:16%;
-      width:1px;
-      background:linear-gradient(180deg,transparent,rgba(201,160,106,.55),transparent);
-      transform:scaleY(0); transform-origin:top;
+    .hero-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(110deg, rgba(32,40,50,.9) 0%, rgba(32,40,50,.7) 55%, rgba(32,40,50,.4) 100%);
     }
-    .hero-content { padding-left:24px; }
-    .hero-meta {
-      display:flex; align-items:center; gap:18px;
-      margin-bottom:34px; opacity:0; transform:translateY(14px);
-    }
-    .hero-meta-dash { width:28px; height:1px; background:var(--gold); flex-shrink:0; }
-    .hero-meta-txt {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.74rem; letter-spacing:.26em; text-transform:uppercase;
-      color:var(--gold);
+    .hero-content { position:relative; z-index:2; max-width:680px; }
+    .hero-preamble {
+      font-size:.68rem; font-weight:600; letter-spacing:.3em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:22px; opacity:0; transform:translateY(14px);
     }
     .hero-h1 {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(4.5rem,11vw,10.5rem);
-      font-weight:300; line-height:.88; letter-spacing:-.025em;
-      margin-bottom:44px;
+      margin-bottom:32px;
     }
-    .hero-h1 .line { display:block; overflow:hidden; line-height:.98; }
-    .hero-h1 .word { display:inline-block; transform:translateY(115%); }
-    .hero-h1 em { font-style:italic; color:var(--gold); }
-    .hero-bottom {
-      display:flex; align-items:flex-end;
-      justify-content:space-between; gap:40px;
-      flex-wrap:wrap;
+    .hero-where {
+      display:block; overflow:hidden; line-height:1.1;
     }
-    .hero-desc {
-      font-size:.98rem; font-weight:300; font-style:italic;
-      color:var(--dim); max-width:360px; line-height:1.85;
+    .hero-where-inner {
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(1.2rem,2.8vw,2rem);
+      font-weight:600; letter-spacing:.25em; text-transform:uppercase;
+      color:var(--lgrey); display:block;
+      transform:translateY(110%);
+    }
+    .hero-script {
+      display:block; overflow:hidden; line-height:1.05;
+    }
+    .hero-script-inner {
+      font-family:'Yesteryear',script;
+      font-size:clamp(4rem,10vw,8.5rem);
+      font-weight:400; color:var(--white);
+      display:block; transform:translateY(110%);
+      text-transform:lowercase;
+    }
+    .hero-sub {
+      font-size:.85rem; font-weight:300; letter-spacing:.06em;
+      color:var(--dim); max-width:400px; line-height:1.85;
+      margin-bottom:44px; opacity:0; transform:translateY(14px);
+    }
+    .hero-btns {
+      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
       opacity:0; transform:translateY(14px);
     }
-    .hero-actions {
-      display:flex; flex-direction:column;
-      align-items:flex-end; gap:18px;
-      opacity:0; transform:translateY(14px); flex-shrink:0;
+    .btn-gold {
+      font-family:'Montserrat',sans-serif;
+      font-size:.72rem; font-weight:700; letter-spacing:.18em;
+      text-transform:uppercase; background:var(--gold);
+      color:var(--coal); border:none;
+      padding:14px 36px; cursor:pointer; transition:all .4s;
+      text-decoration:none; display:inline-block;
     }
-    .btn-fill {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.9rem; letter-spacing:.16em; text-transform:uppercase;
-      background:var(--gold); color:var(--bg); border:none;
-      padding:15px 40px; cursor:pointer; transition:all .4s;
+    .btn-gold:hover { background:var(--gold-lt); transform:translateY(-2px); }
+    .btn-outline {
+      font-family:'Montserrat',sans-serif;
+      font-size:.7rem; font-weight:500; letter-spacing:.16em;
+      text-transform:uppercase; background:transparent;
+      color:rgba(255,255,255,.55);
+      border:1px solid rgba(255,255,255,.2);
+      padding:14px 32px; cursor:pointer; transition:all .35s;
+      text-decoration:none; display:inline-block;
     }
-    .btn-fill:hover { background:var(--gold2); transform:translateY(-2px); }
-    .btn-ghost-sm {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
-      background:transparent; color:var(--dim); border:none;
-      cursor:pointer; display:flex; align-items:center; gap:10px;
-      transition:color .3s;
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+    .hero-scroll {
+      position:absolute; bottom:32px; left:7vw; z-index:2;
+      display:flex; align-items:center; gap:14px; opacity:0;
     }
-    .btn-ghost-sm::after { content:'→'; transition:transform .3s; }
-    .btn-ghost-sm:hover { color:var(--cream); }
-    .btn-ghost-sm:hover::after { transform:translateX(5px); }
-    .scroll-cue {
-      position:absolute; bottom:44px; left:calc(5.5vw + 28px);
-      display:flex; align-items:center; gap:16px; opacity:0;
-    }
-    .scroll-cue-line {
-      width:56px; height:1px; background:rgba(201,160,106,.2);
+    .hero-scroll-line {
+      width:48px; height:1px; background:rgba(229,200,110,.25);
       position:relative; overflow:hidden;
     }
-    .scroll-cue-line::after {
+    .hero-scroll-line::after {
       content:''; position:absolute; left:-100%; top:0;
       width:100%; height:100%; background:var(--gold);
-      animation:scl 2.2s ease-in-out infinite;
+      animation:sl 2.2s ease-in-out infinite;
     }
-    @keyframes scl { 0%{left:-100%} 50%{left:0} 100%{left:100%} }
-    .scroll-cue-lbl {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.66rem; letter-spacing:.24em; text-transform:uppercase;
-      color:rgba(240,235,224,.28);
+    @keyframes sl { 0%{left:-100%} 50%{left:0} 100%{left:100%} }
+    .hero-scroll-txt {
+      font-size:.6rem; font-weight:600; letter-spacing:.22em;
+      text-transform:uppercase; color:rgba(255,255,255,.28);
     }
 
-    /* ── AWARDS STRIP ───────────────────────────────────── */
+    /* ── AWARDS STRIP ────────────────────────────────── */
     .awards-strip {
       display:grid; grid-template-columns:repeat(4,1fr);
-      border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+      background:var(--coal);
+      border-top:2px solid var(--gold-dk);
     }
     .aw-item {
-      padding:40px 5vw;
-      display:flex; align-items:center; gap:24px;
-      opacity:0; transform:translateY(20px);
+      padding:36px 4vw;
+      display:flex; align-items:center; gap:20px;
+      opacity:0; transform:translateY(18px);
     }
-    .aw-item:not(:last-child) { border-right:1px solid var(--rule); }
+    .aw-item:not(:last-child) { border-right:1px solid rgba(255,255,255,.06); }
     .aw-n {
       font-family:'Cormorant Garamond',serif;
-      font-size:3.2rem; font-weight:300;
-      color:var(--gold); line-height:1; min-width:70px;
+      font-size:2.8rem; font-weight:300;
+      color:var(--gold); line-height:1; min-width:60px;
     }
     .aw-info { display:flex; flex-direction:column; gap:3px; }
     .aw-label {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.95rem; color:var(--cream);
+      font-size:.72rem; font-weight:600; letter-spacing:.08em;
+      color:var(--white);
     }
     .aw-sub {
-      font-size:.76rem; color:var(--dim); font-style:italic;
+      font-size:.65rem; font-weight:300;
+      color:rgba(255,255,255,.45); letter-spacing:.04em;
     }
 
-    /* ── MARQUEE ────────────────────────────────────────── */
+    /* ── MARQUEE ─────────────────────────────────────── */
     .marquee {
-      padding:30px 0; overflow:hidden;
+      padding:22px 0; overflow:hidden;
       border-bottom:1px solid var(--rule);
+      background:var(--midnight);
     }
     .mq-inner {
       display:inline-flex;
@@ -259,195 +269,187 @@
     }
     @keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
     .mq-item {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.96rem; font-style:italic;
-      color:rgba(240,235,224,.2); letter-spacing:.06em;
-      padding:0 52px;
-      display:inline-flex; align-items:center; gap:52px;
+      font-size:.72rem; font-weight:500; letter-spacing:.2em;
+      text-transform:uppercase; color:rgba(255,255,255,.2);
+      padding:0 48px; display:inline-flex; align-items:center; gap:48px;
     }
     .mq-dot {
       width:3px; height:3px; border-radius:50%;
-      background:rgba(201,160,106,.38); flex-shrink:0;
+      background:rgba(229,200,110,.4); flex-shrink:0;
     }
 
-    /* ── SHARED ─────────────────────────────────────────── */
+    /* ── SHARED ──────────────────────────────────────── */
     .eyebrow {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.72rem; letter-spacing:.3em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:22px;
+      font-size:.65rem; font-weight:700; letter-spacing:.28em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:18px;
       display:flex; align-items:center; gap:14px;
     }
     .eyebrow::before {
-      content:''; display:block; width:24px; height:1px;
+      content:''; display:block; width:20px; height:2px;
       background:var(--gold); flex-shrink:0;
     }
     .display {
       font-family:'Cormorant Garamond',serif;
-      font-size:clamp(2.4rem,5vw,4.8rem);
+      font-size:clamp(2.4rem,5vw,4.6rem);
       font-weight:300; line-height:1.05; letter-spacing:-.02em;
     }
     .display em { font-style:italic; color:var(--gold); }
     .sec-rule {
       height:1px;
-      background:linear-gradient(90deg,transparent,rgba(201,160,106,.18),transparent);
+      background:linear-gradient(90deg,transparent,rgba(229,200,110,.18),transparent);
       margin:0 5vw;
     }
 
-    /* ── ABOUT ──────────────────────────────────────────── */
-    .about { padding:130px 5vw; }
+    /* ── ABOUT ───────────────────────────────────────── */
+    .about { padding:120px 5vw; }
     .about-grid {
       display:grid; grid-template-columns:1fr 1fr;
-      gap:10vw; align-items:start; margin-bottom:80px;
+      gap:10vw; align-items:start; margin-bottom:72px;
     }
-    .about-right { padding-top:72px; }
+    .about-right { padding-top:64px; }
     .about-body {
-      font-size:.96rem; line-height:1.95;
-      color:var(--dim); font-weight:300; margin-bottom:36px;
+      font-size:.9rem; line-height:1.95;
+      color:var(--dim); font-weight:300; margin-bottom:32px;
+      letter-spacing:.02em;
     }
     .pull-quote {
-      border-left:2px solid var(--gold);
-      padding:6px 0 6px 26px; margin-bottom:36px;
+      border-left:3px solid var(--gold-dk);
+      padding:8px 0 8px 24px; margin-bottom:32px;
     }
     .pull-quote p {
       font-family:'Cormorant Garamond',serif;
       font-size:1.55rem; font-style:italic; font-weight:300;
-      color:var(--cream); line-height:1.45;
+      color:var(--white); line-height:1.45;
     }
     .about-detail {
-      font-size:.82rem; color:var(--dim2); font-style:italic;
-      line-height:1.75;
+      font-size:.78rem; color:var(--dim2); line-height:1.8;
+      letter-spacing:.02em;
     }
     .about-floors {
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:2px; margin-top:0;
+      display:grid; grid-template-columns:1fr 1fr; gap:2px;
     }
     .floor-card {
-      background:rgba(201,160,106,.04);
-      border:1px solid var(--rule);
-      padding:40px 32px;
-      position:relative;
+      background:var(--coal);
+      padding:40px 32px; position:relative;
     }
     .floor-card::before {
       content:''; position:absolute; top:0; left:0;
-      width:36px; height:2px;
-      background:linear-gradient(90deg,var(--rose),var(--gold));
+      width:100%; height:3px;
+      background:linear-gradient(90deg, var(--gold-dk), var(--gold));
     }
     .floor-name {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.6rem; font-weight:300;
-      color:var(--cream); margin-bottom:10px;
+      font-family:'Yesteryear',script;
+      font-size:2.2rem; color:var(--gold);
+      margin-bottom:12px; line-height:1;
     }
     .floor-desc {
-      font-size:.82rem; color:var(--dim); line-height:1.75;
+      font-size:.82rem; font-weight:300;
+      color:rgba(255,255,255,.5); line-height:1.75;
     }
+    .consult-link {
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top:24px; padding:12px 22px;
+      border:1px solid var(--rule2);
+      font-size:.7rem; font-weight:600;
+      letter-spacing:.15em; text-transform:uppercase;
+      color:var(--gold); text-decoration:none;
+      transition:all .35s;
+    }
+    .consult-link:hover { background:rgba(229,200,110,.08); }
 
-    /* ── SERVICES ───────────────────────────────────────── */
-    .services-sec { padding:0 0 130px; }
+    /* ── SERVICES ────────────────────────────────────── */
+    .services-sec { padding:0 0 120px; }
     .svc-head {
-      padding:0 5vw 52px;
+      padding:0 5vw 48px;
       display:flex; justify-content:space-between; align-items:flex-end;
       border-bottom:1px solid var(--rule);
     }
     .svc-note {
-      font-size:.78rem; color:var(--dim2); font-style:italic;
-      max-width:280px; text-align:right; line-height:1.7;
+      font-size:.72rem; font-weight:300;
+      color:var(--dim2); max-width:260px; text-align:right; line-height:1.7;
     }
     .acc-item { border-bottom:1px solid var(--rule); }
     .acc-btn {
       width:100%;
       display:grid; grid-template-columns:52px 1fr auto 36px;
-      align-items:center; gap:0 32px;
-      padding:24px 5vw;
+      align-items:center; gap:0 28px;
+      padding:22px 5vw;
       background:none; border:none; cursor:pointer; text-align:left;
-      position:relative; overflow:hidden;
+      position:relative; overflow:hidden; transition:background .25s;
     }
-    .acc-btn::before {
-      content:''; position:absolute; inset:0;
-      background:rgba(201,160,106,.025);
-      transform:scaleX(0); transform-origin:left;
-      transition:transform .4s;
-    }
-    .acc-btn:hover::before, .acc-btn.open::before { transform:scaleX(1); }
+    .acc-btn:hover { background:rgba(52,59,66,.4); }
+    .acc-btn.open { background:rgba(52,59,66,.5); }
     .acc-num {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.72rem; color:rgba(201,160,106,.35); letter-spacing:.1em;
+      font-size:.65rem; font-weight:600;
+      color:rgba(229,200,110,.35); letter-spacing:.12em;
     }
     .acc-title {
       font-family:'Cormorant Garamond',serif;
-      font-size:1.85rem; font-weight:400;
-      color:rgba(240,235,224,.8); line-height:1;
+      font-size:1.8rem; font-weight:400;
+      color:rgba(255,255,255,.75); line-height:1;
       transition:color .3s;
     }
-    .acc-btn:hover .acc-title, .acc-btn.open .acc-title { color:var(--cream); }
+    .acc-btn:hover .acc-title, .acc-btn.open .acc-title { color:var(--white); }
     .acc-from {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.9rem; color:var(--gold);
-      text-align:right; white-space:nowrap;
+      font-size:.8rem; font-weight:500;
+      color:var(--gold); text-align:right; white-space:nowrap;
     }
     .acc-arrow {
-      font-size:.85rem; color:rgba(201,160,106,.35);
+      font-size:.85rem; color:rgba(229,200,110,.35);
       transition:transform .35s,color .3s; text-align:right;
     }
     .acc-btn.open .acc-arrow { transform:rotate(45deg); color:var(--gold); }
     .acc-panel { max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.4,0,.2,1); }
-    .acc-inner { padding:12px 5vw 40px calc(5vw + 52px + 32px); }
+    .acc-inner { padding:14px 5vw 40px calc(5vw + 52px + 28px); }
     .acc-refresh {
-      font-size:.76rem; color:var(--dim2); font-style:italic;
-      margin-bottom:20px;
+      font-size:.72rem; font-weight:300;
+      color:var(--dim2); margin-bottom:20px; font-style:italic;
     }
     .tbl-wrap { overflow-x:auto; }
-    .ptbl {
-      width:100%; border-collapse:collapse;
-      min-width:460px;
-    }
+    .ptbl { width:100%; border-collapse:collapse; min-width:420px; }
     .ptbl th {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--gold); font-weight:400;
+      font-size:.62rem; font-weight:700; letter-spacing:.2em;
+      text-transform:uppercase; color:var(--gold); text-align:left;
       padding:10px 14px 10px 0;
       border-bottom:1px solid var(--rule2);
-      text-align:left;
     }
-    .ptbl th:first-child { min-width:200px; }
     .ptbl td {
       padding:11px 14px 11px 0;
       border-bottom:1px solid var(--rule);
-      font-size:.84rem; vertical-align:middle;
+      font-size:.82rem; vertical-align:middle;
     }
-    .ptbl td:first-child {
-      font-family:'Newsreader',serif;
-      color:rgba(240,235,224,.72); line-height:1.4;
-    }
+    .ptbl td:first-child { color:rgba(255,255,255,.65); min-width:200px; }
     .ptbl td:not(:first-child) {
       font-family:'Cormorant Garamond',serif;
-      font-size:.94rem; color:var(--cream);
-      white-space:nowrap;
+      font-size:.95rem; color:var(--white); white-space:nowrap;
     }
     .ptbl tr:last-child td { border-bottom:none; }
-    .ptbl td[colspan] { color:var(--gold); }
+    .ptbl td[colspan] { color:var(--gold-md); }
     .badge-call {
-      font-size:.65rem; letter-spacing:.1em; text-transform:uppercase;
-      color:var(--rose); border:1px solid rgba(181,110,121,.3);
+      font-size:.62rem; font-weight:600; letter-spacing:.1em;
+      text-transform:uppercase; color:#b56e79;
+      border:1px solid rgba(181,110,121,.35);
       padding:2px 8px; display:inline-block;
     }
     .badge-consult {
-      font-size:.65rem; letter-spacing:.1em; text-transform:uppercase;
-      color:rgba(201,160,106,.6); border:1px solid var(--rule2);
+      font-size:.62rem; font-weight:500; letter-spacing:.1em;
+      text-transform:uppercase; color:rgba(229,200,110,.55);
+      border:1px solid var(--rule2);
       padding:2px 8px; display:inline-block;
     }
 
-    /* ── ARTISTS ────────────────────────────────────────── */
-    .artists-sec { padding:130px 5vw; }
+    /* ── ARTISTS ─────────────────────────────────────── */
+    .artists-sec { padding:120px 5vw; }
     .artists-head {
       display:flex; justify-content:space-between;
-      align-items:flex-end; margin-bottom:64px;
+      align-items:flex-end; margin-bottom:56px;
     }
-    .role-group { margin-bottom:60px; }
+    .role-group { margin-bottom:48px; }
     .role-label {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.68rem; letter-spacing:.28em; text-transform:uppercase;
-      color:rgba(201,160,106,.45);
-      padding-bottom:16px;
+      font-size:.62rem; font-weight:700; letter-spacing:.28em;
+      text-transform:uppercase; color:rgba(229,200,110,.4);
+      padding-bottom:14px;
       border-bottom:1px solid var(--rule);
       margin-bottom:2px;
     }
@@ -456,105 +458,84 @@
       gap:2px;
     }
     .artists-grid-3 { grid-template-columns:repeat(3,1fr); }
-    .artists-grid-2 { grid-template-columns:repeat(2,1fr); }
     .artist-card {
-      background:rgba(201,160,106,.04);
-      border:1px solid var(--rule);
-      padding:36px 28px;
-      position:relative; overflow:hidden;
-      opacity:0; transform:translateY(24px);
-      transition:border-color .4s;
-      cursor:default;
+      position:relative; aspect-ratio:3/4;
+      overflow:hidden; background:var(--coal);
+      opacity:0; clip-path:inset(0 0 100% 0);
     }
-    .artist-card:hover { border-color:rgba(201,160,106,.28); }
-    .artist-card::after {
-      content:''; position:absolute; bottom:0; left:0; right:0;
-      height:2px;
-      background:linear-gradient(90deg,var(--rose),var(--gold));
-      transform:scaleX(0); transform-origin:left;
-      transition:transform .5s;
+    .artist-photo {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover; object-position:center top;
+      transition:transform .6s ease;
     }
-    .artist-card:hover::after { transform:scaleX(1); }
-    .ac-initial {
-      font-family:'Cormorant Garamond',serif;
-      font-size:4.5rem; font-weight:300;
-      color:rgba(201,160,106,.1); line-height:1;
-      margin-bottom:20px; display:block;
+    .artist-card:hover .artist-photo { transform:scale(1.04); }
+    .artist-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(32,40,50,.1) 0%, rgba(32,40,50,.2) 40%, rgba(32,40,50,.92) 100%);
+    }
+    .artist-body {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:24px 20px;
     }
     .ac-name {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.3rem; font-weight:400;
-      color:var(--cream); margin-bottom:4px;
+      font-size:1.05rem; font-weight:600; letter-spacing:.04em;
+      color:var(--white); margin-bottom:4px;
     }
     .ac-role {
-      font-size:.64rem; letter-spacing:.16em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:12px;
-      font-family:'Newsreader',serif;
+      font-size:.6rem; font-weight:700; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:8px;
     }
     .ac-spec {
-      font-size:.8rem; color:var(--dim); line-height:1.65;
-      font-style:italic;
+      font-size:.72rem; font-weight:300;
+      color:rgba(255,255,255,.55); line-height:1.6;
     }
     .ac-ig {
-      display:inline-block; margin-top:14px;
-      font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
-      color:rgba(201,160,106,.4); text-decoration:none;
-      font-family:'Cormorant Garamond',serif;
-      transition:color .3s;
+      display:inline-block; margin-top:10px;
+      font-size:.62rem; font-weight:600; letter-spacing:.1em;
+      text-transform:uppercase; color:rgba(229,200,110,.45);
+      text-decoration:none; transition:color .3s;
     }
     .ac-ig:hover { color:var(--gold); }
 
-    /* ── POLICIES ───────────────────────────────────────── */
-    .policies-sec { padding:0 0 130px; }
-    .pol-head {
-      padding:0 5vw 52px;
-      border-bottom:1px solid var(--rule);
-    }
-    .pol-inner { padding:20px 5vw 32px calc(5vw + 52px + 32px); }
+    /* ── POLICIES ────────────────────────────────────── */
+    .policies-sec { padding:0 0 120px; }
+    .pol-head { padding:0 5vw 48px; border-bottom:1px solid var(--rule); }
+    .pol-inner { padding:18px 5vw 32px calc(5vw + 52px + 28px); }
     .pol-list { list-style:none; }
     .pol-list li {
-      font-size:.88rem; line-height:1.85; color:var(--dim);
-      padding:9px 0 9px 18px;
-      border-bottom:1px solid rgba(201,160,106,.05);
-      position:relative;
+      font-size:.85rem; font-weight:300; line-height:1.85;
+      color:var(--dim); padding:8px 0 8px 18px;
+      border-bottom:1px solid rgba(229,200,110,.05);
+      position:relative; letter-spacing:.02em;
     }
     .pol-list li:last-child { border-bottom:none; }
     .pol-list li::before {
       content:'—'; position:absolute; left:0;
-      color:rgba(201,160,106,.28);
+      color:rgba(229,200,110,.25);
     }
-    .pol-list li strong { color:rgba(240,235,224,.75); font-style:normal; font-weight:400; }
-    .consult-link {
-      display:inline-flex; align-items:center; gap:8px;
-      margin-top:24px; padding:12px 24px;
-      border:1px solid var(--rule2);
-      font-family:'Cormorant Garamond',serif;
-      font-size:.82rem; letter-spacing:.14em; text-transform:uppercase;
-      color:var(--gold); text-decoration:none;
-      transition:all .35s;
-    }
-    .consult-link:hover { background:rgba(201,160,106,.06); }
+    .pol-list li strong { color:rgba(255,255,255,.75); font-weight:500; }
 
-    /* ── HOURS & CONTACT ────────────────────────────────── */
-    .hc-sec { padding:130px 5vw; }
+    /* ── HOURS & CONTACT ─────────────────────────────── */
+    .hc-sec { padding:120px 5vw; }
     .hc-grid {
       display:grid; grid-template-columns:1fr 1fr;
       gap:10vw; align-items:start;
     }
     .contact-item {
       display:flex; align-items:baseline; gap:16px;
-      padding:18px 0;
-      border-bottom:1px solid var(--rule);
+      padding:16px 0; border-bottom:1px solid var(--rule);
     }
     .contact-item:first-child { border-top:1px solid var(--rule); }
     .contact-lbl {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
-      color:rgba(201,160,106,.5); min-width:60px;
+      font-size:.6rem; font-weight:700; letter-spacing:.22em;
+      text-transform:uppercase; color:rgba(229,200,110,.45);
+      min-width:60px;
     }
     .contact-val {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.1rem; color:var(--cream); text-decoration:none;
+      font-size:1rem; font-weight:400;
+      color:var(--white); text-decoration:none;
       transition:color .3s;
     }
     a.contact-val:hover { color:var(--gold); }
@@ -562,159 +543,155 @@
     .hours-table tr { border-bottom:1px solid var(--rule); }
     .hours-table tr:first-child { border-top:1px solid var(--rule); }
     .hours-table td {
-      padding:16px 0; font-size:.9rem; color:var(--cream);
-      font-family:'Newsreader',serif;
+      padding:14px 0; font-size:.88rem; font-weight:300;
+      color:var(--text); letter-spacing:.03em;
     }
     .hours-table td:last-child { color:var(--dim); text-align:right; }
-    .closed { color:rgba(181,110,121,.7) !important; }
+    .closed { color:rgba(181,110,121,.6) !important; }
     .parking-note {
       margin-top:28px; padding:20px 24px;
-      background:rgba(201,160,106,.04); border:1px solid var(--rule);
+      background:var(--coal);
+      border-left:3px solid var(--gold-dk);
     }
     .parking-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:8px;
+      font-size:.62rem; font-weight:700; letter-spacing:.2em;
+      text-transform:uppercase; color:var(--gold); margin-bottom:8px;
     }
-    .parking-body { font-size:.82rem; color:var(--dim); line-height:1.7; }
+    .parking-body {
+      font-size:.8rem; font-weight:300;
+      color:rgba(255,255,255,.45); line-height:1.7;
+    }
 
-    /* ── EVENTS ─────────────────────────────────────────── */
-    .events-sec { padding:130px 5vw; }
+    /* ── EVENTS ──────────────────────────────────────── */
+    .events-sec { padding:120px 5vw; }
     .events-empty {
-      text-align:center; padding:80px 0;
-      border:1px solid var(--rule);
-      position:relative;
+      text-align:center; padding:72px 0;
+      background:var(--coal);
+      border-top:2px solid var(--gold-dk);
     }
     .events-empty-title {
       font-family:'Cormorant Garamond',serif;
       font-size:clamp(1.6rem,3vw,2.6rem); font-weight:300;
-      color:rgba(240,235,224,.35); margin-bottom:12px;
+      font-style:italic; color:rgba(255,255,255,.35); margin-bottom:10px;
     }
     .events-empty-sub {
-      font-size:.84rem; color:rgba(240,235,224,.22); font-style:italic;
+      font-size:.78rem; font-weight:300;
+      color:rgba(255,255,255,.2);
     }
     .events-social {
-      margin-top:36px; display:flex; gap:16px; justify-content:center;
+      margin-top:32px; display:flex; gap:12px; justify-content:center;
     }
     .events-social a {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.76rem; letter-spacing:.18em; text-transform:uppercase;
-      color:rgba(201,160,106,.5); text-decoration:none;
-      border:1px solid var(--rule); padding:10px 20px;
-      transition:all .3s;
+      font-size:.65rem; font-weight:600; letter-spacing:.18em;
+      text-transform:uppercase; color:rgba(229,200,110,.45);
+      text-decoration:none; border:1px solid var(--rule);
+      padding:10px 18px; transition:all .3s;
     }
     .events-social a:hover { color:var(--gold); border-color:var(--rule2); }
 
-    /* ── CTA ────────────────────────────────────────────── */
+    /* ── CTA ─────────────────────────────────────────── */
     .cta-sec {
       padding:160px 5vw; text-align:center;
-      border-top:1px solid var(--rule);
+      background:var(--coal);
+      border-top:2px solid var(--gold-dk);
     }
-    .cta-eyebrow { margin-bottom:28px; justify-content:center; opacity:0; }
-    .cta-h2 {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(3.2rem,8.5vw,7.5rem);
-      font-weight:300; line-height:.9; letter-spacing:-.02em;
-      margin-bottom:44px; opacity:0; transform:translateY(36px);
+    .cta-eyebrow { margin-bottom:24px; justify-content:center; opacity:0; }
+    .cta-script {
+      font-family:'Yesteryear',script;
+      font-size:clamp(3.5rem,9vw,8rem);
+      color:var(--white); line-height:1;
+      margin-bottom:12px; opacity:0; transform:translateY(36px);
     }
-    .cta-h2 em { font-style:italic; color:var(--gold); }
+    .cta-subtitle {
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(1rem,2.5vw,1.6rem);
+      font-weight:300; letter-spacing:.2em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:44px; opacity:0;
+    }
     .cta-sub {
-      font-size:.96rem; color:var(--dim);
-      max-width:400px; margin:0 auto 48px;
-      line-height:1.85; font-style:italic; opacity:0;
+      font-size:.88rem; font-weight:300; letter-spacing:.04em;
+      color:var(--dim); max-width:420px; margin:0 auto 48px;
+      line-height:1.85; opacity:0;
     }
     .cta-btns {
-      display:flex; gap:16px; justify-content:center;
+      display:flex; gap:14px; justify-content:center;
       flex-wrap:wrap; opacity:0;
     }
-    .btn-xl {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.9rem; letter-spacing:.16em; text-transform:uppercase;
-      padding:17px 48px; cursor:pointer; transition:all .4s;
-    }
-    .btn-xl-fill { background:var(--gold); color:var(--bg); border:none; }
-    .btn-xl-fill:hover { background:var(--gold2); transform:translateY(-2px); }
-    .btn-xl-out {
-      background:transparent; color:rgba(240,235,224,.55);
-      border:1px solid rgba(240,235,224,.15);
-    }
-    .btn-xl-out:hover { border-color:var(--cream); color:var(--cream); transform:translateY(-2px); }
 
-    /* ── FOOTER ─────────────────────────────────────────── */
+    /* ── FOOTER ──────────────────────────────────────── */
     footer {
-      padding:68px 5vw 40px;
+      padding:64px 5vw 40px;
+      background:var(--midnight);
       border-top:1px solid var(--rule);
     }
     .footer-grid {
       display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr;
-      gap:56px; margin-bottom:52px;
+      gap:52px; margin-bottom:48px;
     }
     .f-brand {
-      font-family:'Cormorant Garamond',serif;
-      font-size:1.85rem; font-weight:300; letter-spacing:.1em;
-      margin-bottom:14px;
+      font-family:'Yesteryear',script;
+      font-size:2.2rem; color:var(--gold);
+      margin-bottom:12px; line-height:1;
     }
     .f-tag {
-      font-size:.82rem; color:var(--dim2); line-height:1.75;
-      font-style:italic; max-width:260px; margin-bottom:20px;
+      font-size:.78rem; font-weight:300; color:var(--dim2);
+      line-height:1.75; max-width:260px; margin-bottom:18px;
     }
-    .f-social { display:flex; gap:16px; flex-wrap:wrap; }
+    .f-social { display:flex; gap:14px; flex-wrap:wrap; }
     .f-social a {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
-      color:rgba(201,160,106,.4); text-decoration:none;
-      transition:color .3s;
+      font-size:.65rem; font-weight:600; letter-spacing:.14em;
+      text-transform:uppercase; color:rgba(229,200,110,.4);
+      text-decoration:none; transition:color .3s;
     }
     .f-social a:hover { color:var(--gold); }
     .f-col-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:.68rem; letter-spacing:.26em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:20px;
+      font-size:.62rem; font-weight:700; letter-spacing:.26em;
+      text-transform:uppercase; color:var(--gold); margin-bottom:18px;
     }
     .f-links { list-style:none; }
-    .f-links li { margin-bottom:9px; }
+    .f-links li { margin-bottom:8px; }
     .f-links a {
-      font-size:.84rem; color:rgba(240,235,224,.35);
-      text-decoration:none; font-family:'Newsreader',serif;
-      transition:color .3s;
+      font-size:.8rem; font-weight:300;
+      color:rgba(255,255,255,.32); text-decoration:none;
+      transition:color .3s; letter-spacing:.03em;
     }
-    .f-links a:hover { color:var(--cream); }
+    .f-links a:hover { color:var(--white); }
     .footer-bottom {
       display:flex; justify-content:space-between; align-items:center;
-      padding-top:24px; border-top:1px solid rgba(201,160,106,.07);
-      font-size:.7rem; color:rgba(240,235,224,.18);
-      font-family:'Newsreader',serif;
+      padding-top:22px; border-top:1px solid rgba(229,200,110,.07);
+      font-size:.68rem; font-weight:300;
+      color:rgba(255,255,255,.18); letter-spacing:.04em;
     }
 
-    /* ── RESPONSIVE ─────────────────────────────────────── */
+    /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width:1100px) {
       .awards-strip { grid-template-columns:repeat(2,1fr); }
       .aw-item:nth-child(2) { border-right:none; }
-      .aw-item:nth-child(3) { border-top:1px solid var(--rule); border-right:1px solid var(--rule); }
-      .aw-item:nth-child(4) { border-top:1px solid var(--rule); }
+      .aw-item:nth-child(3) { border-top:1px solid rgba(255,255,255,.06); border-right:1px solid rgba(255,255,255,.06); }
+      .aw-item:nth-child(4) { border-top:1px solid rgba(255,255,255,.06); }
     }
     @media (max-width:900px) {
-      .nav-center { display:none; }
-      .nav-shop { display:none; }
+      .nav-center, .nav-shop { display:none; }
       .hamburger { display:flex; }
-      .about-grid { grid-template-columns:1fr; gap:52px; }
+      .about-grid { grid-template-columns:1fr; gap:48px; }
       .about-right { padding-top:0; }
-      .hc-grid { grid-template-columns:1fr; gap:60px; }
-      .footer-grid { grid-template-columns:1fr 1fr; gap:40px; }
+      .hc-grid { grid-template-columns:1fr; gap:52px; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:36px; }
       .artists-grid { grid-template-columns:repeat(2,1fr) !important; }
       .about-floors { grid-template-columns:1fr; }
-      .acc-btn { grid-template-columns:40px 1fr auto 32px; gap:0 20px; }
-      .acc-inner { padding:12px 5vw 36px calc(5vw + 40px + 20px); }
-      .pol-inner { padding:20px 5vw 32px calc(5vw + 40px + 20px); }
+      .acc-btn { grid-template-columns:40px 1fr auto 28px; gap:0 16px; }
+      .acc-inner { padding:12px 5vw 32px calc(5vw + 40px + 16px); }
+      .pol-inner { padding:16px 5vw 28px calc(5vw + 40px + 16px); }
     }
     @media (max-width:600px) {
       .awards-strip { grid-template-columns:1fr; }
-      .aw-item { border-right:none !important; border-top:none !important; border-bottom:1px solid var(--rule); }
+      .aw-item { border-right:none !important; border-top:none !important; border-bottom:1px solid rgba(255,255,255,.06); }
       .footer-grid { grid-template-columns:1fr; }
-      .hero-actions { align-items:flex-start; }
-      .hero-bottom { flex-direction:column; }
+      .hero-btns { flex-direction:column; align-items:flex-start; }
       .cta-btns { flex-direction:column; align-items:center; }
       .acc-from { display:none; }
+      .svc-note { display:none; }
     }
   </style>
 </head>
@@ -743,72 +720,61 @@
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="mobileClose">✕</button>
-  <a href="#about"     onclick="closeMobile()">About</a>
-  <a href="#services"  onclick="closeMobile()">Services</a>
-  <a href="#artists"   onclick="closeMobile()">Artists</a>
-  <a href="#events"    onclick="closeMobile()">Events</a>
-  <a href="#policies"  onclick="closeMobile()">Policies</a>
-  <a href="#hours"     onclick="closeMobile()">Hours &amp; Location</a>
+  <a href="#about"    onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#artists"  onclick="closeMobile()">Artists</a>
+  <a href="#events"   onclick="closeMobile()">Events</a>
+  <a href="#policies" onclick="closeMobile()">Policies</a>
+  <a href="#hours"    onclick="closeMobile()">Hours &amp; Location</a>
   <a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a>
   <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank">Book Now</a>
 </div>
 
 <main>
 
-<!-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ -->
+<!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero" id="hero">
-  <div class="hero-vline" id="heroVline"></div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-meta">
-      <div class="hero-meta-dash"></div>
-      <span class="hero-meta-txt">Fairfax, Virginia · Est. 2015</span>
-    </div>
+    <p class="hero-preamble">Fairfax, Virginia · Est. 2015</p>
     <h1 class="hero-h1">
-      <span class="line"><span class="word">Where</span></span>
-      <span class="line"><span class="word">Style</span></span>
-      <span class="line"><span class="word"><em>Comes</em>&thinsp;</span><span class="word">Alive</span></span>
+      <span class="hero-where"><span class="hero-where-inner">Where Style</span></span>
+      <span class="hero-script"><span class="hero-script-inner">comes alive</span></span>
     </h1>
-    <div class="hero-bottom">
-      <p class="hero-desc">Award-winning lifestyle hair studio bringing artistry, intention, and warmth to every chair in Fairfax, VA.</p>
-      <div class="hero-actions">
-        <button class="btn-fill" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book Your Visit</button>
-        <button class="btn-ghost-sm" onclick="document.getElementById('artists').scrollIntoView({behavior:'smooth'})">Meet the Artists</button>
-      </div>
+    <p class="hero-sub">Award-winning lifestyle hair studio. 5× Best Salon — Northern Virginia Magazine.</p>
+    <div class="hero-btns">
+      <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-gold">Book Your Visit</a>
+      <a href="#artists" class="btn-outline">Meet the Artists</a>
     </div>
   </div>
-  <div class="scroll-cue">
-    <div class="scroll-cue-line"></div>
-    <span class="scroll-cue-lbl">Scroll</span>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-txt">Scroll</span>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     AWARDS STRIP
-══════════════════════════════════ -->
+<!-- AWARDS STRIP -->
 <div class="awards-strip" id="awardsStrip">
   <div class="aw-item">
     <div class="aw-n">5×</div>
     <div class="aw-info">
-      <span class="aw-label">Best Salon Award</span>
+      <span class="aw-label">Best Salon</span>
       <span class="aw-sub">Northern Virginia Magazine</span>
     </div>
   </div>
   <div class="aw-item">
     <div class="aw-n">15</div>
     <div class="aw-info">
-      <span class="aw-label">Talented Artists</span>
+      <span class="aw-label">Artists on Staff</span>
       <span class="aw-sub">On the studio floor</span>
     </div>
   </div>
   <div class="aw-item">
     <div class="aw-n">10+</div>
     <div class="aw-info">
-      <span class="aw-label">Years in Business</span>
+      <span class="aw-label">Years of Excellence</span>
       <span class="aw-sub">Greater DC Area</span>
     </div>
   </div>
@@ -845,9 +811,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     ABOUT
-══════════════════════════════════ -->
+<!-- ═══════════════ ABOUT ═══════════════ -->
 <section class="about" id="about">
   <div class="about-grid">
     <div>
@@ -855,16 +819,12 @@
       <h2 class="display">A Studio Built on<br><em>Artistry</em> and Soul</h2>
     </div>
     <div class="about-right">
-      <p class="about-body">
-        Founded in 2015 by Jana Klavina, Mara Hair and Mode Studio was one of the first lifestyle boutiques in the greater DC area. What began as a singular vision for a different kind of salon experience has grown into an award-winning studio home to 15 artists who share one belief:
-      </p>
+      <p class="about-body">Founded in 2015 by Jana Klavina, Mara Hair and Mode Studio was one of the first lifestyle boutiques in the greater DC area. What began as a singular vision for a different kind of salon experience has grown into an award-winning studio of 15 artists who share one belief:</p>
       <div class="pull-quote">
         <p>"Great hair isn't just beauty — it's the boldest form of self-expression."</p>
       </div>
-      <p class="about-detail">
-        Trained at Bumble and Bumble in NYC, Jana built this studio on the values of minimal, intentional change that creates profound confidence. Five-time recipient of Best Salon — Northern Virginia Magazine (2018, 2019, 2020, 2021, 2025).
-      </p>
-      <a href="#services" class="consult-link" style="margin-top:28px;display:inline-flex;">Book a Consultation — $15 applied toward services →</a>
+      <p class="about-detail">Trained at Bumble and Bumble in NYC, Jana built this studio on the values of minimal, intentional change that creates profound confidence. Five-time recipient of Best Salon — Northern Virginia Magazine (2018, 2019, 2020, 2021, 2025).</p>
+      <a href="#services" class="consult-link">Book a Consultation — $15 applied toward services →</a>
     </div>
   </div>
   <div class="about-floors">
@@ -881,402 +841,419 @@
 
 <div class="sec-rule"></div>
 
-<!-- ══════════════════════════════════
-     SERVICES
-══════════════════════════════════ -->
+<!-- ═══════════════ SERVICES ═══════════════ -->
 <section class="services-sec" id="services">
   <div class="svc-head">
     <div>
       <p class="eyebrow">What We Do</p>
       <h2 class="display">Our Services</h2>
     </div>
-    <p class="svc-note">Prices vary by stylist level. All color services include a complimentary consultation.</p>
+    <p class="svc-note">Prices vary by stylist level. Consultations available for $15 (applied to service).</p>
   </div>
 
-  <!-- CUTS -->
   <div class="acc-item">
     <button class="acc-btn open" data-acc="cuts">
-      <span class="acc-num">01</span>
-      <span class="acc-title">Cut &amp; Style</span>
-      <span class="acc-from">From $55</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">01</span><span class="acc-title">Cut &amp; Style</span>
+      <span class="acc-from">From $55</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="cuts" style="max-height:9999px;">
       <div class="acc-inner">
-        <p class="acc-refresh">Recommended refresh: every 4–6 weeks</p>
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
-            <tbody>
-              <tr><td>Women's Cut</td><td>$130</td><td>$115</td><td>$90</td><td>$75</td></tr>
-              <tr><td>Men's Cut</td><td>$80</td><td>$70</td><td>$60</td><td>$55</td></tr>
-              <tr><td>Kids' Cut (12 &amp; under)</td><td>—</td><td>$60</td><td>$55</td><td>—</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="acc-refresh">Recommended refresh every 4–6 weeks</p>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+          <tbody>
+            <tr><td>Women's Cut</td><td>$130</td><td>$115</td><td>$90</td><td>$75</td></tr>
+            <tr><td>Men's Cut</td><td>$80</td><td>$70</td><td>$60</td><td>$55</td></tr>
+            <tr><td>Kids' Cut (12 &amp; under)</td><td>—</td><td>$60</td><td>$55</td><td>—</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- FOILING -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="foiling">
-      <span class="acc-num">02</span>
-      <span class="acc-title">Foiling</span>
-      <span class="acc-from">From $155+</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">02</span><span class="acc-title">Foiling</span>
+      <span class="acc-from">From $155+</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="foiling">
       <div class="acc-inner">
-        <p class="acc-refresh">Includes glossing. Recommended refresh: every 6–8 weeks</p>
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
-            <tbody>
-              <tr><td>Partial Highlight / Babylight</td><td>$240+</td><td>$220+</td><td>$180+</td><td>$155+</td></tr>
-              <tr><td>Full Highlight / Babylight</td><td>$330+</td><td>$310+</td><td>$255+</td><td>$210+</td></tr>
-              <tr><td>Color Melting Gloss / Root Shadow (add-on)</td><td colspan="4">$65</td></tr>
-              <tr><td>Bond Building Wellaplex Treatment (add-on)</td><td colspan="4">$40</td></tr>
-              <tr><td>Bond Building K18 Treatment (add-on)</td><td colspan="4">$50</td></tr>
-              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="acc-refresh">Includes glossing. Recommended refresh every 6–8 weeks</p>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+          <tbody>
+            <tr><td>Partial Highlight / Babylight</td><td>$240+</td><td>$220+</td><td>$180+</td><td>$155+</td></tr>
+            <tr><td>Full Highlight / Babylight</td><td>$330+</td><td>$310+</td><td>$255+</td><td>$210+</td></tr>
+            <tr><td>Color Melting Gloss / Root Shadow (add-on)</td><td colspan="4">$65</td></tr>
+            <tr><td>Bond Building Wellaplex Treatment (add-on)</td><td colspan="4">$40</td></tr>
+            <tr><td>Bond Building K18 Treatment (add-on)</td><td colspan="4">$50</td></tr>
+            <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- COLOR -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="color">
-      <span class="acc-num">03</span>
-      <span class="acc-title">Color</span>
-      <span class="acc-from">From $95+</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">03</span><span class="acc-title">Color</span>
+      <span class="acc-from">From $95+</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="color">
       <div class="acc-inner">
-        <p class="acc-refresh">Recommended refresh: every 4–6 weeks</p>
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
-            <tbody>
-              <tr><td>Single Process Roots Only</td><td>$155+</td><td>$145+</td><td>$125+</td><td>$95+</td></tr>
-              <tr><td>Single Process All Over</td><td>$215+</td><td>$205+</td><td>$165+</td><td>$135+</td></tr>
-              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="acc-refresh">Recommended refresh every 4–6 weeks</p>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+          <tbody>
+            <tr><td>Single Process Roots Only</td><td>$155+</td><td>$145+</td><td>$125+</td><td>$95+</td></tr>
+            <tr><td>Single Process All Over</td><td>$215+</td><td>$205+</td><td>$165+</td><td>$135+</td></tr>
+            <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- SPECIALTY -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="specialty">
-      <span class="acc-num">04</span>
-      <span class="acc-title">Specialty &amp; Balayage</span>
-      <span class="acc-from">From $295+</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">04</span><span class="acc-title">Specialty &amp; Balayage</span>
+      <span class="acc-from">From $295+</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="specialty">
       <div class="acc-inner">
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
-            <tbody>
-              <tr><td>Partial Balayage</td><td>$380+</td><td>$370+</td><td>$330+</td><td>$295+</td></tr>
-              <tr><td>Full Balayage</td><td>$440+</td><td>$430+</td><td>$380+</td><td>$350+</td></tr>
-              <tr><td>Platinum Root Touch-up</td><td colspan="4">$280+</td></tr>
-              <tr><td>All Over Platinum</td><td colspan="4">$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
-              <tr><td>Color Correction</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
-              <tr><td>Fashion Color</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
-              <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Owner</th><th>Master</th><th>Stylist</th><th>Junior</th></tr></thead>
+          <tbody>
+            <tr><td>Partial Balayage</td><td>$380+</td><td>$370+</td><td>$330+</td><td>$295+</td></tr>
+            <tr><td>Full Balayage</td><td>$440+</td><td>$430+</td><td>$380+</td><td>$350+</td></tr>
+            <tr><td>Platinum Root Touch-up</td><td colspan="4">$280+</td></tr>
+            <tr><td>All Over Platinum</td><td colspan="4">$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+            <tr><td>Color Correction</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
+            <tr><td>Fashion Color</td><td colspan="4"><span class="badge-call">Call</span></td></tr>
+            <tr><td>Blowdry After Color</td><td colspan="4">$55</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- STYLING -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="styling">
-      <span class="acc-num">05</span>
-      <span class="acc-title">Styling</span>
-      <span class="acc-from">From $85+</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">05</span><span class="acc-title">Styling</span>
+      <span class="acc-from">From $85+</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="styling">
       <div class="acc-inner">
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td>Signature Blowout</td><td>$85+</td></tr>
-              <tr><td>Special Occasion Styling</td><td>$150+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
-              <tr><td>Bridal &amp; Wedding</td><td><span class="badge-call">Call</span></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Signature Blowout</td><td>$85+</td></tr>
+            <tr><td>Special Occasion Styling</td><td>$150+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+            <tr><td>Bridal &amp; Wedding</td><td><span class="badge-call">Call</span></td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- TREATMENTS -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="treatments">
-      <span class="acc-num">06</span>
-      <span class="acc-title">Treatments</span>
-      <span class="acc-from">From $40</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">06</span><span class="acc-title">Treatments</span>
+      <span class="acc-from">From $40</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="treatments">
       <div class="acc-inner">
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td>Deep Conditioning</td><td>$40+</td></tr>
-              <tr><td>Bond Building Wellaplex Treatment</td><td>$40</td></tr>
-              <tr><td>Bond Building K18 Treatment</td><td>$50</td></tr>
-              <tr><td>Gloss</td><td>$75</td></tr>
-              <tr><td>Color Melting Gloss</td><td>$85</td></tr>
-              <tr><td>Keratin Treatment</td><td>$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Deep Conditioning</td><td>$40+</td></tr>
+            <tr><td>Bond Building Wellaplex</td><td>$40</td></tr>
+            <tr><td>Bond Building K18</td><td>$50</td></tr>
+            <tr><td>Gloss</td><td>$75</td></tr>
+            <tr><td>Color Melting Gloss</td><td>$85</td></tr>
+            <tr><td>Keratin Treatment</td><td>$400+ &nbsp;<span class="badge-consult">Consultation req'd</span></td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- MAKEUP -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="makeup">
-      <span class="acc-num">07</span>
-      <span class="acc-title">Makeup</span>
-      <span class="acc-from">From $145</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">07</span><span class="acc-title">Makeup</span>
+      <span class="acc-from">From $145</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="makeup">
       <div class="acc-inner">
-        <p class="acc-refresh">By appointment · Kiley Smith, 18+ years experience including film, TV &amp; Emmy Awards</p>
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td>Natural Radiant Makeup</td><td>$165</td></tr>
-              <tr><td>Bridal Makeup</td><td>$300</td></tr>
-              <tr><td>Bridal Trial</td><td>$185</td></tr>
-              <tr><td>Wedding Attendants</td><td>$145</td></tr>
-              <tr><td>Makeup Lessons</td><td>$165+</td></tr>
-              <tr><td>Lashes Add-On</td><td>$20</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="acc-refresh">By appointment · Kiley Smith — 18+ years, film, TV &amp; Emmy Awards</p>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Natural Radiant Makeup</td><td>$165</td></tr>
+            <tr><td>Bridal Makeup</td><td>$300</td></tr>
+            <tr><td>Bridal Trial</td><td>$185</td></tr>
+            <tr><td>Wedding Attendants</td><td>$145</td></tr>
+            <tr><td>Makeup Lessons</td><td>$165+</td></tr>
+            <tr><td>Lashes Add-On</td><td>$20</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- PORTRAITURE -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="portraiture">
-      <span class="acc-num">08</span>
-      <span class="acc-title">Portraiture</span>
-      <span class="acc-from">From $195</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">08</span><span class="acc-title">Portraiture</span>
+      <span class="acc-from">From $195</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="portraiture">
       <div class="acc-inner">
-        <p class="acc-refresh">By appointment · Photography by Setareh (Star) Sabti, 10+ years experience</p>
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Session</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td>30-Minute Session (2 edited images)</td><td>$195</td></tr>
-              <tr><td>1-Hour Session (5 edited images)</td><td>$295</td></tr>
-              <tr><td>Advanced Editing</td><td>$100 / hr</td></tr>
-              <tr><td>Extra Photos</td><td>$40 / photo</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="acc-refresh">By appointment · Photography by Setareh (Star) Sabti — 10+ years experience</p>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Session</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>30-Minute Session (2 edited images)</td><td>$195</td></tr>
+            <tr><td>1-Hour Session (5 edited images)</td><td>$295</td></tr>
+            <tr><td>Advanced Editing</td><td>$100 / hr</td></tr>
+            <tr><td>Extra Photos</td><td>$40 / photo</td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
 
-  <!-- MAKEOVER -->
   <div class="acc-item">
     <button class="acc-btn" data-acc="makeover">
-      <span class="acc-num">09</span>
-      <span class="acc-title">Makeover &amp; Styling</span>
-      <span class="acc-from">From $100 / hr</span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">09</span><span class="acc-title">Makeover &amp; Styling</span>
+      <span class="acc-from">From $100 / hr</span><span class="acc-arrow">+</span>
     </button>
     <div class="acc-panel" id="makeover">
       <div class="acc-inner">
-        <div class="tbl-wrap">
-          <table class="ptbl">
-            <thead><tr><th>Service</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td>Outfit Styling</td><td>$100 / hr</td></tr>
-              <tr><td>Full Makeover Package (Hair + Makeup + Photoshoot)</td><td><span class="badge-call">Call</span></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="tbl-wrap"><table class="ptbl">
+          <thead><tr><th>Service</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Outfit Styling</td><td>$100 / hr</td></tr>
+            <tr><td>Full Makeover Package (Hair + Makeup + Photoshoot)</td><td><span class="badge-call">Call</span></td></tr>
+          </tbody>
+        </table></div>
       </div>
     </div>
   </div>
-
 </section>
 
 <div class="sec-rule"></div>
 
-<!-- ══════════════════════════════════
-     ARTISTS
-══════════════════════════════════ -->
+<!-- ═══════════════ ARTISTS ═══════════════ -->
 <section class="artists-sec" id="artists">
   <div class="artists-head">
     <div>
       <p class="eyebrow">The Team</p>
       <h2 class="display">Meet Our <em>Artists</em></h2>
     </div>
-    <a href="https://www.instagram.com/marahairstudio" target="_blank" class="btn-ghost-sm" style="text-decoration:none;">@marahairstudio</a>
+    <a href="https://www.instagram.com/marahairstudio" target="_blank" class="btn-outline" style="font-size:.65rem;">@marahairstudio</a>
   </div>
 
-  <!-- Owner -->
   <div class="role-group">
     <div class="role-label">Owner</div>
-    <div class="artists-grid" style="grid-template-columns:1fr 3fr;">
+    <div class="artists-grid" style="grid-template-columns:repeat(4,1fr);">
       <div class="artist-card">
-        <span class="ac-initial">J</span>
-        <div class="ac-name">Jana Klavina</div>
-        <div class="ac-role">Owner</div>
-        <div class="ac-spec">Trained at Bumble &amp; Bumble NYC. Specializes in short technical cuts and dimensional color. Founder of Mara's vision.</div>
-        <a href="https://www.instagram.com/janaklavina" target="_blank" class="ac-ig">@janaklavina ↗</a>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/jana/jana1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/jana/jana1.jpg 480w, https://marahairstudio.com/build/images/photos/jana/jana1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Jana Klavina" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Jana Klavina</div>
+          <div class="ac-role">Owner</div>
+          <div class="ac-spec">Bumble &amp; Bumble NYC trained. Short technical cuts &amp; dimensional color.</div>
+          <a href="https://www.instagram.com/janaklavina" target="_blank" class="ac-ig">@janaklavina ↗</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Master Stylists -->
   <div class="role-group">
     <div class="role-label">Master Stylists</div>
     <div class="artists-grid artists-grid-3">
       <div class="artist-card">
-        <span class="ac-initial">R</span>
-        <div class="ac-name">Rebecca Bruce</div>
-        <div class="ac-role">Master Stylist</div>
-        <div class="ac-spec">20+ years experience. Balayage certified (2022). Bumble &amp; Bumble Network Educator since 2017. Winner — Best Color Makeover, Northern Virginia Magazine.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/rebecca/rebecca1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/rebecca/rebecca1.jpg 480w, https://marahairstudio.com/build/images/photos/rebecca/rebecca1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Rebecca Bruce" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Rebecca Bruce</div>
+          <div class="ac-role">Master Stylist</div>
+          <div class="ac-spec">20+ years. Bumble &amp; Bumble Educator. Winner — Best Color Makeover.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">M</span>
-        <div class="ac-name">Maria Jo Fitzpatrick</div>
-        <div class="ac-role">Master Stylist</div>
-        <div class="ac-spec">12+ years experience. Aveda Institute &amp; Paul Mitchell trained. Known for her warm, personalized approach and consultative style.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/maria/maria3.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/maria/maria3.jpg 480w, https://marahairstudio.com/build/images/photos/maria/maria3@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Maria Jo Fitzpatrick" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Maria Jo Fitzpatrick</div>
+          <div class="ac-role">Master Stylist</div>
+          <div class="ac-spec">12+ years. Aveda Institute &amp; Paul Mitchell trained.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">A</span>
-        <div class="ac-name">Austin Milyo</div>
-        <div class="ac-role">Master Stylist</div>
-        <div class="ac-spec">Toni &amp; Guy trained (2016). Spent time in Beverly Hills studios. Expert in balayaged looks and blow-outs.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/austin/austin1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/austin/austin1.jpg 480w, https://marahairstudio.com/build/images/photos/austin/austin1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Austin Milyo" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Austin Milyo</div>
+          <div class="ac-role">Master Stylist</div>
+          <div class="ac-spec">Toni &amp; Guy trained. Beverly Hills experience. Balayage &amp; blow-outs.</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Stylists -->
   <div class="role-group">
     <div class="role-label">Stylists</div>
     <div class="artists-grid">
       <div class="artist-card">
-        <span class="ac-initial">Y</span>
-        <div class="ac-name">Yamil Coyoy</div>
-        <div class="ac-role">Stylist</div>
-        <div class="ac-spec">American Beauty Academy grad (2013). Specializes in dimensional balayages and highlights.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/yamil/yamil1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/yamil/yamil1.jpg 480w, https://marahairstudio.com/build/images/photos/yamil/yamil1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Yamil Coyoy" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Yamil Coyoy</div>
+          <div class="ac-role">Stylist</div>
+          <div class="ac-spec">Dimensional balayage &amp; highlights.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">P</span>
-        <div class="ac-name">Paige Leone</div>
-        <div class="ac-role">Stylist</div>
-        <div class="ac-spec">Cosmetology degree (2022). University of Georgia masters graduate. Known for pixie cuts and balayage.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/paige/paige1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/paige/paige1.jpg 480w, https://marahairstudio.com/build/images/photos/paige/paige1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Paige Leone" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Paige Leone</div>
+          <div class="ac-role">Stylist</div>
+          <div class="ac-spec">Pixie cuts &amp; balayage specialist.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">J</span>
-        <div class="ac-name">Jules Hale-Welt</div>
-        <div class="ac-role">Stylist</div>
-        <div class="ac-spec">Paul Mitchell The School grad (2019). Specializes in curly cuts, natural hand styling, and vivid color.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/jules/jules2.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/jules/jules2.jpg 480w, https://marahairstudio.com/build/images/photos/jules/jules2@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Jules Hale-Welt" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Jules Hale-Welt</div>
+          <div class="ac-role">Stylist</div>
+          <div class="ac-spec">Curly cuts, natural styling &amp; vivid color.</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Junior Stylists -->
   <div class="role-group">
     <div class="role-label">Junior Stylists</div>
     <div class="artists-grid">
       <div class="artist-card">
-        <span class="ac-initial">D</span>
-        <div class="ac-name">Dominique Cicinato</div>
-        <div class="ac-role">Junior Stylist</div>
-        <div class="ac-spec">Class of 2023. Specializes in lived-in, seamless color and balayage.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/dominique/dominique1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/dominique/dominique1.jpg 480w, https://marahairstudio.com/build/images/photos/dominique/dominique1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Dominique Cicinato" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Dominique Cicinato</div>
+          <div class="ac-role">Junior Stylist</div>
+          <div class="ac-spec">Lived-in, seamless color &amp; balayage.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">J</span>
-        <div class="ac-name">Jocelyn Garcia</div>
-        <div class="ac-role">Junior Stylist</div>
-        <div class="ac-spec">Seven years at Mara — from receptionist to stylist. Highlights and layered cuts are her calling.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/josie/josie1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/josie/josie1.jpg 480w, https://marahairstudio.com/build/images/photos/josie/josie1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Jocelyn Garcia" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Jocelyn Garcia</div>
+          <div class="ac-role">Junior Stylist</div>
+          <div class="ac-spec">7 years at Mara. Highlights &amp; layered cuts.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">S</span>
-        <div class="ac-name">Sydney Thornley</div>
-        <div class="ac-role">Junior Stylist</div>
-        <div class="ac-spec">Paul Mitchell grad (2022). Bold and vivid colors — reds, pinks, purples, and black.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/sydney/sydney2.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/sydney/sydney2.jpg 480w, https://marahairstudio.com/build/images/photos/sydney/sydney2@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Sydney Thornley" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Sydney Thornley</div>
+          <div class="ac-role">Junior Stylist</div>
+          <div class="ac-spec">Bold &amp; vivid colors — reds, pinks, purples.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">S</span>
-        <div class="ac-name">Schuyler McCleary</div>
-        <div class="ac-role">Junior Stylist</div>
-        <div class="ac-spec">Highlights, balayage, curls, and barber cuts. Passionate about curly and wavy hair.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/schuyler/schuyler2.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/schuyler/schuyler2.jpg 480w, https://marahairstudio.com/build/images/photos/schuyler/schuyler2@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Schuyler McCleary" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Schuyler McCleary</div>
+          <div class="ac-role">Junior Stylist</div>
+          <div class="ac-spec">Highlights, balayage, curls &amp; barber cuts.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">T</span>
-        <div class="ac-name">Tiffany Barrera</div>
-        <div class="ac-role">Junior Stylist</div>
-        <div class="ac-spec">Aveda Institute grad (2024). Bright blondes and dimensional looks.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/tiffany/tiffany1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/tiffany/tiffany1.jpg 480w, https://marahairstudio.com/build/images/photos/tiffany/tiffany1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 25vw" alt="Tiffany Barrera" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Tiffany Barrera</div>
+          <div class="ac-role">Junior Stylist</div>
+          <div class="ac-spec">Bright blondes &amp; dimensional looks.</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Specialists -->
   <div class="role-group">
     <div class="role-label">Specialists</div>
     <div class="artists-grid artists-grid-3">
       <div class="artist-card">
-        <span class="ac-initial">K</span>
-        <div class="ac-name">Kiley Smith</div>
-        <div class="ac-role">Makeup Artist</div>
-        <div class="ac-spec">18+ years. Trained in beauty, bridal, stage, film &amp; TV. Featured in Washington Family Magazine and Emmy Awards coverage.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/kiley/kiley1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/kiley/kiley1.jpg 480w, https://marahairstudio.com/build/images/photos/kiley/kiley1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Kiley Smith" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Kiley Smith</div>
+          <div class="ac-role">Makeup Artist</div>
+          <div class="ac-spec">18+ years. Beauty, bridal, film, TV &amp; Emmy Awards.</div>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">S</span>
-        <div class="ac-name">Setareh (Star) Sabti</div>
-        <div class="ac-role">Photographer &amp; Social Media</div>
-        <div class="ac-spec">First hired employee (2015). 10+ years photography. Social Media Manager and Communications Director.</div>
-        <a href="https://www.instagram.com/marahairstudio" target="_blank" class="ac-ig">@marahairstudio ↗</a>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/star/star1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/star/star1.jpg 480w, https://marahairstudio.com/build/images/photos/star/star1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Setareh Sabti" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Setareh (Star) Sabti</div>
+          <div class="ac-role">Photographer &amp; Social Media</div>
+          <div class="ac-spec">First hire (2015). 10+ years photography.</div>
+          <a href="https://www.instagram.com/marahairstudio" target="_blank" class="ac-ig">@marahairstudio ↗</a>
+        </div>
       </div>
       <div class="artist-card">
-        <span class="ac-initial">V</span>
-        <div class="ac-name">Vicky Castro</div>
-        <div class="ac-role">Studio Assistant</div>
-        <div class="ac-spec">Six years at Mara. The heart of the studio floor — keeping everything running warmly and efficiently.</div>
+        <img class="artist-photo" src="https://marahairstudio.com/build/images/photos/vicky/vicky1.jpg"
+          srcset="https://marahairstudio.com/build/images/photos/vicky/vicky1.jpg 480w, https://marahairstudio.com/build/images/photos/vicky/vicky1@2x.jpg 960w"
+          sizes="(max-width:600px) 50vw, 33vw" alt="Vicky Castro" loading="lazy">
+        <div class="artist-overlay"></div>
+        <div class="artist-body">
+          <div class="ac-name">Vicky Castro</div>
+          <div class="ac-role">Studio Assistant</div>
+          <div class="ac-spec">Six years at Mara. The heartbeat of the studio floor.</div>
+        </div>
       </div>
     </div>
   </div>
-
 </section>
 
 <div class="sec-rule"></div>
 
-<!-- ══════════════════════════════════
-     POLICIES
-══════════════════════════════════ -->
+<!-- ═══════════════ POLICIES ═══════════════ -->
 <section class="policies-sec" id="policies">
   <div class="pol-head">
     <p class="eyebrow">House Rules</p>
@@ -1285,121 +1262,82 @@
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-booking">
-      <span class="acc-num">01</span>
-      <span class="acc-title">Booking &amp; Confirmation</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">01</span><span class="acc-title">Booking &amp; Confirmation</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-booking">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li>A <strong>valid credit card is required</strong> at the time of booking.</li>
-          <li>Book online or by phone at <strong>703.591.9099</strong>.</li>
-          <li>All appointments must be confirmed <strong>48 hours in advance</strong> — unconfirmed appointments may be cancelled.</li>
-          <li>Incorrect service bookings result in a <strong>50% cancellation fee</strong>.</li>
-          <li>Consultations are available for <strong>$15</strong>, which is applied toward your service.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-booking"><div class="pol-inner"><ul class="pol-list">
+      <li>A <strong>valid credit card is required</strong> at the time of booking.</li>
+      <li>Book online or by phone at <strong>703.591.9099</strong>.</li>
+      <li>All appointments must be confirmed <strong>48 hours in advance</strong> — unconfirmed appointments may be cancelled.</li>
+      <li>Incorrect service bookings result in a <strong>50% cancellation fee</strong>.</li>
+      <li>Consultations available for <strong>$15</strong> — applied toward your service.</li>
+    </ul></div></div>
   </div>
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-cancel">
-      <span class="acc-num">02</span>
-      <span class="acc-title">Cancellation Policy</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">02</span><span class="acc-title">Cancellation Policy</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-cancel">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li><strong>48 hours' notice</strong> is required for cancellations or rescheduling.</li>
-          <li>Late cancellations or no-shows incur a <strong>50% charge of the total services</strong> booked.</li>
-          <li>Monday appointments must be cancelled <strong>by Saturday</strong>.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-cancel"><div class="pol-inner"><ul class="pol-list">
+      <li><strong>48 hours' notice</strong> required for cancellations or rescheduling.</li>
+      <li>Late cancellations or no-shows incur a <strong>50% charge</strong> of the total services booked.</li>
+      <li>Monday appointments must be cancelled <strong>by Saturday</strong>.</li>
+    </ul></div></div>
   </div>
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-late">
-      <span class="acc-num">03</span>
-      <span class="acc-title">Late Arrivals</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">03</span><span class="acc-title">Late Arrivals</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-late">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li>If running late, contact the studio at <strong>571.992.0407</strong>.</li>
-          <li>Your stylist may need to adjust or reschedule services depending on availability.</li>
-          <li>Cancellations due to lateness are subject to a <strong>50% charge</strong>.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-late"><div class="pol-inner"><ul class="pol-list">
+      <li>If running late, contact the studio at <strong>571.992.0407</strong>.</li>
+      <li>Your stylist may need to adjust or reschedule based on availability.</li>
+      <li>Cancellations due to lateness are subject to a <strong>50% charge</strong>.</li>
+    </ul></div></div>
   </div>
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-studio">
-      <span class="acc-num">04</span>
-      <span class="acc-title">In-Studio Guidelines</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">04</span><span class="acc-title">In-Studio Guidelines</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-studio">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li>Face masks are <strong>optional</strong>; available upon request.</li>
-          <li>No outside food in the studio; beverages are welcome.</li>
-          <li>Please arrive alone unless you are an adult accompanying a minor.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-studio"><div class="pol-inner"><ul class="pol-list">
+      <li>Face masks are <strong>optional</strong>; available upon request.</li>
+      <li>No outside food; beverages are welcome.</li>
+      <li>Please arrive alone unless accompanying a minor.</li>
+    </ul></div></div>
   </div>
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-gratuity">
-      <span class="acc-num">05</span>
-      <span class="acc-title">Gratuity</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">05</span><span class="acc-title">Gratuity</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-gratuity">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li><strong>Cash is preferred</strong> for gratuity; Venmo is also accepted.</li>
-          <li>Gratuity <strong>cannot be added</strong> to credit card payments.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-gratuity"><div class="pol-inner"><ul class="pol-list">
+      <li><strong>Cash is preferred</strong>; Venmo also accepted.</li>
+      <li>Gratuity <strong>cannot be added</strong> to credit card payments.</li>
+    </ul></div></div>
   </div>
 
   <div class="acc-item">
     <button class="acc-btn" data-acc="pol-redo">
-      <span class="acc-num">06</span>
-      <span class="acc-title">Redo &amp; Product Policy</span>
-      <span class="acc-from"></span>
-      <span class="acc-arrow">+</span>
+      <span class="acc-num">06</span><span class="acc-title">Redo &amp; Product Policy</span>
+      <span class="acc-from"></span><span class="acc-arrow">+</span>
     </button>
-    <div class="acc-panel" id="pol-redo">
-      <div class="pol-inner">
-        <ul class="pol-list">
-          <li>If you're unsatisfied, you have <strong>two weeks</strong> to request an adjustment with your original stylist.</li>
-          <li>After two weeks or with a different stylist, the service is considered new.</li>
-          <li><strong>Bumble &amp; Bumble products</strong> may be exchanged within 60 days if unopened or lightly used.</li>
-          <li>Returns are not currently offered.</li>
-        </ul>
-      </div>
-    </div>
+    <div class="acc-panel" id="pol-redo"><div class="pol-inner"><ul class="pol-list">
+      <li>Two weeks to request an adjustment with your original stylist if unsatisfied.</li>
+      <li>After two weeks or with a different stylist — considered a new service.</li>
+      <li><strong>Bumble &amp; Bumble products</strong>: exchanges within 60 days if unopened or lightly used.</li>
+      <li>Returns not currently offered.</li>
+    </ul></div></div>
   </div>
-
 </section>
 
 <div class="sec-rule"></div>
 
-<!-- ══════════════════════════════════
-     HOURS & CONTACT
-══════════════════════════════════ -->
+<!-- ═══════════════ HOURS ═══════════════ -->
 <section class="hc-sec" id="hours">
   <div style="margin-bottom:52px;">
     <p class="eyebrow">Find Us</p>
@@ -1407,29 +1345,14 @@
   </div>
   <div class="hc-grid">
     <div>
-      <div class="contact-item">
-        <span class="contact-lbl">Phone</span>
-        <a href="tel:7035919099" class="contact-val">703.591.9099</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-lbl">Text</span>
-        <a href="sms:5719920407" class="contact-val">571.992.0407</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-lbl">Email</span>
-        <a href="mailto:info@marahairstudio.com" class="contact-val">info@marahairstudio.com</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-lbl">Address</span>
-        <a href="https://maps.google.com/?q=4011+Chain+Bridge+Rd+Fairfax+VA+22030" target="_blank" class="contact-val">4011 Chain Bridge Rd,<br>Fairfax, VA 22030</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-lbl">Shop</span>
-        <a href="https://maramodestudio.com" target="_blank" class="contact-val">maramodestudio.com ↗</a>
-      </div>
-      <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-fill" style="text-decoration:none; display:inline-block;">Book Now</a>
-        <a href="#" class="consult-link">Gift Cards →</a>
+      <div class="contact-item"><span class="contact-lbl">Phone</span><a href="tel:7035919099" class="contact-val">703.591.9099</a></div>
+      <div class="contact-item"><span class="contact-lbl">Text</span><a href="sms:5719920407" class="contact-val">571.992.0407</a></div>
+      <div class="contact-item"><span class="contact-lbl">Email</span><a href="mailto:info@marahairstudio.com" class="contact-val">info@marahairstudio.com</a></div>
+      <div class="contact-item"><span class="contact-lbl">Address</span><a href="https://maps.google.com/?q=4011+Chain+Bridge+Rd+Fairfax+VA+22030" target="_blank" class="contact-val">4011 Chain Bridge Rd,<br>Fairfax, VA 22030</a></div>
+      <div class="contact-item"><span class="contact-lbl">Shop</span><a href="https://maramodestudio.com" target="_blank" class="contact-val">maramodestudio.com ↗</a></div>
+      <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-gold">Book Now</a>
+        <a href="#" class="btn-outline">Gift Cards</a>
       </div>
     </div>
     <div>
@@ -1452,11 +1375,9 @@
 
 <div class="sec-rule"></div>
 
-<!-- ══════════════════════════════════
-     EVENTS
-══════════════════════════════════ -->
+<!-- ═══════════════ EVENTS ═══════════════ -->
 <section class="events-sec" id="events">
-  <div style="margin-bottom:52px;">
+  <div style="margin-bottom:48px;">
     <p class="eyebrow">What's On</p>
     <h2 class="display">Events &amp; <em>News</em></h2>
   </div>
@@ -1472,16 +1393,15 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     CTA
-══════════════════════════════════ -->
+<!-- ═══════════════ CTA ═══════════════ -->
 <section class="cta-sec">
   <p class="eyebrow cta-eyebrow">Let's Make You Love Your Hair</p>
-  <h2 class="cta-h2">Ready to<br><em>Transform?</em></h2>
+  <div class="cta-script">comes alive</div>
+  <div class="cta-subtitle">in your hair</div>
   <p class="cta-sub">Step into a space where every visit is an experience. Our 15 artists are ready to bring your vision to life.</p>
   <div class="cta-btns">
-    <button class="btn-xl btn-xl-fill" onclick="window.open('https://go.booker.com/location/MaraHairModeStudio','_blank')">Book an Appointment</button>
-    <a href="tel:7035919099" class="btn-xl btn-xl-out" style="text-decoration:none; display:inline-flex; align-items:center;">703.591.9099</a>
+    <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank" class="btn-gold">Book an Appointment</a>
+    <a href="tel:7035919099" class="btn-outline">703.591.9099</a>
   </div>
 </section>
 
@@ -1489,7 +1409,7 @@
 <footer>
   <div class="footer-grid">
     <div>
-      <div class="f-brand">Mara Hair &amp; Mode Studio</div>
+      <div class="f-brand">Mara</div>
       <p class="f-tag">Where Style Comes Alive. Fairfax, Virginia's premier lifestyle hair studio since 2015.</p>
       <div class="f-social">
         <a href="https://www.instagram.com/marahairstudio" target="_blank">Instagram</a>
@@ -1537,242 +1457,234 @@
     <span>Fairfax, Virginia</span>
   </div>
 </footer>
-
 </main>
 
 <script>
-// ═══════════════════════════════════════════════
-//  CANVAS — hair strand animation
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  CANVAS — brand geometric diamond pattern particles
+// ═══════════════════════════════════════════════════
 const canvas = document.getElementById('bgCanvas');
 const ctx    = canvas.getContext('2d');
-let W, H, strands=[], dots=[];
+let W, H, particles = [];
 
-function resize() { W=canvas.width=innerWidth; H=canvas.height=innerHeight; }
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
 
-class Strand {
+// Diamond shape matching the site's existing geometric pattern
+class Diamond {
   constructor(scatter){ this.reset(scatter); }
+
   reset(scatter){
-    this.x0 = Math.random()*W;
-    this.y0 = scatter ? Math.random()*H*1.3 : H+20+Math.random()*40;
-    const b = (Math.random()-.5)*W*.38;
-    this.cx1=this.x0+b*.35+(Math.random()-.5)*80;
-    this.cy1=this.y0-H*.38;
-    this.cx2=this.x0+b*.7+(Math.random()-.5)*60;
-    this.cy2=this.y0-H*.72;
-    this.x1 =this.x0+b+(Math.random()-.5)*100;
-    this.y1 =this.y0-H-30;
-    this.t  =scatter?Math.random():0;
-    this.spd=Math.random()*.0007+.00018;
-    this.a  =Math.random()*.11+.02;
-    this.w  =Math.random()*1.1+.15;
-    this.sw =Math.random()*.022+.004;
-    this.swO=Math.random()*Math.PI*2;
-    this.tk =Math.random()*200;
-    const p=[[201,160,106],[212,168,83],[183,110,121],[232,213,163],[175,125,65]];
-    this.rgb=p[Math.floor(Math.random()*p.length)];
+    this.x    = Math.random() * W;
+    this.y    = scatter ? Math.random() * H : H + 20 + Math.random() * 40;
+    this.size = Math.random() * 9 + 3;
+    this.vx   = (Math.random() - 0.5) * 0.25;
+    this.vy   = -(Math.random() * 0.45 + 0.1);
+    this.rot  = Math.random() * Math.PI;
+    this.rotSpd = (Math.random() - 0.5) * 0.006;
+    this.alpha = Math.random() * 0.07 + 0.018;
+    this.life  = scatter ? Math.floor(Math.random() * 500) : 0;
+    this.maxLife = Math.random() * 450 + 220;
+    this.type = Math.random() < 0.55 ? 'diamond' : Math.random() < 0.6 ? 'cross' : 'dot';
+    const golds = ['#e5c86e','#c9a124','#d3ba6a','#edd899'];
+    this.color = golds[Math.floor(Math.random() * golds.length)];
   }
-  update(){ this.t+=this.spd; this.tk++; if(this.t>=1)this.reset(false); }
+
+  update(){
+    this.x   += this.vx;
+    this.y   += this.vy;
+    this.rot += this.rotSpd;
+    this.life++;
+    if(this.life >= this.maxLife || this.y < -this.size * 3) this.reset(false);
+  }
+
   draw(){
-    const sw=Math.sin(this.tk*this.sw+this.swO)*28;
-    let a=this.a;
-    if(this.t<.12)a*=this.t/.12;
-    if(this.t>.82)a*=(1-this.t)/.18;
-    if(a<=0)return;
-    const seg=.22,t0=Math.max(0,this.t-seg*.5),t1=Math.min(1,this.t+seg*.5);
-    const pt=t=>{const m=1-t;return{x:m*m*m*this.x0+3*m*m*t*(this.cx1+sw)+3*m*t*t*(this.cx2-sw*.5)+t*t*t*this.x1,y:m*m*m*this.y0+3*m*m*t*this.cy1+3*m*t*t*this.cy2+t*t*t*this.y1};};
-    const p0=pt(t0),p1=pt(t1);
-    const [r,g,b]=this.rgb;
-    const g2=ctx.createLinearGradient(p0.x,p0.y,p1.x,p1.y);
-    g2.addColorStop(0,`rgba(${r},${g},${b},0)`);
-    g2.addColorStop(.3,`rgba(${r},${g},${b},${a})`);
-    g2.addColorStop(.7,`rgba(${r},${g},${b},${a*.55})`);
-    g2.addColorStop(1,`rgba(${r},${g},${b},0)`);
-    ctx.beginPath();
-    const steps=12;
-    for(let i=0;i<=steps;i++){const p=pt(t0+(t1-t0)*(i/steps));i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);}
-    ctx.strokeStyle=g2; ctx.lineWidth=this.w; ctx.lineCap='round'; ctx.stroke();
+    let a = this.alpha;
+    const p = this.life / this.maxLife;
+    if(p < 0.1) a *= p / 0.1;
+    if(p > 0.8) a *= (1 - p) / 0.2;
+    if(a <= 0) return;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rot);
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 0.7;
+
+    if(this.type === 'diamond'){
+      // 8-point diamond (matches the brand's compass-rose pattern)
+      const s = this.size;
+      ctx.beginPath();
+      ctx.moveTo(0, -s);
+      ctx.lineTo(s * 0.42, -s * 0.42);
+      ctx.lineTo(s, 0);
+      ctx.lineTo(s * 0.42, s * 0.42);
+      ctx.lineTo(0, s);
+      ctx.lineTo(-s * 0.42, s * 0.42);
+      ctx.lineTo(-s, 0);
+      ctx.lineTo(-s * 0.42, -s * 0.42);
+      ctx.closePath();
+      ctx.stroke();
+      // inner cross lines
+      ctx.beginPath();
+      ctx.moveTo(0, -s * 0.38); ctx.lineTo(0, s * 0.38);
+      ctx.moveTo(-s * 0.38, 0); ctx.lineTo(s * 0.38, 0);
+      ctx.stroke();
+    } else if(this.type === 'cross'){
+      // X mark (the scissors/cross from the pattern)
+      const s = this.size * 0.6;
+      ctx.beginPath();
+      ctx.moveTo(-s, -s); ctx.lineTo(s, s);
+      ctx.moveTo(s, -s);  ctx.lineTo(-s, s);
+      ctx.stroke();
+    } else {
+      // Simple dot
+      ctx.beginPath();
+      ctx.arc(0, 0, this.size * 0.3, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+
+    ctx.restore();
   }
 }
 
-class Dot {
-  constructor(s){ this.reset(s); }
-  reset(s){
-    this.x=Math.random()*W; this.y=s?Math.random()*H:H+Math.random()*30;
-    this.vy=-(Math.random()*.38+.08); this.vx=(Math.random()-.5)*.22;
-    this.r=Math.random()*1.3+.25;
-    this.a=Math.random()*.38+.07;
-    this.life=s?Math.floor(Math.random()*400):0;
-    this.maxLife=Math.random()*350+180;
-    this.tw=Math.random()*.04+.01; this.twO=Math.random()*Math.PI*2;
-    const p=[[201,160,106],[232,213,163],[183,110,121]];
-    this.rgb=p[Math.floor(Math.random()*p.length)];
-  }
-  update(){ this.x+=this.vx; this.y+=this.vy; this.life++; if(this.life>=this.maxLife||this.y<-10)this.reset(false); }
-  draw(){
-    const tw=Math.sin(this.life*this.tw+this.twO)*.28+.72;
-    let a=this.a*tw;
-    const p=this.life/this.maxLife;
-    if(p<.1)a*=p/.1; if(p>.8)a*=(1-p)/.2;
-    if(a<=0)return;
-    const[r,g,b]=this.rgb;
-    ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fill();
-  }
+function initAll(){
+  particles = [];
+  for(let i = 0; i < 90; i++) particles.push(new Diamond(true));
 }
 
-function initAll(){ strands=[]; for(let i=0;i<55;i++)strands.push(new Strand(true)); dots=[]; for(let i=0;i<65;i++)dots.push(new Dot(true)); }
-function tick(){ ctx.clearRect(0,0,W,H); strands.forEach(s=>{s.update();s.draw();}); dots.forEach(d=>{d.update();d.draw();}); requestAnimationFrame(tick); }
-window.addEventListener('resize',()=>{resize();initAll();});
+function tick(){
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(tick);
+}
+
+window.addEventListener('resize', () => { resize(); initAll(); });
 resize(); initAll(); tick();
 
-// ═══════════════════════════════════════════════
-//  PROGRESS BAR
-// ═══════════════════════════════════════════════
-const bar=document.getElementById('bar');
-window.addEventListener('scroll',()=>{
-  const max=document.documentElement.scrollHeight-innerHeight;
-  bar.style.transform=`scaleX(${window.scrollY/max})`;
-},{passive:true});
+// ═══════════════════════════════════════════════════
+//  SCROLL PROGRESS BAR
+// ═══════════════════════════════════════════════════
+const bar = document.getElementById('bar');
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${window.scrollY / max})`;
+}, { passive: true });
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  ACCORDION
-// ═══════════════════════════════════════════════
-document.querySelectorAll('.acc-btn').forEach(btn=>{
-  const id=btn.dataset.acc;
-  const panel=document.getElementById(id);
-  if(!panel)return;
-  // init open state
-  if(btn.classList.contains('open')) panel.style.maxHeight=panel.scrollHeight+'px';
-  btn.addEventListener('click',()=>{
-    const isOpen=btn.classList.contains('open');
-    // close all in same list type
-    const allBtns=document.querySelectorAll('.acc-btn');
-    allBtns.forEach(b=>{
-      if(b===btn)return;
-      const pid=b.dataset.acc;
-      const pp=document.getElementById(pid);
-      if(!pp)return;
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('.acc-btn').forEach(btn => {
+  const id    = btn.dataset.acc;
+  const panel = document.getElementById(id);
+  if(!panel) return;
+  if(btn.classList.contains('open')) panel.style.maxHeight = panel.scrollHeight + 'px';
+
+  btn.addEventListener('click', () => {
+    const isOpen = btn.classList.contains('open');
+    document.querySelectorAll('.acc-btn.open').forEach(b => {
+      if(b === btn) return;
       b.classList.remove('open');
-      pp.style.maxHeight=null;
+      const pp = document.getElementById(b.dataset.acc);
+      if(pp) pp.style.maxHeight = null;
     });
-    if(!isOpen){
-      btn.classList.add('open');
-      panel.style.maxHeight=panel.scrollHeight+'px';
-    } else {
-      btn.classList.remove('open');
-      panel.style.maxHeight=null;
-    }
+    btn.classList.toggle('open', !isOpen);
+    panel.style.maxHeight = !isOpen ? panel.scrollHeight + 'px' : null;
   });
 });
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  MOBILE NAV
-// ═══════════════════════════════════════════════
-const menu=document.getElementById('mobileMenu');
-document.getElementById('hamburgerBtn').addEventListener('click',()=>menu.classList.add('open'));
-document.getElementById('mobileClose').addEventListener('click',()=>menu.classList.remove('open'));
+// ═══════════════════════════════════════════════════
+const menu = document.getElementById('mobileMenu');
+document.getElementById('hamburgerBtn').addEventListener('click', () => menu.classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click', () => menu.classList.remove('open'));
 function closeMobile(){ menu.classList.remove('open'); }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  GSAP SCROLL ANIMATIONS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero
-const htl=gsap.timeline({defaults:{ease:'power3.out'}});
-htl.to('#heroVline',    {scaleY:1,duration:1.4,ease:'power2.inOut',delay:.4})
-   .to('.hero-meta',    {opacity:1,y:0,duration:.9},'-=.75')
-   .to('.hero-h1 .word',{y:0,duration:1.3,stagger:.1,ease:'power4.out'},'-=.55')
-   .to('.hero-desc',    {opacity:1,y:0,duration:1},'-=.6')
-   .to('.hero-actions', {opacity:1,y:0,duration:.8},'-=.5')
-   .to('.scroll-cue',   {opacity:1,duration:.7},'-=.3');
+// Hero entrance
+const htl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+htl.to('.hero-preamble',     { opacity:1, y:0, duration:.9, delay:.6 })
+   .to('.hero-where-inner',  { y:0, duration:1.1, ease:'power4.out' }, '-=.5')
+   .to('.hero-script-inner', { y:0, duration:1.3, ease:'power4.out' }, '-=.7')
+   .to('.hero-sub',          { opacity:1, y:0, duration:.9 }, '-=.5')
+   .to('.hero-btns',         { opacity:1, y:0, duration:.8 }, '-=.4')
+   .to('.hero-scroll',       { opacity:1, duration:.7 }, '-=.3');
 
-// Awards
-gsap.to('.aw-item',{
-  scrollTrigger:{trigger:'#awardsStrip',start:'top 82%'},
-  opacity:1,y:0,duration:.85,stagger:.12,ease:'power3.out'
+// Awards strip
+gsap.to('.aw-item', {
+  scrollTrigger: { trigger:'#awardsStrip', start:'top 82%' },
+  opacity:1, y:0, duration:.8, stagger:.12, ease:'power3.out'
 });
 
-// Stat counters
-document.querySelectorAll('.aw-n').forEach(el=>{
-  const raw=el.textContent;
-  const target=parseFloat(raw.replace(/[^0-9.]/g,''));
-  const suffix=raw.replace(/[0-9.]/g,'').trim();
-  if(!target)return;
-  ScrollTrigger.create({
-    trigger:el,start:'top 86%',once:true,
-    onEnter:()=>{
-      gsap.to({n:0},{n:target,duration:2.2,ease:'power2.out',
-        onUpdate(){el.textContent=Math.round(this.targets()[0].n)+suffix;}
-      });
-    }
+// Award number counters
+document.querySelectorAll('.aw-n').forEach(el => {
+  const raw = el.textContent;
+  const num = parseFloat(raw.replace(/[^0-9.]/g,''));
+  const sfx = raw.replace(/[0-9.]/g,'').trim();
+  if(!num) return;
+  ScrollTrigger.create({ trigger:el, start:'top 86%', once:true,
+    onEnter(){ gsap.to({n:0},{ n:num, duration:2, ease:'power2.out',
+      onUpdate(){ el.textContent = Math.round(this.targets()[0].n) + sfx; }
+    }); }
   });
 });
 
-// Section reveals
-['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec','.events-sec'].forEach(sel=>{
-  gsap.from(sel+' .eyebrow',{
-    scrollTrigger:{trigger:sel,start:'top 78%'},
-    opacity:0,x:-16,duration:.9
-  });
-  gsap.from(sel+' .display',{
-    scrollTrigger:{trigger:sel,start:'top 76%'},
-    opacity:0,y:32,duration:1.1,delay:.15
-  });
+// Generic section reveal helper
+['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec','.events-sec'].forEach(s => {
+  gsap.from(s+' .eyebrow', { scrollTrigger:{trigger:s, start:'top 78%'}, opacity:0, x:-16, duration:.9 });
+  gsap.from(s+' .display', { scrollTrigger:{trigger:s, start:'top 76%'}, opacity:0, y:28, duration:1.1, delay:.15 });
 });
 
-// About specific
-gsap.from('.about-body', {scrollTrigger:{trigger:'.about-grid',start:'top 72%'},opacity:0,y:22,duration:1,delay:.3});
-gsap.from('.pull-quote',  {scrollTrigger:{trigger:'.pull-quote',start:'top 80%'},opacity:0,x:-18,duration:1});
-gsap.from('.about-detail',{scrollTrigger:{trigger:'.about-detail',start:'top 82%'},opacity:0,duration:1,delay:.2});
-gsap.from('.floor-card',  {scrollTrigger:{trigger:'.about-floors',start:'top 80%'},opacity:0,y:24,duration:.9,stagger:.15});
+// About
+gsap.from('.about-body',   { scrollTrigger:{trigger:'.about-grid', start:'top 72%'}, opacity:0, y:20, duration:1, delay:.3 });
+gsap.from('.pull-quote',   { scrollTrigger:{trigger:'.pull-quote',  start:'top 80%'}, opacity:0, x:-16, duration:1 });
+gsap.from('.about-detail', { scrollTrigger:{trigger:'.about-detail',start:'top 82%'}, opacity:0, duration:1, delay:.2 });
+gsap.from('.floor-card',   { scrollTrigger:{trigger:'.about-floors',start:'top 80%'}, opacity:0, y:20, duration:.9, stagger:.15 });
 
-// Services accordion rows
-gsap.from('.acc-btn',{
-  scrollTrigger:{trigger:'.services-sec',start:'top 72%'},
-  opacity:0,x:-18,duration:.7,stagger:.07,ease:'power3.out'
+// Service rows
+gsap.from('.acc-btn', {
+  scrollTrigger: { trigger:'.services-sec', start:'top 73%' },
+  opacity:0, x:-16, duration:.65, stagger:.07, ease:'power3.out'
 });
 
-// Artist cards
-document.querySelectorAll('.role-group').forEach(g=>{
-  gsap.to(g.querySelectorAll('.artist-card'),{
-    scrollTrigger:{trigger:g,start:'top 78%'},
-    opacity:1,y:0,duration:.8,stagger:.1,ease:'power3.out'
+// Artist cards — reveal per group
+document.querySelectorAll('.role-group').forEach(g => {
+  gsap.to(g.querySelectorAll('.artist-card'), {
+    scrollTrigger: { trigger:g, start:'top 78%' },
+    clipPath:'inset(0 0 0% 0)', opacity:1,
+    duration:1.1, stagger:.12, ease:'power4.inOut'
   });
 });
 
 // Policies rows
-gsap.from('.policies-sec .acc-btn',{
-  scrollTrigger:{trigger:'.policies-sec',start:'top 75%'},
-  opacity:0,x:-16,duration:.65,stagger:.07
+gsap.from('.policies-sec .acc-btn', {
+  scrollTrigger:{ trigger:'.policies-sec', start:'top 76%' },
+  opacity:0, x:-14, duration:.6, stagger:.07
 });
 
-// Hours grid
-gsap.from('.hc-grid > *',{
-  scrollTrigger:{trigger:'.hc-grid',start:'top 76%'},
-  opacity:0,y:28,duration:1,stagger:.2
-});
+// Hours
+gsap.from('.hc-grid > *', { scrollTrigger:{trigger:'.hc-grid',start:'top 76%'}, opacity:0, y:24, duration:.95, stagger:.2 });
 
 // CTA
-gsap.to('.cta-eyebrow',{scrollTrigger:{trigger:'.cta-sec',start:'top 78%'},opacity:1,duration:.9});
-gsap.to('.cta-h2',     {scrollTrigger:{trigger:'.cta-sec',start:'top 75%'},opacity:1,y:0,duration:1.2,ease:'power3.out',delay:.1});
-gsap.to('.cta-sub',    {scrollTrigger:{trigger:'.cta-sec',start:'top 70%'},opacity:1,duration:1,delay:.35});
-gsap.to('.cta-btns',   {scrollTrigger:{trigger:'.cta-sec',start:'top 66%'},opacity:1,duration:.8,delay:.5});
+gsap.to('.cta-eyebrow',  { scrollTrigger:{trigger:'.cta-sec',start:'top 78%'}, opacity:1, duration:.9 });
+gsap.to('.cta-script',   { scrollTrigger:{trigger:'.cta-sec',start:'top 74%'}, opacity:1, y:0, duration:1.2, ease:'power3.out', delay:.1 });
+gsap.to('.cta-subtitle', { scrollTrigger:{trigger:'.cta-sec',start:'top 70%'}, opacity:1, duration:.9, delay:.35 });
+gsap.to('.cta-sub',      { scrollTrigger:{trigger:'.cta-sec',start:'top 66%'}, opacity:1, duration:.9, delay:.5 });
+gsap.to('.cta-btns',     { scrollTrigger:{trigger:'.cta-sec',start:'top 62%'}, opacity:1, duration:.8, delay:.65 });
 
-// Sec rules wipe
-gsap.utils.toArray('.sec-rule').forEach(el=>{
-  gsap.from(el,{
-    scrollTrigger:{trigger:el,start:'top 92%'},
-    scaleX:0,transformOrigin:'left',duration:1.6,ease:'power3.out'
-  });
+// Dividers
+gsap.utils.toArray('.sec-rule').forEach(el => {
+  gsap.from(el, { scrollTrigger:{trigger:el,start:'top 92%'}, scaleX:0, transformOrigin:'left', duration:1.6, ease:'power3.out' });
 });
 
 // Footer
-gsap.from('footer',{
-  scrollTrigger:{trigger:'footer',start:'top 92%'},
-  opacity:0,y:28,duration:1
-});
+gsap.from('footer', { scrollTrigger:{trigger:'footer',start:'top 92%'}, opacity:0, y:24, duration:1 });
 </script>
 </body>
 </html>
