@@ -705,6 +705,7 @@
     .book-backdrop {
       position:absolute; inset:0;
       background:rgba(14,19,25,.8); backdrop-filter:blur(5px);
+      pointer-events:none;
     }
     .book-box {
       position:relative; z-index:1;
@@ -1967,7 +1968,7 @@ function closeBookModal() {
 }
 
 document.getElementById('bookClose').addEventListener('click', closeBookModal);
-bookBackdrop.addEventListener('click', closeBookModal);
+bookModal.addEventListener('click', e => { if (!e.target.closest('.book-box')) closeBookModal(); });
 
 // Intercept all booking links and show the buffer modal instead
 document.addEventListener('click', e => {
