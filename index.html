@@ -524,57 +524,99 @@
     .artist-modal {
       position:fixed; inset:0; z-index:9000;
       display:flex; align-items:center; justify-content:center;
-      padding:20px; opacity:0; pointer-events:none;
+      padding:16px; opacity:0; pointer-events:none;
       transition:opacity .3s;
     }
     .artist-modal.open { opacity:1; pointer-events:all; }
     .modal-backdrop {
       position:absolute; inset:0;
-      background:rgba(18,24,30,.92);
-      backdrop-filter:blur(10px);
+      background:rgba(14,19,25,.93);
+      backdrop-filter:blur(12px);
     }
     .modal-box {
       position:relative; z-index:1;
-      background:var(--coal);
-      border:1px solid var(--rule2);
-      max-width:680px; width:100%;
-      max-height:90vh; overflow-y:auto;
-      display:grid; grid-template-columns:220px 1fr;
-      transform:translateY(24px);
-      transition:transform .35s cubic-bezier(.22,1,.36,1);
+      background:#232c35;
+      border:1px solid rgba(229,200,110,.18);
+      max-width:820px; width:100%;
+      max-height:92vh; overflow-y:auto;
+      display:grid; grid-template-columns:260px 1fr;
+      transform:translateY(28px);
+      transition:transform .4s cubic-bezier(.22,1,.36,1);
     }
     .artist-modal.open .modal-box { transform:translateY(0); }
     .modal-photo {
-      width:100%; height:100%; min-height:320px;
+      width:100%; height:100%; min-height:380px;
       object-fit:cover; object-position:center top;
       display:block;
     }
-    .modal-body { padding:36px 30px 32px; }
-    .modal-close {
-      position:absolute; top:14px; right:16px;
-      background:none; border:none; color:rgba(255,255,255,.45);
-      font-size:1.3rem; cursor:pointer; line-height:1;
-      transition:color .2s; z-index:2;
+    .modal-body {
+      padding:38px 34px 32px;
+      display:flex; flex-direction:column;
     }
-    .modal-close:hover { color:var(--gold); }
-    .modal-name { font-size:1.4rem; font-weight:600; color:var(--white); margin-bottom:4px; }
-    .modal-role { font-size:.58rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; }
-    .modal-section { margin-bottom:16px; }
-    .modal-label { font-size:.55rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:rgba(229,200,110,.5); margin-bottom:5px; }
-    .modal-text { font-size:.8rem; font-weight:300; color:rgba(255,255,255,.72); line-height:1.75; }
-    .modal-ig {
-      display:inline-flex; align-items:center; gap:6px;
-      margin-top:22px; font-size:.62rem; font-weight:600;
-      letter-spacing:.12em; text-transform:uppercase;
-      color:var(--gold); text-decoration:none;
-      border-bottom:1px solid rgba(229,200,110,.3); padding-bottom:2px;
-      transition:border-color .2s;
+    .modal-name {
+      font-family:'Yesteryear', script;
+      font-size:3rem; font-weight:400;
+      color:var(--white); line-height:1.05; margin-bottom:6px;
     }
-    .modal-ig:hover { border-color:var(--gold); }
-    @media(max-width:600px){
+    .modal-role {
+      font-size:.58rem; font-weight:700; letter-spacing:.22em;
+      text-transform:uppercase; color:var(--gold); margin-bottom:20px;
+    }
+    .modal-bio { flex:1; overflow-y:auto; margin-bottom:22px; }
+    .modal-bio p {
+      font-size:.8rem; font-weight:300;
+      color:rgba(255,255,255,.72); line-height:1.8;
+      margin-bottom:1em;
+    }
+    .modal-bio p:last-child { margin-bottom:0; }
+    .modal-socials { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:24px; }
+    .modal-soc-item {
+      display:flex; align-items:center; gap:12px;
+    }
+    .modal-soc-circle {
+      width:48px; height:48px; border-radius:50%;
+      border:2px solid rgba(255,255,255,.35);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; font-size:1.1rem; color:var(--white);
+      text-decoration:none;
+    }
+    .modal-soc-circle.ig { border-color:#c13584; color:#c13584; }
+    .modal-soc-circle.vm { border-color:#3396cd; color:#3396cd; }
+    .modal-soc-info { display:flex; flex-direction:column; gap:4px; }
+    .modal-soc-handle {
+      font-size:.72rem; font-weight:600; letter-spacing:.04em;
+      color:var(--white); text-transform:uppercase;
+    }
+    .modal-soc-action {
+      display:inline-block; font-size:.52rem; font-weight:700;
+      letter-spacing:.15em; text-transform:uppercase;
+      color:var(--gold); border:1px solid rgba(229,200,110,.5);
+      padding:2px 9px; text-decoration:none; transition:all .2s;
+      width:fit-content;
+    }
+    .modal-soc-action:hover { background:var(--gold); color:var(--coal); }
+    .modal-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .modal-book {
+      display:block; background:var(--gold); color:var(--coal);
+      text-align:center; padding:14px 10px;
+      font-size:.6rem; font-weight:700; letter-spacing:.18em;
+      text-transform:uppercase; text-decoration:none;
+      transition:background .2s;
+    }
+    .modal-book:hover { background:var(--gold-lt); }
+    .modal-close-btn {
+      background:none; border:1px solid rgba(255,255,255,.25);
+      color:rgba(255,255,255,.7); padding:14px 10px;
+      font-size:.6rem; font-weight:600; letter-spacing:.18em;
+      text-transform:uppercase; cursor:pointer;
+      font-family:'Montserrat',sans-serif; transition:all .2s;
+    }
+    .modal-close-btn:hover { border-color:var(--white); color:var(--white); }
+    @media(max-width:640px){
       .modal-box { grid-template-columns:1fr; }
-      .modal-photo { height:240px; min-height:unset; }
-      .modal-body { padding:24px 22px 28px; }
+      .modal-photo { height:260px; min-height:unset; }
+      .modal-body { padding:26px 22px 28px; }
+      .modal-name { font-size:2.4rem; }
     }
 
     /* ── HOURS & CONTACT ─────────────────────────────── */
@@ -1341,22 +1383,14 @@
   <div class="modal-box">
     <img class="modal-photo" id="modalPhoto" src="" alt="">
     <div class="modal-body">
-      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
       <div class="modal-name" id="modalName"></div>
       <div class="modal-role" id="modalRole"></div>
-      <div class="modal-section" id="modalExpWrap">
-        <div class="modal-label">Experience</div>
-        <div class="modal-text" id="modalExp"></div>
+      <div class="modal-bio" id="modalBio"></div>
+      <div class="modal-socials" id="modalSocials"></div>
+      <div class="modal-actions">
+        <a class="modal-book" href="https://na0.meevo.com/CustomerPortal/onlinebooking/booking/guestinfo?tenantId=10159&locationId=100196" target="_blank">Book Now</a>
+        <button class="modal-close-btn" id="modalClose">Close</button>
       </div>
-      <div class="modal-section">
-        <div class="modal-label">Specialties</div>
-        <div class="modal-text" id="modalSpec"></div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-label">About</div>
-        <div class="modal-text" id="modalBio"></div>
-      </div>
-      <a class="modal-ig" id="modalIg" href="#" target="_blank"><i class="fab fa-instagram"></i><span id="modalIgHandle"></span></a>
     </div>
   </div>
 </div>
@@ -1621,151 +1655,143 @@ const artistData = {
   'Jana Klavina': {
     photo: 'https://marahairstudio.com/build/images/photos/jana/jana1.jpg',
     role: 'Owner',
-    experience: 'Trained at Bumble and Bumble in New York City. Founded Mara Hair and Mode Studio in 2015.',
-    specialties: 'Short technical cuts, dimensional hair colors, all hair textures.',
-    bio: 'Her modern take on vintage aesthetics reflects her admiration for quality, creating cuts that maintain their beauty long after leaving the chair.',
-    ig: { handle: '@janaklavina', url: 'https://www.instagram.com/janaklavina' }
+    bio: ['Jana discovered Bumble and Bumble early in her career and built her own haven for hair in old town Fairfax. Her modern approach to vintage aesthetics reflects her belief that quality endures — she creates cuts that remain beautiful and effortless after washing.','Her time in New York City with Bumble and Bumble developed her expertise in dimensional color and technical cuts across all hair textures. She prioritizes making clients feel confident, believing even minimal changes create meaningful life transformations.','Her greatest achievement is inspiring clients and sparking their passion for themselves as she continues building her local empire.'],
+    ig: { handle: '@JANAKLAVINA', url: 'https://www.instagram.com/janaklavina' },
+    venmo: { handle: '@Jana-Klavina', url: 'https://venmo.com/Jana-Klavina' }
   },
   'Rebecca Bruce': {
     photo: 'https://marahairstudio.com/build/images/photos/rebecca/rebecca1.jpg',
     role: 'Master Stylist',
-    experience: '20+ years in the industry. Bumble and Bumble Network Educator since 2017. Certified Master of Balayage (2022).',
-    specialties: 'Color customization, balayage, color correction, elegant and classic styles with edgy touches.',
-    bio: 'Expert in color theory, Rebecca focuses on creating soft, effortless looks while respecting natural hair texture. Winner of "Best Color Makeover" in Northern Virginia Magazine.',
-    ig: { handle: '@rebeccab_thatsme', url: 'https://www.instagram.com/rebeccab_thatsme' }
+    bio: ['With over 20 years in the industry, Rebecca earned "Best Color Makeover" recognition in Northern Virginia Magazine. She customizes colors and cuts that enhance clients\' features while fitting their lifestyles, bringing extensive color theory knowledge and color correction expertise.','In 2022, she became a certified Master of Balayage. Rebecca works with natural texture to create soft, effortless styles while loving elegant classics and edgier looks. As Lead Team member, she maintains Mara culture through education planning.','She has been a certified Network Educator with Bumble and Bumble since 2017. Outside work, she balances spirituality, mentality, and physicality through exercise, healthy eating, and meditation while raising her family.'],
+    ig: { handle: '@REBECCAB_THATSME', url: 'https://www.instagram.com/rebeccab_thatsme' },
+    venmo: { handle: '@Rebecca-Bruce-57', url: 'https://venmo.com/Rebecca-Bruce-57' }
   },
   'Maria Jo Fitzpatrick': {
     photo: 'https://marahairstudio.com/build/images/photos/maria/maria3.jpg',
     role: 'Master Stylist',
-    experience: '12+ years. Trained at Aveda Institute and Paul Mitchell The School.',
-    specialties: 'Personalized color and cutting with emphasis on hair health.',
-    bio: 'Known for her calm presence and attention to detail, Maria creates collaborative and comfortable experiences for every client. A Northern Virginia native.',
-    ig: { handle: '@hairbymjfitz', url: 'https://www.instagram.com/hairbymjfitz' }
+    bio: ['A Northern Virginia native, Maria Jo graduated from McLean High School before attending Aveda Institute of Washington D.C. and Paul Mitchell The School at Tysons Corner. With twelve years of experience, she takes personalized, easygoing approaches to color and cutting.','Her calm presence and attention to detail make appointments feel comfortable, collaborative, and tailored. Clients appreciate her warm, approachable nature and genuine listening skills.','Grounded in her faith, she treasures family time with her husband, two rescue dogs Goober and Peanut, and remains a loyal Washington Commanders fan.'],
+    ig: { handle: '@HAIRBYMJFITZ', url: 'https://www.instagram.com/hairbymjfitz' },
+    venmo: { handle: '@MariaJo-Fitzpatrick', url: 'https://venmo.com/MariaJo-Fitzpatrick' }
   },
   'Austin Milyo': {
     photo: 'https://marahairstudio.com/build/images/photos/austin/austin1.jpg',
     role: 'Master Stylist',
-    experience: 'Graduated Toni & Guy (2016). Trained in Beverly Hills, California.',
-    specialties: 'Effortless balayaged looks, voluminous blow-outs, wave creation.',
-    bio: 'A background in fashion marketing and art history informs his approach to hair. Plays piano since age eight and enjoys the outdoors.',
-    ig: { handle: '@austinmilyo', url: 'https://www.instagram.com/austinmilyo' }
+    bio: ['Austin grew up in rural Connecticut before exploring fashion marketing and art history. He attended Toni & Guy hair school, graduating in early 2016, then trained at a Beverly Hills salon. Hair became his full-time obsession.','His art and fashion background helps him recognize uniqueness in every person and encourage natural beauty discovery. He specializes in effortless balayaged looks and bouncy blow-outs.','Outside the salon, he pursues outdoor adventures through kayaking, hiking, and biking, and has played piano since age eight.'],
+    ig: { handle: '@AUSTINMILYO', url: 'https://www.instagram.com/austinmilyo' },
+    venmo: { handle: '@Austin-Milyo', url: 'https://venmo.com/Austin-Milyo' }
   },
   'Yamil Coyoy': {
     photo: 'https://marahairstudio.com/build/images/photos/yamil/yamil1.jpg',
     role: 'Stylist',
-    experience: 'Graduated American Beauty Academy (2013).',
-    specialties: 'Dimensional balayages and highlights, braids and extensions.',
-    bio: 'Immersed in the world of hair since elementary school. His goal is helping every client feel like themselves again after their appointment.',
-    ig: { handle: '@hairx_yc', url: 'https://www.instagram.com/hairx_yc' }
+    bio: ['Born and raised in Hyattsville, Maryland, Yamil was immersed in hair from elementary school — braiding friends\' hair during recess and watching her mother do braids and extensions. She graduated from American Beauty Academy in Wheaton in 2013.','Yamil delivers beautiful, healthy, lived-in styles and loves dimensional balayages and highlights for bringing hair to life through subtle or bold changes. She strives to create lasting bonds with clients, making them feel like themselves again after leaving her chair.','A proud mother to three children and two dogs, Ace and Blue, she finds joy through family memories and church attendance.'],
+    ig: { handle: '@HAIRX_YC', url: 'https://www.instagram.com/hairx_yc' },
+    venmo: { handle: '@Yamil-Coyoy', url: 'https://venmo.com/Yamil-Coyoy' }
   },
   'Paige Leone': {
     photo: 'https://marahairstudio.com/build/images/photos/paige/paige1.jpg',
     role: 'Stylist',
-    experience: 'Cosmetology degree (2022). Master\'s degree from University of Georgia.',
-    specialties: 'Short pixie cuts, balayage, fashion colors, fine hair expertise.',
-    bio: 'Her Master\'s thesis focused on millennial women\'s experiences with short hair. Describes her chair as "a welcoming, safe space for all." Plant enthusiast.',
-    ig: { handle: '@paigeleonehair', url: 'https://www.instagram.com/paigeleonehair' }
+    bio: ['Paige moved to Northern Virginia in 2021 searching for a new stylist. After searching "fun and creative salons," Mara appeared first — and she loved the vibe so much that after earning her cosmetology degree in 2022, she knew Mara was home.','She earned a Master\'s degree from University of Georgia, writing her thesis on millennial women and short hair experiences. Today she crafts pixie cuts, paints balayages, and experiments with vibrant fashion colors, especially loving fine hair work.','Outside work, she reads, plays board games, crochets, and collects plants named after Broadway characters while living in Herndon with her husband and rescue dog.'],
+    ig: { handle: '@PAIGELEONEHAIR', url: 'https://www.instagram.com/paigeleonehair' },
+    venmo: { handle: '@PaigeNLeone', url: 'https://venmo.com/PaigeNLeone' }
   },
   'Jules Hale-Welt': {
     photo: 'https://marahairstudio.com/build/images/photos/jules/jules2.jpg',
     role: 'Stylist',
-    experience: 'Graduated Paul Mitchell The School (2019).',
-    specialties: 'Curly cuts, natural hand styling, vivid hair color.',
-    bio: 'Philosophy centers on individuality and self-expression. Multi-instrumentalist musician with a passion for nature and hiking.',
-    ig: { handle: '@julia_scissorhands', url: 'https://www.instagram.com/julia_scissorhands' }
+    bio: ['Jules began her career in 2019, graduating from Paul Mitchell The School in Tysons Corner. A lifelong passion for hair\'s transformative power guided her path toward self-expression and individuality.','Her philosophy emphasizes that hair should reflect who you are — focusing on curly cuts, natural hand styling, and vivid color. Intuition blended with technique creates personalized, expressive hairstyles that resonate with each client\'s essence.','She\'s a multi-instrumentalist exploring music\'s creative realm, and enjoys nature hikes with family and her dog Daisy.'],
+    ig: { handle: '@JULIA_SCISSORHANDS', url: 'https://www.instagram.com/julia_scissorhands' },
+    venmo: { handle: '@JulesHale-Welt', url: 'https://venmo.com/JulesHale-Welt' }
   },
   'Dominique Cicinato': {
     photo: 'https://marahairstudio.com/build/images/photos/dominique/dominique1.jpg',
     role: 'Junior Stylist',
-    experience: 'Graduated cosmetology school (2023).',
-    specialties: 'Lived-in seamless color, balayage, all textures including naturally curly hair.',
-    bio: 'Growing up with naturally curly hair informed her technical expertise. Also pursues ceramics, pottery, and singing.',
-    ig: { handle: '@cici_cuts', url: 'https://www.instagram.com/cici_cuts' }
+    bio: ['Dominique is a passionate hairstylist and color expert with an artistic eye for detail. Growing up with naturally curly hair taught her the importance of technique and care for texture — curiosity led her to experiment with styling, coloring, and cutting, which became her artistry foundation.','In 2023 she graduated from cosmetology school, discovering her true passion for transforming hair through color and creativity. She works with all textures, specializing in lived-in seamless color and balayage.','Her approach blends creativity with precision, ensuring clients feel radiant, confident, and authentically themselves. Outside the salon she finds inspiration outdoors and through singing, ceramics, and pottery.'],
+    ig: { handle: '@CICI_CUTS', url: 'https://www.instagram.com/cici_cuts' },
+    venmo: { handle: '@dominique-cicinato', url: 'https://venmo.com/dominique-cicinato' }
   },
   'Jocelyn Garcia': {
     photo: 'https://marahairstudio.com/build/images/photos/josie/josie1.jpg',
     role: 'Junior Stylist',
-    experience: '7 years at Mara — started as receptionist and shampoo assistant. Trained at Spectrum Beauty Academy.',
-    specialties: 'Highlights, blonding, layered cuts, soft natural-looking color.',
-    bio: 'Promoted internally through dedication and mentorship at Mara. Game of Thrones enthusiast who loves the gym and the beach.',
-    ig: { handle: '@hairhues.jzg', url: 'https://www.instagram.com/hairhues.jzg' }
+    bio: ['Jocelyn (Josie) specializes in highlights, blonding, and layered cuts, loving the connections she builds with clients and creating styles that make them feel confident, beautiful, and truly seen. She has a particular love for soft, natural-looking highlights.','She spent seven years at Mara, starting as receptionist and shampoo assistant before becoming a skilled stylist — trained at Spectrum Beauty Academy in Alexandria and mentored by the talented team around her.','Outside the salon, she enjoys gym sessions, making art, beach time, and family quality time. A big Game of Thrones fan who finds her greatest joy in making clients feel their best.'],
+    ig: { handle: '@HAIRHUES.JZG', url: 'https://www.instagram.com/hairhues.jzg' },
+    venmo: { handle: '@Zitlaaali', url: 'https://venmo.com/Zitlaaali' }
   },
   'Sydney Thornley': {
     photo: 'https://marahairstudio.com/build/images/photos/sydney/sydney2.jpg',
     role: 'Junior Stylist',
-    experience: 'Graduated Paul Mitchell The School (2022).',
-    specialties: 'All hair textures and colors, bold fashion colors — reds, pinks, purples.',
-    bio: 'Passionate about empowering clients through self-expression. Also pursues drawing, sculpting, and painting.',
-    ig: { handle: '@Sydney_styl3s', url: 'https://www.instagram.com/Sydney_styl3s' }
+    bio: ['Sydney began her hair journey in 2022 at Paul Mitchell The School in Tysons Corner, falling in love with the beauty industry. For as long as she can remember, she\'s been passionate about the power of hair and how it can transform not just appearances, but confidence too.','From experimenting with bold colors like vibrant reds, pinks, purples, and black on herself and friends, Sydney\'s always had an adventurous spirit. Now she channels that energy to empower clients to express their individuality through their own unique styles.','Sydney loves working with all hair textures and colors. Her goal? To make sure every client leaves feeling more like themselves — just with even better hair. When she\'s not behind the chair, she\'s drawing, sculpting, and painting.'],
+    ig: { handle: '@SYDNEY_STYL3S', url: 'https://www.instagram.com/Sydney_styl3s' },
+    venmo: { handle: '@sydneyhbr', url: 'https://venmo.com/sydneyhbr' }
   },
   'Schuyler McCleary': {
     photo: 'https://marahairstudio.com/build/images/photos/schuyler/schuyler2.jpg',
     role: 'Junior Stylist',
-    experience: 'Lifelong passion for hairstyling with a vision for launching her own curly hair product line.',
-    specialties: 'Highlights, balayage, curls, barber cuts, short styles, natural texture work.',
-    bio: 'Caring, positive, and uplifting — Schuyler specializes in curly and wavy hair empowerment and natural texture.',
-    ig: { handle: '@schuysignature', url: 'https://www.instagram.com/schuysignature' }
+    bio: ['Schuyler always knew she wanted to be a hairstylist. Described by clients as caring, positive, and uplifting, she creates warm, judgment-free experiences where everyone feels seen and celebrated.','Her specialties include highlights, balayage, curls, barber cuts, and effortlessly chic short styles — with a passionate focus on natural texture, especially curly and wavy hair. She guides clients through styling routines that empower confidence and ease with their texture.','With long-term dreams of launching her own curly hair product line, she\'s committed to helping others love their hair exactly as it is.'],
+    ig: { handle: '@SCHUYSIGNATURE', url: 'https://www.instagram.com/schuysignature' },
+    venmo: { handle: '@schuymcc', url: 'https://venmo.com/schuymcc' }
   },
   'Tiffany Barrera': {
     photo: 'https://marahairstudio.com/build/images/photos/tiffany/tiffany1.jpg',
     role: 'Junior Stylist',
-    experience: 'Graduated Aveda Institute (2024). Two years of salon support experience.',
-    specialties: 'Bright blondes, dimensional looks, all textures.',
-    bio: 'Passionate about hair since age eight. Brings excitement and a deep love for making people feel beautiful to every appointment.',
-    ig: { handle: '@tiffanyysbeautyy', url: 'https://www.instagram.com/tiffanyysbeautyy' }
+    bio: ['Born and raised in Virginia, Tiffany has been passionate about hair since childhood — getting her first highlights at age eight and playing with color and styles ever since. From experimenting on herself to daydreaming about creative transformations, she always knew hair was her path.','She graduated from Aveda Institute in Arlington in 2024. After two years supporting behind the scenes, she now steps into her stylist role with excitement and a deep love for making people feel beautiful.','She especially enjoys bright blondes and dimensional looks, and is eager to explore all areas of hair including textures and techniques as she grows. Outside work she loves cooking, reading, and spending quality time with family.'],
+    ig: { handle: '@TIFFANYYSBEAUTYY', url: 'https://www.instagram.com/tiffanyysbeautyy' },
+    venmo: { handle: '@tiffanyyy0', url: 'https://venmo.com/tiffanyyy0' }
   },
   'Kiley Smith': {
     photo: 'https://marahairstudio.com/build/images/photos/kiley/kiley1.jpg',
     role: 'Makeup Artist',
-    experience: '18+ years. Professional since 2005. Mentored by Charlotte Tilbury and James Vincent.',
-    specialties: 'Bridal, stage, film, TV makeup, editorial and character makeup.',
-    bio: 'Creative journey began on the musical theatre stage. Featured in Washington Family Magazine and Emmy Awards coverage.',
-    ig: { handle: '@makeupbykileysmith', url: 'https://www.instagram.com/makeupbykileysmith' }
+    bio: ['Kiley is a professional makeup artist based in Fairfax, Virginia, with over eighteen years of experience. Her creative journey began on stage performing in musical theatre productions in the NYC/NJ area, where she discovered her true passion for makeup artistry.','From 2001–2005 she dedicated herself to refining skills in beauty, bridal, stage, film, and TV makeup. She has continually learned from industry top artists including Charlotte Tilbury, James Vincent, Kristina Gasperas, and Danessa Myricks.','Her work has appeared in Washington Family Magazine, the Emmy Awards (Capital Region), The 700 Club on CBN, and Everyday Wealth national broadcast. Free time includes baking, calligraphy, antique shopping, and cherished moments with family and her miniature poodle.'],
+    ig: { handle: '@MAKEUPBYKILEYSMITH', url: 'https://www.instagram.com/makeupbykileysmith' },
+    venmo: { handle: '@makeupbykileysmith', url: 'https://venmo.com/makeupbykileysmith' }
   },
   'Setareh (Star) Sabti': {
     photo: 'https://marahairstudio.com/build/images/photos/star/star1.jpg',
     role: 'Photographer & Social Media',
-    experience: '10+ years photography. First hire at Mara in 2015 — started at front desk, grew into Social Media Manager and Communications Director.',
-    specialties: 'Portraiture, social media content, studio communications.',
-    bio: 'Film enthusiast who enjoys board game nights. The creative eye behind Mara\'s visual identity.',
-    ig: { handle: '@dontfstop', url: 'https://www.instagram.com/dontfstop' }
+    bio: ['Star was Mara\'s first hired employee in 2015, joining as a Front Desk member while attending George Mason University. Over the years, her passion for visual arts developed her role into Social Media Manager and Communications Director.','With over ten years of photography experience specializing in portraiture, she honed her skills and developed a true passion for capturing subjects\' beauty and personality through her lens.','Beyond artistic pursuits, she enjoys films seeking cinematic inspiration and gathering friends for board game nights. Her work beautifully reflects creativity and dedication to craft.'],
+    ig: { handle: '@DONTFSTOP', url: 'https://www.instagram.com/dontfstop' },
+    venmo: null
   },
   'Vicky Castro': {
     photo: 'https://marahairstudio.com/build/images/photos/vicky/vicky1.jpg',
     role: 'Studio Assistant',
-    experience: 'Six years at Mara. Originally from Mexico.',
-    specialties: 'Studio operations, client care — the heartbeat of the studio floor.',
-    bio: 'Mother of five, including stylist Jocelyn Garcia. Spiritual practitioner with a holistic health approach. Sister to fellow assistant Mago.',
-    ig: null
+    bio: ['Originally from Mexico, Vicky loves cooking authentic food from her home country. She\'s a mother to five beautiful children — with fellow Mara team member Jocelyn being one of them. She has worked at Mara for six years, loving that she learns something new every single day.','She is a big believer in spirituality and takes a holistic approach to health. In her free time she relaxes with Netflix documentaries and cherishes quality time with family.','Mara assistants Vicky and Mago are sisters, making this truly a family studio.'],
+    ig: null,
+    venmo: { handle: '@vicky-crivera', url: 'https://venmo.com/vicky-crivera' }
   }
 };
 
-const modal    = document.getElementById('artistModal');
-const mPhoto   = document.getElementById('modalPhoto');
-const mName    = document.getElementById('modalName');
-const mRole    = document.getElementById('modalRole');
-const mExp     = document.getElementById('modalExp');
-const mSpec    = document.getElementById('modalSpec');
-const mBio     = document.getElementById('modalBio');
-const mIg      = document.getElementById('modalIg');
-const mIgHandle= document.getElementById('modalIgHandle');
+const modal   = document.getElementById('artistModal');
+const mPhoto  = document.getElementById('modalPhoto');
+const mName   = document.getElementById('modalName');
+const mRole   = document.getElementById('modalRole');
+const mBio    = document.getElementById('modalBio');
+const mSocials= document.getElementById('modalSocials');
 
 function openModal(name) {
   const d = artistData[name];
   if (!d) return;
   mPhoto.src = d.photo;
   mPhoto.alt = name;
-  mName.textContent  = name;
-  mRole.textContent  = d.role;
-  mExp.textContent   = d.experience;
-  mSpec.textContent  = d.specialties;
-  mBio.textContent   = d.bio;
+  mName.textContent = name;
+  mRole.textContent = d.role;
+  mBio.innerHTML = d.bio.map(p => `<p>${p}</p>`).join('');
+  mSocials.innerHTML = '';
   if (d.ig) {
-    mIg.href = d.ig.url;
-    mIgHandle.textContent = d.ig.handle;
-    mIg.style.display = 'inline-flex';
-  } else {
-    mIg.style.display = 'none';
+    mSocials.innerHTML += `<div class="modal-soc-item">
+      <a class="modal-soc-circle ig" href="${d.ig.url}" target="_blank"><i class="fab fa-instagram"></i></a>
+      <div class="modal-soc-info">
+        <div class="modal-soc-handle">${d.ig.handle}</div>
+        <a class="modal-soc-action" href="${d.ig.url}" target="_blank">+ Follow</a>
+      </div>
+    </div>`;
+  }
+  if (d.venmo) {
+    mSocials.innerHTML += `<div class="modal-soc-item">
+      <a class="modal-soc-circle vm" href="${d.venmo.url}" target="_blank"><i class="fab fa-venmo"></i></a>
+      <div class="modal-soc-info">
+        <div class="modal-soc-handle">${d.venmo.handle}</div>
+        <a class="modal-soc-action" href="${d.venmo.url}" target="_blank">Support</a>
+      </div>
+    </div>`;
   }
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
