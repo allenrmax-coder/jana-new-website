@@ -718,11 +718,14 @@
     }
     .book-modal.open .book-box { transform:translateX(0); }
     .book-close {
-      position:absolute; top:20px; right:24px;
-      background:none; border:none; color:rgba(255,255,255,.45);
-      font-size:1.4rem; cursor:pointer; z-index:2; transition:color .2s;
+      position:fixed; top:18px; right:20px;
+      background:rgba(32,40,50,.7); border:1px solid rgba(255,255,255,.2);
+      color:rgba(255,255,255,.7); width:36px; height:36px;
+      border-radius:50%; font-size:1rem; cursor:pointer;
+      z-index:9200; transition:all .2s;
+      display:flex; align-items:center; justify-content:center;
     }
-    .book-close:hover { color:var(--gold); }
+    .book-close:hover { background:var(--gold); border-color:var(--gold); color:var(--coal); }
     .book-hero {
       padding:80px 60px 48px;
       border-bottom:1px solid var(--rule);
@@ -1549,8 +1552,8 @@
 <!-- BOOKING MODAL -->
 <div class="book-modal" id="bookModal">
   <div class="book-backdrop" id="bookBackdrop"></div>
+  <button class="book-close" id="bookClose">✕</button>
   <div class="book-box">
-    <button class="book-close" id="bookClose">✕</button>
 
     <div class="book-hero">
       <p class="book-eyebrow">Let's Make You</p>
