@@ -7,6 +7,7 @@
   <meta name="description" content="5× Best Salon — Northern Virginia Magazine. Award-winning lifestyle hair studio in Fairfax, VA.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Yesteryear&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -472,23 +473,37 @@
     }
     .ac-ig:hover { color:var(--gold); }
 
-    /* ── POLICIES ────────────────────────────────────── */
-    .policies-sec { padding:0 0 120px; }
-    .pol-head { padding:0 5vw 48px; border-bottom:1px solid var(--rule); }
-    .pol-inner { padding:18px 5vw 32px calc(5vw + 52px + 28px); }
-    .pol-list { list-style:none; }
-    .pol-list li {
-      font-size:.85rem; font-weight:300; line-height:1.85;
-      color:var(--dim); padding:8px 0 8px 18px;
-      border-bottom:1px solid rgba(229,200,110,.05);
-      position:relative; letter-spacing:.02em;
+    /* ── SOCIAL BAR ──────────────────────────────────── */
+    .social-bar {
+      background:var(--coal); text-align:center;
+      padding:72px 7vw; position:relative; overflow:hidden;
     }
-    .pol-list li:last-child { border-bottom:none; }
-    .pol-list li::before {
-      content:'—'; position:absolute; left:0;
-      color:rgba(229,200,110,.25);
+    .social-bar::before {
+      content:''; position:absolute; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23e5c86e' stroke-width='0.4'%3E%3Cpolygon points='50,8 58,42 92,50 58,58 50,92 42,58 8,50 42,42'/%3E%3Cline x1='50' y1='20' x2='50' y2='80'/%3E%3Cline x1='20' y1='50' x2='80' y2='50'/%3E%3Ccircle cx='50' cy='50' r='6' fill='none'/%3E%3C/svg%3E");
+      background-size:80px 80px; opacity:.06; pointer-events:none;
     }
-    .pol-list li strong { color:rgba(255,255,255,.75); font-weight:500; }
+    .social-bar-label {
+      font-size:.65rem; font-weight:600; letter-spacing:.3em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:32px; position:relative;
+    }
+    .social-icons {
+      display:flex; justify-content:center; gap:16px;
+      flex-wrap:wrap; position:relative;
+    }
+    .soc-icon {
+      width:54px; height:54px; border-radius:50%;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(229,200,110,.22);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.65); font-size:1.1rem;
+      text-decoration:none; transition:all .3s;
+    }
+    .soc-icon:hover {
+      background:var(--gold); border-color:var(--gold);
+      color:var(--coal); transform:translateY(-3px);
+    }
 
     /* ── HOURS & CONTACT ─────────────────────────────── */
     .hc-sec { padding:120px 5vw; }
@@ -653,7 +668,6 @@
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#artists">Artists</a></li>
-    <li><a href="#policies">Policies</a></li>
     <li><a href="#hours">Hours</a></li>
   </ul>
   <div class="nav-right">
@@ -670,7 +684,6 @@
   <a href="#about"    onclick="closeMobile()">About</a>
   <a href="#services" onclick="closeMobile()">Services</a>
   <a href="#artists"  onclick="closeMobile()">Artists</a>
-  <a href="#policies" onclick="closeMobile()">Policies</a>
   <a href="#hours"    onclick="closeMobile()">Hours &amp; Location</a>
   <a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a>
   <a href="https://go.booker.com/location/MaraHairModeStudio" target="_blank">Book Now</a>
@@ -1188,90 +1201,6 @@
 
 <div class="sec-rule"></div>
 
-<!-- ═══════════════ POLICIES ═══════════════ -->
-<section class="policies-sec" id="policies">
-  <div class="pol-head">
-    <p class="eyebrow">House Rules</p>
-    <h2 class="display">Studio <em>Policies</em></h2>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-booking">
-      <span class="acc-num">01</span><span class="acc-title">Booking &amp; Confirmation</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-booking"><div class="pol-inner"><ul class="pol-list">
-      <li>A <strong>valid credit card is required</strong> at the time of booking.</li>
-      <li>Book online or by phone at <strong>703.591.9099</strong>.</li>
-      <li>All appointments must be confirmed <strong>48 hours in advance</strong> — unconfirmed appointments may be cancelled.</li>
-      <li>Incorrect service bookings result in a <strong>50% cancellation fee</strong>.</li>
-      <li>Consultations available for <strong>$15</strong> — applied toward your service.</li>
-    </ul></div></div>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-cancel">
-      <span class="acc-num">02</span><span class="acc-title">Cancellation Policy</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-cancel"><div class="pol-inner"><ul class="pol-list">
-      <li><strong>48 hours' notice</strong> required for cancellations or rescheduling.</li>
-      <li>Late cancellations or no-shows incur a <strong>50% charge</strong> of the total services booked.</li>
-      <li>Monday appointments must be cancelled <strong>by Saturday</strong>.</li>
-    </ul></div></div>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-late">
-      <span class="acc-num">03</span><span class="acc-title">Late Arrivals</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-late"><div class="pol-inner"><ul class="pol-list">
-      <li>If running late, contact the studio at <strong>571.992.0407</strong>.</li>
-      <li>Your stylist may need to adjust or reschedule based on availability.</li>
-      <li>Cancellations due to lateness are subject to a <strong>50% charge</strong>.</li>
-    </ul></div></div>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-studio">
-      <span class="acc-num">04</span><span class="acc-title">In-Studio Guidelines</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-studio"><div class="pol-inner"><ul class="pol-list">
-      <li>Face masks are <strong>optional</strong>; available upon request.</li>
-      <li>No outside food; beverages are welcome.</li>
-      <li>Please arrive alone unless accompanying a minor.</li>
-    </ul></div></div>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-gratuity">
-      <span class="acc-num">05</span><span class="acc-title">Gratuity</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-gratuity"><div class="pol-inner"><ul class="pol-list">
-      <li><strong>Cash is preferred</strong>; Venmo also accepted.</li>
-      <li>Gratuity <strong>cannot be added</strong> to credit card payments.</li>
-    </ul></div></div>
-  </div>
-
-  <div class="acc-item">
-    <button class="acc-btn" data-acc="pol-redo">
-      <span class="acc-num">06</span><span class="acc-title">Redo &amp; Product Policy</span>
-      <span class="acc-from"></span><span class="acc-arrow">+</span>
-    </button>
-    <div class="acc-panel" id="pol-redo"><div class="pol-inner"><ul class="pol-list">
-      <li>Two weeks to request an adjustment with your original stylist if unsatisfied.</li>
-      <li>After two weeks or with a different stylist — considered a new service.</li>
-      <li><strong>Bumble &amp; Bumble products</strong>: exchanges within 60 days if unopened or lightly used.</li>
-      <li>Returns not currently offered.</li>
-    </ul></div></div>
-  </div>
-</section>
-
-<div class="sec-rule"></div>
-
 <!-- ═══════════════ HOURS ═══════════════ -->
 <section class="hc-sec" id="hours">
   <div style="margin-bottom:52px;">
@@ -1322,6 +1251,18 @@
   </div>
 </section>
 
+<!-- ═══════════════ SOCIAL BAR ═══════════════ -->
+<section class="social-bar">
+  <p class="social-bar-label">Follow Along</p>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/marahairstudio" target="_blank" class="soc-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.instagram.com/janaklavina" target="_blank" class="soc-icon" aria-label="Instagram @janaklavina"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/marahairstudio" target="_blank" class="soc-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.pinterest.com/marahairstudio" target="_blank" class="soc-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+    <a href="https://www.yelp.com/biz/mara-hair-and-mode-studio-fairfax" target="_blank" class="soc-icon" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -1352,10 +1293,8 @@
       <ul class="f-links">
         <li><a href="#about">About Jana</a></li>
         <li><a href="#artists">Our Artists</a></li>
-        <li><a href="#events">Events</a></li>
         <li><a href="https://maramodestudio.com" target="_blank">Shop Boutique ↗</a></li>
         <li><a href="#">Gift Cards</a></li>
-        <li><a href="#policies">House Rules</a></li>
       </ul>
     </div>
     <div>
@@ -1535,7 +1474,7 @@ htl.to('.hero-logo',         { opacity:1, y:0, duration:1.0, delay:.3 })
    .to('.hero-scroll',       { opacity:1, duration:.7 }, '-=.3');
 
 // Generic section reveal helper
-['.about','.services-sec','.artists-sec','.policies-sec','.hc-sec'].forEach(s => {
+['.about','.services-sec','.artists-sec','.hc-sec'].forEach(s => {
   gsap.from(s+' .eyebrow', { scrollTrigger:{trigger:s, start:'top 78%'}, opacity:0, x:-16, duration:.9 });
   gsap.from(s+' .display', { scrollTrigger:{trigger:s, start:'top 76%'}, opacity:0, y:28, duration:1.1, delay:.15 });
 });
@@ -1559,12 +1498,6 @@ document.querySelectorAll('.role-group').forEach(g => {
     clipPath:'inset(0 0 0% 0)', opacity:1,
     duration:1.1, stagger:.12, ease:'power4.inOut'
   });
-});
-
-// Policies rows
-gsap.from('.policies-sec .acc-btn', {
-  scrollTrigger:{ trigger:'.policies-sec', start:'top 76%' },
-  opacity:0, x:-14, duration:.6, stagger:.07
 });
 
 // Hours
