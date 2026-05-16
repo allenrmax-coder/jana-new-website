@@ -507,6 +507,77 @@
       color:var(--coal); transform:translateY(-3px);
     }
 
+    /* ── ARTIST INFO BUTTON & MODAL ─────────────────── */
+    .info-btn {
+      position:absolute; top:14px; right:14px;
+      width:30px; height:30px; border-radius:50%;
+      background:rgba(229,200,110,.12);
+      border:1px solid rgba(229,200,110,.35);
+      color:var(--gold); font-size:.7rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; z-index:10;
+      transition:all .25s; font-family:'Montserrat',sans-serif;
+      opacity:0; transform:scale(.85);
+    }
+    .artist-card:hover .info-btn { opacity:1; transform:scale(1); }
+    .info-btn:hover { background:var(--gold); color:var(--coal); }
+
+    .artist-modal {
+      position:fixed; inset:0; z-index:9000;
+      display:flex; align-items:center; justify-content:center;
+      padding:20px; opacity:0; pointer-events:none;
+      transition:opacity .3s;
+    }
+    .artist-modal.open { opacity:1; pointer-events:all; }
+    .modal-backdrop {
+      position:absolute; inset:0;
+      background:rgba(18,24,30,.92);
+      backdrop-filter:blur(10px);
+    }
+    .modal-box {
+      position:relative; z-index:1;
+      background:var(--coal);
+      border:1px solid var(--rule2);
+      max-width:680px; width:100%;
+      max-height:90vh; overflow-y:auto;
+      display:grid; grid-template-columns:220px 1fr;
+      transform:translateY(24px);
+      transition:transform .35s cubic-bezier(.22,1,.36,1);
+    }
+    .artist-modal.open .modal-box { transform:translateY(0); }
+    .modal-photo {
+      width:100%; height:100%; min-height:320px;
+      object-fit:cover; object-position:center top;
+      display:block;
+    }
+    .modal-body { padding:36px 30px 32px; }
+    .modal-close {
+      position:absolute; top:14px; right:16px;
+      background:none; border:none; color:rgba(255,255,255,.45);
+      font-size:1.3rem; cursor:pointer; line-height:1;
+      transition:color .2s; z-index:2;
+    }
+    .modal-close:hover { color:var(--gold); }
+    .modal-name { font-size:1.4rem; font-weight:600; color:var(--white); margin-bottom:4px; }
+    .modal-role { font-size:.58rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; }
+    .modal-section { margin-bottom:16px; }
+    .modal-label { font-size:.55rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:rgba(229,200,110,.5); margin-bottom:5px; }
+    .modal-text { font-size:.8rem; font-weight:300; color:rgba(255,255,255,.72); line-height:1.75; }
+    .modal-ig {
+      display:inline-flex; align-items:center; gap:6px;
+      margin-top:22px; font-size:.62rem; font-weight:600;
+      letter-spacing:.12em; text-transform:uppercase;
+      color:var(--gold); text-decoration:none;
+      border-bottom:1px solid rgba(229,200,110,.3); padding-bottom:2px;
+      transition:border-color .2s;
+    }
+    .modal-ig:hover { border-color:var(--gold); }
+    @media(max-width:600px){
+      .modal-box { grid-template-columns:1fr; }
+      .modal-photo { height:240px; min-height:unset; }
+      .modal-body { padding:24px 22px 28px; }
+    }
+
     /* ── HOURS & CONTACT ─────────────────────────────── */
     .hc-sec { padding:120px 5vw; }
     .hc-grid {
@@ -1265,6 +1336,32 @@
   </div>
 </section>
 
+<!-- ARTIST MODAL -->
+<div class="artist-modal" id="artistModal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-box">
+    <img class="modal-photo" id="modalPhoto" src="" alt="">
+    <div class="modal-body">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-role" id="modalRole"></div>
+      <div class="modal-section" id="modalExpWrap">
+        <div class="modal-label">Experience</div>
+        <div class="modal-text" id="modalExp"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">Specialties</div>
+        <div class="modal-text" id="modalSpec"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">About</div>
+        <div class="modal-text" id="modalBio"></div>
+      </div>
+      <a class="modal-ig" id="modalIg" href="#" target="_blank"><i class="fab fa-instagram"></i><span id="modalIgHandle"></span></a>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -1519,6 +1616,183 @@ gsap.utils.toArray('.sec-rule').forEach(el => {
 
 // Footer
 gsap.from('footer', { scrollTrigger:{trigger:'footer',start:'top 92%'}, opacity:0, y:24, duration:1 });
+
+// ── ARTIST INFO MODAL ─────────────────────────────────────────────────────
+const artistData = {
+  'Jana Klavina': {
+    photo: 'https://marahairstudio.com/build/images/photos/jana/jana1.jpg',
+    role: 'Owner',
+    experience: 'Trained at Bumble and Bumble in New York City. Founded Mara Hair and Mode Studio in 2015.',
+    specialties: 'Short technical cuts, dimensional hair colors, all hair textures.',
+    bio: 'Her modern take on vintage aesthetics reflects her admiration for quality, creating cuts that maintain their beauty long after leaving the chair.',
+    ig: { handle: '@janaklavina', url: 'https://www.instagram.com/janaklavina' }
+  },
+  'Rebecca Bruce': {
+    photo: 'https://marahairstudio.com/build/images/photos/rebecca/rebecca1.jpg',
+    role: 'Master Stylist',
+    experience: '20+ years in the industry. Bumble and Bumble Network Educator since 2017. Certified Master of Balayage (2022).',
+    specialties: 'Color customization, balayage, color correction, elegant and classic styles with edgy touches.',
+    bio: 'Expert in color theory, Rebecca focuses on creating soft, effortless looks while respecting natural hair texture. Winner of "Best Color Makeover" in Northern Virginia Magazine.',
+    ig: { handle: '@rebeccab_thatsme', url: 'https://www.instagram.com/rebeccab_thatsme' }
+  },
+  'Maria Jo Fitzpatrick': {
+    photo: 'https://marahairstudio.com/build/images/photos/maria/maria3.jpg',
+    role: 'Master Stylist',
+    experience: '12+ years. Trained at Aveda Institute and Paul Mitchell The School.',
+    specialties: 'Personalized color and cutting with emphasis on hair health.',
+    bio: 'Known for her calm presence and attention to detail, Maria creates collaborative and comfortable experiences for every client. A Northern Virginia native.',
+    ig: { handle: '@hairbymjfitz', url: 'https://www.instagram.com/hairbymjfitz' }
+  },
+  'Austin Milyo': {
+    photo: 'https://marahairstudio.com/build/images/photos/austin/austin1.jpg',
+    role: 'Master Stylist',
+    experience: 'Graduated Toni & Guy (2016). Trained in Beverly Hills, California.',
+    specialties: 'Effortless balayaged looks, voluminous blow-outs, wave creation.',
+    bio: 'A background in fashion marketing and art history informs his approach to hair. Plays piano since age eight and enjoys the outdoors.',
+    ig: { handle: '@austinmilyo', url: 'https://www.instagram.com/austinmilyo' }
+  },
+  'Yamil Coyoy': {
+    photo: 'https://marahairstudio.com/build/images/photos/yamil/yamil1.jpg',
+    role: 'Stylist',
+    experience: 'Graduated American Beauty Academy (2013).',
+    specialties: 'Dimensional balayages and highlights, braids and extensions.',
+    bio: 'Immersed in the world of hair since elementary school. His goal is helping every client feel like themselves again after their appointment.',
+    ig: { handle: '@hairx_yc', url: 'https://www.instagram.com/hairx_yc' }
+  },
+  'Paige Leone': {
+    photo: 'https://marahairstudio.com/build/images/photos/paige/paige1.jpg',
+    role: 'Stylist',
+    experience: 'Cosmetology degree (2022). Master\'s degree from University of Georgia.',
+    specialties: 'Short pixie cuts, balayage, fashion colors, fine hair expertise.',
+    bio: 'Her Master\'s thesis focused on millennial women\'s experiences with short hair. Describes her chair as "a welcoming, safe space for all." Plant enthusiast.',
+    ig: { handle: '@paigeleonehair', url: 'https://www.instagram.com/paigeleonehair' }
+  },
+  'Jules Hale-Welt': {
+    photo: 'https://marahairstudio.com/build/images/photos/jules/jules2.jpg',
+    role: 'Stylist',
+    experience: 'Graduated Paul Mitchell The School (2019).',
+    specialties: 'Curly cuts, natural hand styling, vivid hair color.',
+    bio: 'Philosophy centers on individuality and self-expression. Multi-instrumentalist musician with a passion for nature and hiking.',
+    ig: { handle: '@julia_scissorhands', url: 'https://www.instagram.com/julia_scissorhands' }
+  },
+  'Dominique Cicinato': {
+    photo: 'https://marahairstudio.com/build/images/photos/dominique/dominique1.jpg',
+    role: 'Junior Stylist',
+    experience: 'Graduated cosmetology school (2023).',
+    specialties: 'Lived-in seamless color, balayage, all textures including naturally curly hair.',
+    bio: 'Growing up with naturally curly hair informed her technical expertise. Also pursues ceramics, pottery, and singing.',
+    ig: { handle: '@cici_cuts', url: 'https://www.instagram.com/cici_cuts' }
+  },
+  'Jocelyn Garcia': {
+    photo: 'https://marahairstudio.com/build/images/photos/josie/josie1.jpg',
+    role: 'Junior Stylist',
+    experience: '7 years at Mara — started as receptionist and shampoo assistant. Trained at Spectrum Beauty Academy.',
+    specialties: 'Highlights, blonding, layered cuts, soft natural-looking color.',
+    bio: 'Promoted internally through dedication and mentorship at Mara. Game of Thrones enthusiast who loves the gym and the beach.',
+    ig: { handle: '@hairhues.jzg', url: 'https://www.instagram.com/hairhues.jzg' }
+  },
+  'Sydney Thornley': {
+    photo: 'https://marahairstudio.com/build/images/photos/sydney/sydney2.jpg',
+    role: 'Junior Stylist',
+    experience: 'Graduated Paul Mitchell The School (2022).',
+    specialties: 'All hair textures and colors, bold fashion colors — reds, pinks, purples.',
+    bio: 'Passionate about empowering clients through self-expression. Also pursues drawing, sculpting, and painting.',
+    ig: { handle: '@Sydney_styl3s', url: 'https://www.instagram.com/Sydney_styl3s' }
+  },
+  'Schuyler McCleary': {
+    photo: 'https://marahairstudio.com/build/images/photos/schuyler/schuyler2.jpg',
+    role: 'Junior Stylist',
+    experience: 'Lifelong passion for hairstyling with a vision for launching her own curly hair product line.',
+    specialties: 'Highlights, balayage, curls, barber cuts, short styles, natural texture work.',
+    bio: 'Caring, positive, and uplifting — Schuyler specializes in curly and wavy hair empowerment and natural texture.',
+    ig: { handle: '@schuysignature', url: 'https://www.instagram.com/schuysignature' }
+  },
+  'Tiffany Barrera': {
+    photo: 'https://marahairstudio.com/build/images/photos/tiffany/tiffany1.jpg',
+    role: 'Junior Stylist',
+    experience: 'Graduated Aveda Institute (2024). Two years of salon support experience.',
+    specialties: 'Bright blondes, dimensional looks, all textures.',
+    bio: 'Passionate about hair since age eight. Brings excitement and a deep love for making people feel beautiful to every appointment.',
+    ig: { handle: '@tiffanyysbeautyy', url: 'https://www.instagram.com/tiffanyysbeautyy' }
+  },
+  'Kiley Smith': {
+    photo: 'https://marahairstudio.com/build/images/photos/kiley/kiley1.jpg',
+    role: 'Makeup Artist',
+    experience: '18+ years. Professional since 2005. Mentored by Charlotte Tilbury and James Vincent.',
+    specialties: 'Bridal, stage, film, TV makeup, editorial and character makeup.',
+    bio: 'Creative journey began on the musical theatre stage. Featured in Washington Family Magazine and Emmy Awards coverage.',
+    ig: { handle: '@makeupbykileysmith', url: 'https://www.instagram.com/makeupbykileysmith' }
+  },
+  'Setareh (Star) Sabti': {
+    photo: 'https://marahairstudio.com/build/images/photos/star/star1.jpg',
+    role: 'Photographer & Social Media',
+    experience: '10+ years photography. First hire at Mara in 2015 — started at front desk, grew into Social Media Manager and Communications Director.',
+    specialties: 'Portraiture, social media content, studio communications.',
+    bio: 'Film enthusiast who enjoys board game nights. The creative eye behind Mara\'s visual identity.',
+    ig: { handle: '@dontfstop', url: 'https://www.instagram.com/dontfstop' }
+  },
+  'Vicky Castro': {
+    photo: 'https://marahairstudio.com/build/images/photos/vicky/vicky1.jpg',
+    role: 'Studio Assistant',
+    experience: 'Six years at Mara. Originally from Mexico.',
+    specialties: 'Studio operations, client care — the heartbeat of the studio floor.',
+    bio: 'Mother of five, including stylist Jocelyn Garcia. Spiritual practitioner with a holistic health approach. Sister to fellow assistant Mago.',
+    ig: null
+  }
+};
+
+const modal    = document.getElementById('artistModal');
+const mPhoto   = document.getElementById('modalPhoto');
+const mName    = document.getElementById('modalName');
+const mRole    = document.getElementById('modalRole');
+const mExp     = document.getElementById('modalExp');
+const mSpec    = document.getElementById('modalSpec');
+const mBio     = document.getElementById('modalBio');
+const mIg      = document.getElementById('modalIg');
+const mIgHandle= document.getElementById('modalIgHandle');
+
+function openModal(name) {
+  const d = artistData[name];
+  if (!d) return;
+  mPhoto.src = d.photo;
+  mPhoto.alt = name;
+  mName.textContent  = name;
+  mRole.textContent  = d.role;
+  mExp.textContent   = d.experience;
+  mSpec.textContent  = d.specialties;
+  mBio.textContent   = d.bio;
+  if (d.ig) {
+    mIg.href = d.ig.url;
+    mIgHandle.textContent = d.ig.handle;
+    mIg.style.display = 'inline-flex';
+  } else {
+    mIg.style.display = 'none';
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.artist-card').forEach(card => {
+  const nameEl = card.querySelector('.ac-name');
+  if (!nameEl) return;
+  const name = nameEl.textContent.trim();
+  if (!artistData[name]) return;
+  const btn = document.createElement('button');
+  btn.className = 'info-btn';
+  btn.setAttribute('aria-label', 'More info about ' + name);
+  btn.textContent = 'i';
+  btn.addEventListener('click', e => { e.stopPropagation(); openModal(name); });
+  card.appendChild(btn);
+});
 </script>
 </body>
 </html>
