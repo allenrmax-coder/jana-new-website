@@ -695,6 +695,173 @@
       flex-wrap:wrap; opacity:0;
     }
 
+    /* ── BOOKING MODAL ───────────────────────────────── */
+    .book-modal {
+      position:fixed; inset:0; z-index:9100;
+      display:flex; align-items:stretch; justify-content:flex-end;
+      opacity:0; pointer-events:none; transition:opacity .35s;
+    }
+    .book-modal.open { opacity:1; pointer-events:all; }
+    .book-backdrop {
+      position:absolute; inset:0;
+      background:rgba(14,19,25,.8); backdrop-filter:blur(5px);
+    }
+    .book-box {
+      position:relative; z-index:1;
+      background:var(--midnight);
+      width:min(760px,100%); height:100%;
+      overflow-y:auto;
+      transform:translateX(100%);
+      transition:transform .45s cubic-bezier(.22,1,.36,1);
+      display:flex; flex-direction:column;
+    }
+    .book-modal.open .book-box { transform:translateX(0); }
+    .book-close {
+      position:absolute; top:20px; right:24px;
+      background:none; border:none; color:rgba(255,255,255,.45);
+      font-size:1.4rem; cursor:pointer; z-index:2; transition:color .2s;
+    }
+    .book-close:hover { color:var(--gold); }
+    .book-hero {
+      padding:80px 60px 48px;
+      border-bottom:1px solid var(--rule);
+      text-align:center;
+      background:var(--coal);
+      position:relative;
+    }
+    .book-hero::before {
+      content:''; position:absolute; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23e5c86e' stroke-width='0.4'%3E%3Cpolygon points='50,8 58,42 92,50 58,58 50,92 42,58 8,50 42,42'/%3E%3Cline x1='50' y1='20' x2='50' y2='80'/%3E%3Cline x1='20' y1='50' x2='80' y2='50'/%3E%3Ccircle cx='50' cy='50' r='6' fill='none'/%3E%3C/svg%3E");
+      background-size:80px 80px; opacity:.06; pointer-events:none;
+    }
+    .book-eyebrow {
+      font-size:.62rem; font-weight:600; letter-spacing:.28em;
+      text-transform:uppercase; color:rgba(255,255,255,.45);
+      margin-bottom:10px; position:relative;
+    }
+    .book-script {
+      font-family:'Yesteryear',script; font-size:clamp(3rem,7vw,5rem);
+      color:var(--white); line-height:1.05; margin-bottom:24px;
+      position:relative;
+    }
+    .book-rule-line {
+      width:48px; height:1px; background:var(--rule2);
+      margin:0 auto 28px; position:relative;
+    }
+    .book-please { padding:32px 60px; border-bottom:1px solid var(--rule); }
+    .book-please-head {
+      font-size:.62rem; font-weight:700; letter-spacing:.22em;
+      text-transform:uppercase; color:var(--white); margin-bottom:10px;
+    }
+    .book-please-text {
+      font-size:.82rem; font-family:'Courier New',monospace;
+      color:rgba(255,255,255,.65); line-height:1.7;
+    }
+    .book-rules-toggle {
+      background:none; border:none; color:var(--gold);
+      font-family:'Courier New',monospace; font-size:.82rem;
+      cursor:pointer; padding:0; text-decoration:underline;
+      transition:opacity .2s;
+    }
+    .book-rules-toggle:hover { opacity:.7; }
+    .book-cols {
+      display:grid; grid-template-columns:1fr 1fr;
+      border-bottom:1px solid var(--rule);
+    }
+    .book-col { padding:40px 60px; }
+    .book-col + .book-col { border-left:1px solid var(--rule); }
+    .book-col-title {
+      font-size:.65rem; font-weight:700; letter-spacing:.2em;
+      text-transform:uppercase; color:var(--white);
+      margin-bottom:20px;
+    }
+    .book-col-text {
+      font-size:.78rem; font-family:'Courier New',monospace;
+      color:rgba(255,255,255,.6); line-height:1.75; margin-bottom:12px;
+    }
+    .book-col-text strong { color:rgba(255,255,255,.85); }
+    .book-offline-label {
+      font-size:.55rem; font-weight:700; letter-spacing:.2em;
+      text-transform:uppercase; color:rgba(229,200,110,.5);
+      margin-bottom:8px;
+    }
+    .book-phone {
+      font-size:1.6rem; font-weight:300; color:var(--white);
+      letter-spacing:.03em;
+    }
+    .book-online-btn {
+      display:inline-block; margin-top:24px;
+      background:var(--gold); color:var(--coal);
+      padding:13px 32px; font-size:.62rem; font-weight:700;
+      letter-spacing:.18em; text-transform:uppercase;
+      text-decoration:none; transition:background .2s;
+    }
+    .book-online-btn:hover { background:var(--gold-lt); }
+
+    /* House Rules accordion inside book modal */
+    .book-rules-section { display:none; }
+    .book-rules-section.visible { display:block; }
+    .book-rules-hero {
+      padding:60px 60px 32px; text-align:center;
+      border-top:1px solid var(--rule);
+      background:var(--coal);
+    }
+    .book-rules-title {
+      font-family:'Yesteryear',script;
+      font-size:clamp(2.5rem,6vw,4rem);
+      color:var(--white); line-height:1.05; margin-bottom:16px;
+    }
+    .book-rules-intro {
+      font-size:.78rem; font-family:'Courier New',monospace;
+      color:rgba(255,255,255,.6); line-height:1.8;
+      max-width:520px; margin:0 auto; text-align:left;
+      padding:32px 60px 0;
+    }
+    .book-acc-item { border-bottom:1px solid var(--rule); }
+    .book-acc-btn {
+      width:100%; display:flex; align-items:center;
+      justify-content:space-between;
+      padding:20px 60px; background:none; border:none;
+      color:var(--white); cursor:pointer; text-align:left;
+      transition:background .2s;
+    }
+    .book-acc-btn:hover { background:rgba(229,200,110,.04); }
+    .book-acc-title {
+      font-size:.7rem; font-weight:700; letter-spacing:.16em;
+      text-transform:uppercase; color:var(--white);
+    }
+    .book-acc-arrow {
+      font-size:1.2rem; color:var(--gold);
+      transition:transform .3s; flex-shrink:0;
+    }
+    .book-acc-btn.active .book-acc-arrow { transform:rotate(45deg); }
+    .book-acc-panel {
+      max-height:0; overflow:hidden;
+      transition:max-height .4s cubic-bezier(.22,1,.36,1);
+    }
+    .book-acc-panel.open { max-height:600px; }
+    .book-acc-inner {
+      padding:4px 60px 28px;
+    }
+    .book-acc-inner ul { list-style:none; padding:0; }
+    .book-acc-inner li {
+      font-size:.78rem; font-family:'Courier New',monospace;
+      color:rgba(255,255,255,.65); line-height:1.8;
+      padding:6px 0; border-bottom:1px solid rgba(229,200,110,.06);
+      padding-left:14px; position:relative;
+    }
+    .book-acc-inner li::before {
+      content:'·'; position:absolute; left:0;
+      color:var(--gold); font-size:1.2rem; line-height:1.5;
+    }
+    @media(max-width:640px){
+      .book-hero, .book-please, .book-col,
+      .book-rules-hero, .book-rules-intro,
+      .book-acc-btn, .book-acc-inner { padding-left:28px; padding-right:28px; }
+      .book-cols { grid-template-columns:1fr; }
+      .book-col + .book-col { border-left:none; border-top:1px solid var(--rule); }
+    }
+
     /* ── FOOTER ──────────────────────────────────────── */
     footer {
       padding:64px 5vw 40px;
@@ -1378,6 +1545,141 @@
   </div>
 </section>
 
+<!-- BOOKING MODAL -->
+<div class="book-modal" id="bookModal">
+  <div class="book-backdrop" id="bookBackdrop"></div>
+  <div class="book-box">
+    <button class="book-close" id="bookClose">✕</button>
+
+    <div class="book-hero">
+      <p class="book-eyebrow">Let's Make You</p>
+      <div class="book-script">love your hair</div>
+      <div class="book-rule-line"></div>
+    </div>
+
+    <div class="book-please">
+      <p class="book-please-head">Please Read</p>
+      <p class="book-please-text">Please read our <button class="book-rules-toggle" id="bookRulesToggle">House Rules</button> before contacting us to schedule an appointment.</p>
+    </div>
+
+    <div class="book-cols">
+      <div class="book-col">
+        <p class="book-col-title">Book Online</p>
+        <p class="book-col-text"><strong>Getting color?</strong> Our booking system has three options for you: with a haircut, blowdry, or wet styling.</p>
+        <p class="book-col-text"><strong>When signing up,</strong> please add both your phone number and email for confirmation purposes.</p>
+        <p class="book-col-text"><strong>Not sure what to book?</strong> Please book a consultation to go over what you're looking for with your stylist. Consultations are $15 which will go towards your booked services.</p>
+        <a href="https://na0.meevo.com/CustomerPortal/onlinebooking/booking/guestinfo?tenantId=10159&locationId=100196" target="_blank" class="book-online-btn">Book Online</a>
+      </div>
+      <div class="book-col">
+        <p class="book-col-title">Book Offline</p>
+        <p class="book-offline-label">By Phone</p>
+        <p class="book-phone">703.591.9099</p>
+        <p class="book-col-text" style="margin-top:20px;"><strong>By Text</strong><br>571.992.0407</p>
+        <p class="book-col-text"><strong>By Email</strong><br>info@marahairstudio.com</p>
+      </div>
+    </div>
+
+    <!-- House Rules expandable -->
+    <div class="book-rules-section" id="bookRulesSection">
+      <div class="book-rules-hero">
+        <p class="book-eyebrow">Mara Hair Studio</p>
+        <div class="book-rules-title">house rules</div>
+        <div class="book-rule-line"></div>
+      </div>
+      <p class="book-rules-intro">Our policies aim to provide a seamless and consistent experience for our valued clients while also acknowledging the efforts and dedication of our employees. We sincerely appreciate your understanding!</p>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Booking</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>A valid credit card is required at the time of booking an appointment.</li>
+          <li>You can book appointments by calling us or booking online via our website.</li>
+          <li>If you don't see your stylist or the services you're looking for online, please call us. Please do not book for a different service than what you'd like to get done.</li>
+          <li>If you're unsure of what services you'd like, please call us directly. Booking the incorrect service will result in a 50% cancellation fee if your stylist is unable to perform the service you need for your desired look.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Confirmation Policy</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>All appointments must be confirmed at least 48 hours in advance through our automated text or email system.</li>
+          <li>If your appointment isn't confirmed, it will be subject to cancellation to allow other clients the opportunity to book in.</li>
+          <li>Didn't get a confirmation message? Please contact us directly to fix any issues on our end.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Cancellation Policy</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>Please notify us 48 hours prior to your appointment if you need to cancel or reschedule.</li>
+          <li>Late cancellations or missed appointments will incur a 50% charge of the total service(s) to the credit card on file.</li>
+          <li>If your appointment falls on a Monday, kindly let us know by Saturday, as we're closed on Sundays.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Late Policy</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>If you happen to be running late, please give us a quick call or send a text at 571-992-0407. We understand that life happens!</li>
+          <li>Your stylist may need to adjust or reschedule your appointment accordingly to respect the rest of their clients' time for the day.</li>
+          <li>Unfortunately, if your appointment needs to be canceled due to lateness, a 50% charge of the total service(s) will be applied to the card on file.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">In-Studio Guidelines</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>Face masks are optional, but if you prefer your stylist to wear one during your appointment, just let us know.</li>
+          <li>To maintain a clean and pleasant environment, we kindly ask that you refrain from bringing outside food. However, drinks are absolutely fine!</li>
+          <li>When arriving for your appointment, we request that you come alone, except when an adult needs to accompany a minor who cannot be left unattended.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Gratuity</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>Should you feel inspired to leave gratuity, cash is preferred. We also accept Venmo — stylists' Venmos are listed on their profiles.</li>
+          <li>Please note that gratuity cannot be left via credit cards.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Redo Policy</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>If for any reason you're not fully satisfied with your new hairstyle, please reach out to us within two weeks.</li>
+          <li>The stylist who performed the original service will gladly make adjustments to ensure your desired look.</li>
+          <li>After two weeks, or if you choose to see a different stylist, it is considered a new service.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Product Exchanges</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>If you're not thrilled with a Bumble and Bumble product, we offer exchanges within 60 days of purchase for unopened or lightly used items.</li>
+          <li>Currently, we do not offer returns.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Parking</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>The closest free public lot is behind Truist Bank on Sager Avenue.</li>
+          <li>We have limited designated parking at the back of the building — access it through the alleyway between Mara Hair and Mode Studio and the Old Town Fairfax Building.</li>
+          <li>These spots are shared with the neighboring restaurant and are in high demand, so we recommend planning ahead.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="book-acc-item">
+        <button class="book-acc-btn"><span class="book-acc-title">Questions or Concerns</span><span class="book-acc-arrow">+</span></button>
+        <div class="book-acc-panel"><div class="book-acc-inner"><ul>
+          <li>Please stay in touch! Don't hesitate to reach out via text to our texting line at 571-992-0407.</li>
+          <li>Our front desk staff is here to answer any questions you might have.</li>
+        </ul></div></div>
+      </div>
+    </div><!-- /book-rules-section -->
+
+  </div>
+</div>
+
 <!-- ARTIST MODAL -->
 <div class="artist-modal" id="artistModal" role="dialog" aria-modal="true">
   <div class="modal-backdrop" id="modalBackdrop"></div>
@@ -1650,6 +1952,62 @@ gsap.utils.toArray('.sec-rule').forEach(el => {
 
 // Footer
 gsap.from('footer', { scrollTrigger:{trigger:'footer',start:'top 92%'}, opacity:0, y:24, duration:1 });
+
+// ── BOOKING MODAL ─────────────────────────────────────────────────────────
+const bookModal   = document.getElementById('bookModal');
+const bookBackdrop= document.getElementById('bookBackdrop');
+
+function openBookModal() {
+  bookModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeBookModal() {
+  bookModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('bookClose').addEventListener('click', closeBookModal);
+bookBackdrop.addEventListener('click', closeBookModal);
+
+// Intercept all booking links and show the buffer modal instead
+document.addEventListener('click', e => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  const isBookingLink = href.includes('booker.com') || href.includes('meevo.com');
+  const isInsideBookModal = a.closest('#bookModal');
+  if (isBookingLink && !isInsideBookModal) {
+    e.preventDefault();
+    openBookModal();
+  }
+});
+
+// House Rules toggle
+const bookRulesToggle  = document.getElementById('bookRulesToggle');
+const bookRulesSection = document.getElementById('bookRulesSection');
+bookRulesToggle.addEventListener('click', () => {
+  bookRulesSection.classList.toggle('visible');
+  bookRulesToggle.textContent = bookRulesSection.classList.contains('visible')
+    ? 'Hide House Rules' : 'House Rules';
+  if (bookRulesSection.classList.contains('visible')) {
+    bookRulesSection.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+});
+
+// House rules accordion
+document.querySelectorAll('.book-acc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = btn.nextElementSibling;
+    const isOpen = panel.classList.contains('open');
+    // close all
+    document.querySelectorAll('.book-acc-panel').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.book-acc-btn').forEach(b => b.classList.remove('active'));
+    if (!isOpen) {
+      panel.classList.add('open');
+      btn.classList.add('active');
+    }
+  });
+});
 
 // ── ARTIST INFO MODAL ─────────────────────────────────────────────────────
 const artistData = {
