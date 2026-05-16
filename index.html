@@ -1552,7 +1552,6 @@
 <!-- BOOKING MODAL -->
 <div class="book-modal" id="bookModal">
   <div class="book-backdrop" id="bookBackdrop"></div>
-  <button class="book-close" id="bookClose">✕</button>
   <div class="book-box">
 
     <div class="book-hero">
@@ -1961,16 +1960,19 @@ gsap.from('footer', { scrollTrigger:{trigger:'footer',start:'top 92%'}, opacity:
 const bookModal   = document.getElementById('bookModal');
 const bookBackdrop= document.getElementById('bookBackdrop');
 
+const bookCloseBtn = document.getElementById('bookClose');
+
 function openBookModal() {
   bookModal.classList.add('open');
+  bookCloseBtn.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 function closeBookModal() {
   bookModal.classList.remove('open');
+  bookCloseBtn.style.display = 'none';
   document.body.style.overflow = '';
 }
 
-document.getElementById('bookClose').addEventListener('click', closeBookModal);
 bookModal.addEventListener('click', e => { if (!e.target.closest('.book-box')) closeBookModal(); });
 
 // Intercept all booking links and show the buffer modal instead
@@ -2189,5 +2191,6 @@ document.querySelectorAll('.artist-card').forEach(card => {
   card.appendChild(btn);
 });
 </script>
+<button id="bookClose" class="book-close" style="display:none" onclick="document.getElementById('bookModal').classList.remove('open');document.body.style.overflow='';this.style.display='none';">✕</button>
 </body>
 </html>
