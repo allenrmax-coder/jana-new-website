@@ -510,17 +510,16 @@
     /* ── ARTIST INFO BUTTON & MODAL ─────────────────── */
     .info-btn {
       position:absolute; top:14px; right:14px;
-      width:30px; height:30px; border-radius:50%;
-      background:rgba(229,200,110,.12);
-      border:1px solid rgba(229,200,110,.35);
-      color:var(--gold); font-size:.7rem; font-weight:700;
+      width:32px; height:32px; border-radius:50%;
+      background:rgba(20,26,32,.55);
+      border:1px solid rgba(229,200,110,.5);
+      color:var(--gold); font-size:.72rem; font-weight:700;
       display:flex; align-items:center; justify-content:center;
       cursor:pointer; z-index:10;
-      transition:all .25s; font-family:'Montserrat',sans-serif;
-      opacity:0; transform:scale(.85);
+      transition:all .2s; font-family:'Montserrat',sans-serif;
+      backdrop-filter:blur(4px);
     }
-    .artist-card:hover .info-btn { opacity:1; transform:scale(1); }
-    .info-btn:hover { background:var(--gold); color:var(--coal); }
+    .info-btn:hover { background:var(--gold); color:var(--coal); border-color:var(--gold); transform:scale(1.1); }
 
     .artist-modal {
       position:fixed; inset:0; z-index:9000;
