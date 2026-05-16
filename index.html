@@ -726,6 +726,20 @@
       display:flex; align-items:center; justify-content:center;
     }
     .book-close:hover { background:var(--gold); border-color:var(--gold); color:var(--coal); }
+    .book-topbar-close {
+      width:100%; padding:14px 28px;
+      background:rgba(229,200,110,.08);
+      border:none; border-bottom:1px solid var(--rule);
+      color:rgba(255,255,255,.55); font-size:.68rem;
+      font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+      font-family:'Montserrat',sans-serif;
+      cursor:pointer; text-align:left;
+      transition:background .2s, color .2s;
+      display:flex; align-items:center; gap:6px;
+    }
+    .book-topbar-close:hover {
+      background:rgba(229,200,110,.15); color:var(--gold);
+    }
     .book-hero {
       padding:80px 60px 48px;
       border-bottom:1px solid var(--rule);
@@ -1553,6 +1567,10 @@
 <div class="book-modal" id="bookModal">
   <div class="book-backdrop" id="bookBackdrop"></div>
   <div class="book-box">
+
+    <button class="book-topbar-close" onclick="document.getElementById('bookModal').classList.remove('open');document.body.style.overflow='';document.getElementById('bookClose').style.display='none';">
+      ← &nbsp;Back to Site
+    </button>
 
     <div class="book-hero">
       <p class="book-eyebrow">Let's Make You</p>
