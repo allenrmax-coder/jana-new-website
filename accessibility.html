@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessibility Statement — Mara Hair and Mode Studio</title>
+<meta name="description" content="Accessibility statement for Mara Hair and Mode Studio. Our commitment to WCAG 2.1 AA conformance and how to reach us about accessibility barriers.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%231e1816'/><text x='16' y='23' font-family='Georgia,serif' font-size='20' font-style='italic' font-weight='400' text-anchor='middle' fill='%23c8a87a'>M</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --midnight: #202832;
+    --coal:     #343b42;
+    --gold:     #e5c86e;
+    --gold-lt:  #edd899;
+    --gold-dk:  #c9a124;
+    --text:     rgba(255,255,255,.9);
+    --dim:      rgba(255,255,255,.62);
+    --dim2:     rgba(255,255,255,.38);
+    --rule:     rgba(229,200,110,.18);
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Montserrat', sans-serif;
+    background:var(--midnight);
+    color:var(--text);
+    font-size:14.5px;
+    line-height:1.78;
+    -webkit-font-smoothing:antialiased;
+  }
+  a { color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(229,200,110,.4); transition:border-color .25s, color .25s; }
+  a:hover { color:var(--gold-lt); border-bottom-color:var(--gold-lt); }
+  header.page-nav {
+    border-bottom:1px solid var(--rule);
+    padding:24px 5vw;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .logo {
+    font-family:'Cormorant Garamond', serif;
+    font-size:24px; letter-spacing:.04em; color:var(--gold);
+    border:none; font-style:italic; font-weight:400;
+  }
+  .back-link {
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:500;
+    color:var(--dim); border:none;
+  }
+  .back-link:hover { color:var(--gold); }
+
+  main {
+    max-width:780px; margin:0 auto; padding:80px 5vw 120px;
+  }
+  .eyebrow {
+    font-size:11px; letter-spacing:.28em; text-transform:uppercase; font-weight:600;
+    color:var(--gold); margin-bottom:18px;
+  }
+  h1 {
+    font-family:'Cormorant Garamond', serif;
+    font-weight:300; font-size:clamp(38px, 5vw, 60px);
+    line-height:1.05; letter-spacing:-.005em; color:#fff;
+    margin-bottom:14px;
+  }
+  .updated {
+    color:var(--dim2); font-size:13px; margin-bottom:48px;
+    padding-bottom:24px; border-bottom:1px solid var(--rule);
+  }
+  h2 {
+    font-family:'Cormorant Garamond', serif;
+    font-weight:400; font-size:26px; line-height:1.2;
+    margin-top:46px; margin-bottom:14px; color:var(--gold-lt);
+  }
+  p { margin-bottom:18px; }
+  ul { padding-left:22px; margin-bottom:18px; }
+  li { margin-bottom:8px; }
+  code {
+    background:rgba(229,200,110,.1); color:var(--gold-lt);
+    padding:2px 6px; border-radius:3px;
+    font-family:'SF Mono', Consolas, monospace; font-size:13px;
+  }
+  .contact-card {
+    background:rgba(229,200,110,.06);
+    border-left:3px solid var(--gold);
+    padding:24px 28px;
+    margin-top:30px;
+    font-size:14px;
+  }
+  .contact-card strong { color:var(--gold-lt); }
+  footer {
+    border-top:1px solid var(--rule);
+    padding:34px 5vw;
+    font-size:12px; color:var(--dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;
+  }
+  footer a { color:var(--dim); border:none; }
+  footer a:hover { color:var(--gold); }
+  @media (max-width:640px) {
+    main { padding:48px 6vw 80px; }
+    .contact-card { padding:20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-nav">
+  <a href="index.html" class="logo">Mara</a>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</header>
+
+<main>
+  <div class="eyebrow">Legal</div>
+  <h1>Accessibility Statement</h1>
+  <p class="updated">Last updated: May 27, 2026</p>
+
+  <p>Mara Hair and Mode Studio is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards to this website and to the booking process.</p>
+
+  <h2>Conformance status</h2>
+  <p>The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">Web Content Accessibility Guidelines (WCAG)</a> defines requirements to make web content more accessible for people with disabilities. This site aims to conform with <strong>WCAG 2.1 level AA</strong>. Some areas of the site partially conform — we are actively working to bring everything into full conformance.</p>
+
+  <h2>Measures we take</h2>
+  <ul>
+    <li>Use semantic HTML and clear page structure so assistive technologies can navigate the site.</li>
+    <li>Provide meaningful alternative text for images that convey information.</li>
+    <li>Maintain color-contrast ratios that meet WCAG AA requirements for body text.</li>
+    <li>Support full keyboard navigation for interactive elements (links, buttons, the booking modal, and forms).</li>
+    <li>Honor user motion preferences — animations are reduced when the operating system requests <code>prefers-reduced-motion</code>.</li>
+    <li>Avoid relying on color alone to convey meaning.</li>
+    <li>Review and test new pages with screen readers and keyboard navigation before publishing.</li>
+  </ul>
+
+  <h2>Known limitations</h2>
+  <p>Some content on this site may not yet be fully accessible. We are aware of the following limitations:</p>
+  <ul>
+    <li>Our booking system is operated by a third-party provider (Meevo). We are working with them to confirm their compliance status.</li>
+    <li>Some embedded social media content may not meet the same accessibility standards as our own content.</li>
+    <li>Older photography may not have detailed alt text.</li>
+  </ul>
+
+  <h2>Accessibility at the studio</h2>
+  <p>Our physical studio at 4011 Chain Bridge Rd, Fairfax, VA, is committed to welcoming all guests. If you have specific accessibility needs for an in-person visit — including mobility, sensory, or chemical-sensitivity accommodations — please contact us in advance and we will do our best to make arrangements.</p>
+
+  <h2>Feedback &amp; contact</h2>
+  <p>We welcome your feedback on the accessibility of this site and our studio. If you encounter an accessibility barrier, or you need information in an alternative format, please let us know — we aim to respond within 5 business days.</p>
+
+  <div class="contact-card">
+    <p style="margin-bottom:6px;"><strong>Mara Hair and Mode Studio</strong></p>
+    <p style="margin-bottom:6px;">4011 Chain Bridge Rd, Fairfax, VA 22030</p>
+    <p style="margin-bottom:6px;">Phone: <a href="tel:7035919099">703.591.9099</a></p>
+    <p style="margin-bottom:6px;">Text: <a href="sms:5719920407">571.992.0407</a></p>
+    <p style="margin:0;">Email: <a href="mailto:info@marahairstudio.com">info@marahairstudio.com</a></p>
+  </div>
+
+  <h2>Enforcement</h2>
+  <p>If you have a concern that has not been addressed satisfactorily, you may also contact the U.S. Department of Justice Civil Rights Division, which enforces the <a href="https://www.ada.gov/" target="_blank" rel="noopener">Americans with Disabilities Act (ADA)</a>.</p>
+</main>
+
+<footer>
+  <span>© 2026 Mara Hair and Mode Studio.</span>
+  <span>
+    <a href="privacy.html">Privacy</a> ·
+    <a href="terms.html">Terms</a> ·
+    <a href="accessibility.html">Accessibility</a>
+  </span>
+</footer>
+
+</body>
+</html>
