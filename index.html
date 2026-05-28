@@ -960,6 +960,16 @@
       .cta-btns { flex-direction:column; align-items:center; }
       .acc-from { display:none; }
       .svc-note { display:none; }
+      /* Pricing table — drop left indent and shrink so it fits the viewport */
+      .acc-inner { padding:12px 5vw 32px 5vw; }
+      .pol-inner { padding:16px 5vw 28px 5vw; }
+      .ptbl { min-width:0; }
+      .ptbl th { font-size:.55rem; letter-spacing:.12em; padding:8px 6px 8px 0; }
+      .ptbl td { font-size:.72rem; padding:9px 6px 9px 0; }
+      .ptbl td:first-child { min-width:0; max-width:130px; font-size:.72rem; }
+      .ptbl td:not(:first-child) { font-size:.82rem; padding-left:4px; }
+      /* Footer-bottom: stack vertically and align left on phones */
+      .footer-bottom { flex-direction:column; align-items:flex-start; gap:10px; }
     }
   </style>
 </head>
